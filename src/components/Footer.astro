@@ -1,0 +1,18 @@
+---
+const year = new Date().getFullYear();
+const updated = new Date().toLocaleString('en-GB', {
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-row">
+      <span>© {year} Leon Govier — built &amp; designed in-house with Claude AI</span>
+      <span>
+        Last updated <span style="color: var(--accent)">{updated}</span>
+      </span>
+    </div>
+  </div>
+</footer>

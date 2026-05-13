@@ -1,0 +1,27 @@
+---
+export interface Insight {
+  num: string;
+  title: string;
+  body: string;
+}
+
+export interface Props {
+  insights: Insight[];
+}
+
+const { insights } = Astro.props;
+---
+
+<div class="wrap">
+  <div class="insights">
+    {
+      insights.map((it) => (
+        <div class="insight">
+          <div class="num">{it.num}</div>
+          <h3>{it.title}</h3>
+          <p>{it.body}</p>
+        </div>
+      ))
+    }
+  </div>
+</div>

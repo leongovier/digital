@@ -1,0 +1,26 @@
+---
+export interface Props {
+  heading: string;
+  body: string;
+  bullets: string[];
+  imageSrc: string;
+  imageAlt: string;
+}
+
+const { heading, body, bullets, imageSrc, imageAlt } = Astro.props;
+---
+
+<div class="wrap">
+  <div class="device-row">
+    <div class="device-text">
+      <h3>{heading}</h3>
+      <p>{body}</p>
+      <ul class="device-list">
+        {bullets.map((b) => <li>{b}</li>)}
+      </ul>
+    </div>
+    <div class="device-shot">
+      <img src={imageSrc} alt={imageAlt} loading="lazy" />
+    </div>
+  </div>
+</div>

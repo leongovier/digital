@@ -1,0 +1,23 @@
+---
+export interface Props {
+  label?: string;
+}
+
+const { label } = Astro.props;
+const hasAfter = Astro.slots.has('after');
+---
+
+<div class="block">
+  <div class="narrow">
+    {label && <div class="section-label">{label}</div>}
+    <slot />
+  </div>
+  <slot name="full" />
+  {
+    hasAfter && (
+      <div class="narrow narrow-after">
+        <slot name="after" />
+      </div>
+    )
+  }
+</div>

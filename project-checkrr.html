@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>checkRR — Leon Govier</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-2: #F4F4F2;
+    --bg-3: #FAFAF8;
+    --ink: #3A3A3A;
+    --ink-2: #707070;
+    --ink-3: #A0A0A0;
+    --rule: #E6E6E3;
+    --accent: #FF6B1A;
+    --accent-soft: #FF6B1A1A;
+    --max: 1240px;
+    --narrow: 760px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg); color: var(--ink);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    letter-spacing: -0.01em;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+  .narrow { max-width: var(--narrow); margin: 0 auto; padding: 0 48px; }
+
+  /* Reading progress */
+  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 100; transition: width 0.08s linear; }
+
+  /* NAV */
+  nav.top { padding: 32px 48px 24px; display: flex; align-items: center; justify-content: space-between; max-width: var(--max); margin: 0 auto; }
+  .logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--ink); text-decoration: none; }
+  .logo .slash { color: var(--ink-3); margin: 0 2px; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-link { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink-2); text-decoration: none; position: relative; padding: 4px 0; transition: color .2s; }
+  .nav-link::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+  .nav-link:hover { color: var(--accent); }
+  .nav-link:hover::after { transform: scaleX(1); }
+
+  .back { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-2); text-decoration: none; margin-top: 56px; transition: color .2s, gap .2s; }
+  .back:hover { color: var(--accent); gap: 12px; }
+
+  /* HERO */
+  section.hero { padding: 32px 0 48px; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  h1.display {
+    font-size: clamp(40px, 6vw, 60px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  h1.display .hl { color: var(--accent); }
+  .lede {
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 720px;
+    font-weight: 400;
+    margin: 0 0 56px;
+  }
+
+  /* META STRIP */
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0;
+    margin-bottom: 56px;
+  }
+  .meta > div { padding-right: 24px; border-right: 1px solid var(--rule); }
+  .meta > div:last-child { border-right: none; }
+  .meta-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .meta-value { font-size: 16px; color: var(--ink); font-weight: 500; }
+
+  /* HERO SHOT */
+  .hero-shot { margin: 0 0 88px; }
+  .browser {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.18), 0 4px 12px -4px rgba(0,0,0,0.04);
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: #FAFAF8;
+    border-bottom: 1px solid var(--rule);
+  }
+  .browser-bar .dots { display: flex; gap: 6px; }
+  .browser-bar .dot { width: 11px; height: 11px; border-radius: 50%; background: #E0E0DC; }
+  .browser-bar .url {
+    flex: 1; margin-left: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 4px 12px;
+    text-align: center;
+  }
+  .browser-bar .url .accent { color: var(--ink-2); }
+  .browser img { width: 100%; display: block; }
+
+  /* SECTION SCAFFOLD */
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h2.display {
+    font-size: clamp(36px, 4.8vw, 56px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 28px;
+    text-wrap: balance;
+  }
+  h2.display .hl { color: var(--accent); }
+  .body {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 680px;
+  }
+  .body p { margin: 0 0 22px; }
+  .body p:last-child { margin-bottom: 0; }
+  .body strong { color: var(--ink); font-weight: 500; }
+
+  .block { padding: 96px 0; border-top: 1px solid var(--rule); }
+  .block-tight { padding: 64px 0; border-top: 1px solid var(--rule); }
+
+  /* CARD ROW */
+  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+  .card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 32px 28px;
+    background: var(--bg);
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: var(--ink); }
+  .card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* PROCESS GRID — 6 numbered steps */
+  .process { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 48px; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  .step { padding: 36px 32px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .step .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    color: var(--accent);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .step h3 { font-size: 17px; font-weight: 500; color: var(--ink); margin: 0 0 10px; }
+  .step p { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+
+  /* SHOT */
+  .shot { margin: 64px 0; }
+  .shot-wide { margin: 64px 0; }
+  .shot-cap {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-2);
+    margin-top: 16px;
+    line-height: 1.6;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+  .shot-cap .arrow { color: var(--accent); }
+  .shot-cap b { color: var(--ink); font-weight: 500; }
+
+  /* SHOT GRID */
+  .shots-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin: 56px 0; }
+  .shots-2 .browser { box-shadow: 0 20px 50px -20px rgba(0,0,0,0.15), 0 2px 8px -2px rgba(0,0,0,0.04); }
+
+  /* MOBILE FRAME */
+  .device-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    margin: 64px 0;
+    padding: 64px;
+    background: var(--bg-2);
+    border-radius: 8px;
+  }
+  .device-text h3 { font-size: 28px; font-weight: 400; color: var(--ink); margin: 0 0 16px; letter-spacing: -0.02em; line-height: 1.15; }
+  .device-text p { font-size: 16px; line-height: 1.65; color: var(--ink-2); margin: 0 0 20px; }
+  .device-list { list-style: none; padding: 0; margin: 0; }
+  .device-list li {
+    font-size: 14px; line-height: 1.5; color: var(--ink-2);
+    padding: 10px 0; padding-left: 22px;
+    position: relative; border-bottom: 1px solid var(--rule);
+  }
+  .device-list li:last-child { border-bottom: none; }
+  .device-list li::before {
+    content: ''; position: absolute; left: 0; top: 17px;
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+  }
+  .device-shot img { border-radius: 8px; box-shadow: 0 30px 60px -20px rgba(0,0,0,0.2); }
+
+  /* PULL QUOTE */
+  blockquote.pull {
+    margin: 64px 0;
+    padding: 40px 0 40px 32px;
+    border-left: 2px solid var(--accent);
+    font-size: clamp(22px, 2.3vw, 28px);
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  blockquote.pull cite {
+    display: block;
+    margin-top: 20px;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+
+  /* DECISIONS — what we built / what we cut */
+  .decisions { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+  .decision-col {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 32px;
+  }
+  .decision-col.kept { background: var(--bg-3); }
+  .decision-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    color: var(--ink-3);
+  }
+  .decision-col.kept h4 .label { color: var(--accent); }
+  .decision-col.cut h4 .label { color: var(--ink-2); }
+  .decision-col ul { list-style: none; padding: 0; margin: 0; }
+  .decision-col li {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .decision-col li:last-child { border-bottom: none; }
+  .decision-col li small {
+    display: block;
+    color: var(--ink-3);
+    font-size: 13px;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* OUTCOMES TONE */
+  .outcomes-tone {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    margin-top: 24px;
+  }
+  .outcomes-tone strong { color: var(--accent); font-weight: 500; }
+
+  /* PREV/NEXT */
+  .nav-foot { border-top: 1px solid var(--rule); padding: 56px 0 24px; }
+  .nav-foot-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .nav-foot a {
+    text-decoration: none; color: var(--ink);
+    padding: 20px 0;
+    display: block;
+    transition: color .2s;
+  }
+  .nav-foot a:hover { color: var(--accent); }
+  .nav-foot .label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .nav-foot .title { font-size: 22px; font-weight: 400; letter-spacing: -0.015em; }
+  .nav-foot a.next { text-align: right; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 0 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  footer .row { display: flex; justify-content: space-between; align-items: center; }
+  footer .stamp { color: var(--accent); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 1080px) {
+    .cards-3, .process { grid-template-columns: repeat(2, 1fr); }
+    .shots-2 { grid-template-columns: 1fr; }
+    .device-row { grid-template-columns: 1fr; padding: 40px; }
+  }
+  @media (max-width: 720px) {
+    .wrap, .narrow, nav.top { padding-left: 24px; padding-right: 24px; }
+    nav.top { padding-top: 20px; }
+    .nav-links { gap: 20px; }
+    section.hero { padding-top: 16px; }
+    .meta { grid-template-columns: 1fr 1fr; gap: 20px 0; }
+    .meta > div:nth-child(2n) { border-right: none; }
+    .meta > div { padding: 8px 16px 8px 0; border-right: 1px solid var(--rule); }
+    .cards-3, .process, .decisions { grid-template-columns: 1fr; }
+    .nav-foot-row { grid-template-columns: 1fr; }
+    .nav-foot a.next { text-align: left; }
+    .browser-bar .url { font-size: 9px; }
+    .block { padding: 64px 0; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="top">
+  <a href="#" class="logo">leon-govier<span class="slash">/</span>design</a>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Work</a>
+    <a href="#" class="nav-link">Process</a>
+    <a href="#" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<div class="narrow">
+  <a href="#" class="back">← All work</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="narrow">
+    <div class="eyebrow"><span class="dot"></span> Case study · 2026 · checkRR</div>
+    <h1 class="display reveal">Replacing the <span class="hl">7-day document chase</span> with a <span class="hl">5-minute applicant flow</span>.</h1>
+    <p class="lede reveal">Most income-verification tools are built for underwriters. checkRR is built for the applicant who has to do the boring part — uploading three months of payslips on a Tuesday lunch break — and the broker who has to chase them when they don't.</p>
+
+    <div class="meta reveal">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Founder · Product & Design</div>
+      </div>
+      <div>
+        <div class="meta-label">Year</div>
+        <div class="meta-value">2026 · Q1–Q2</div>
+      </div>
+      <div>
+        <div class="meta-label">Team</div>
+        <div class="meta-value">Solo build → 3 pilot lenders</div>
+      </div>
+      <div>
+        <div class="meta-label">Scope</div>
+        <div class="meta-value">Marketing · Portal · Admin · API</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SHOT — marketing landing -->
+  <div class="wrap">
+    <div class="hero-shot reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">checkrr.co.uk</div>
+        </div>
+        <img src="case-studies/checkrr/landing-hero.png" alt="checkRR marketing site hero — Proof of income & affordability without the back-and-forth" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>Marketing site</b> · the public face. Everything below is the product the page is selling.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 PROBLEM -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">01 — Problem</div>
+    <h2 class="display reveal">Document chases <span class="hl">don't scale</span>.</h2>
+    <div class="body reveal">
+      <p>Talk to any specialist lender or broker about onboarding a self-employed applicant and you'll hear the same thing: <strong>three weeks of email tennis</strong>. The applicant uploads the wrong month, sends a screenshot instead of a PDF, password-protects the file, or just goes quiet.</p>
+      <p>Existing tools — Onfido, Plaid, the big credit bureaus — solve identity and connected-bank flows. None of them handle the <strong>messy middle</strong>: payslips, SA302s, and three months of bank statements that need parsing, deduplicating, and cross-checking against ONS spending benchmarks before an underwriter can sign anything off.</p>
+      <p>I'd watched two lenders try to build this in-house and shelve it. The pattern was always the same — a beautiful underwriter dashboard, no thought put into the customer-facing upload flow, and a 35% completion rate that nobody wanted to talk about.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 02 RESEARCH -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">02 — Research</div>
+    <h2 class="display reveal">Six conversations <span class="hl">that shaped the product</span>.</h2>
+    <div class="body reveal">
+      <p>Before writing a line of code I sat with two underwriters, a broker, two compliance leads and one applicant who'd just been through a buy-to-let application. The same three frustrations came up again and again.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="cards-3 reveal">
+      <div class="card">
+        <div class="num">Insight 01</div>
+        <h3>Applicants don't fail — instructions do</h3>
+        <p>"I don't know what 'last 3 months' means — is that the last 3 calendar months or the last 3 pay cycles?" Every applicant we shadowed asked a variant of this. The form treats it as obvious. It isn't.</p>
+      </div>
+      <div class="card">
+        <div class="num">Insight 02</div>
+        <h3>Underwriters re-key everything</h3>
+        <p>Even when a file lands cleanly, an underwriter manually transcribes income figures into the OMS. Hours per case. They don't want a smarter inbox — they want a cleaner row in the system they already use.</p>
+      </div>
+      <div class="card">
+        <div class="num">Insight 03</div>
+        <h3>Risk appetite is per-tenant, not universal</h3>
+        <p>One lender's "borderline" is another's "reject". Any platform that ships hard-coded thresholds is dead on arrival in this market. The rules engine had to be the product.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 PROCESS -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">03 — Process</div>
+    <h2 class="display reveal">From sketch to pilot in <span class="hl">eleven weeks</span>.</h2>
+    <div class="body reveal">
+      <p>I worked back from the moment of friction — the applicant staring at a 4MB PDF on their phone — and forward from the moment of decision — the underwriter glancing at one screen to approve. Everything else had to disappear.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="process reveal">
+      <div class="step">
+        <div class="n">01</div>
+        <h3>Map the chase</h3>
+        <p>Six interviews, two ride-alongs. Mapped every email, document and decision point in a current 9-day average case lifecycle.</p>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <h3>Find the wedge</h3>
+        <p>"Send a magic link, get parsed payslips back" was the smallest thing that could prove the pitch. Everything else was V2.</p>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <h3>Sketch on paper</h3>
+        <p>Drew the applicant flow eleven times before writing a component. Mobile-first. Three steps, never four.</p>
+      </div>
+      <div class="step">
+        <div class="n">04</div>
+        <h3>Build the brain</h3>
+        <p>OCR + parsing + the affordability score weights. Tuned against 200 real (anonymised) payslip PDFs across 6 employers.</p>
+      </div>
+      <div class="step">
+        <div class="n">05</div>
+        <h3>Wrap it in a dashboard</h3>
+        <p>Underwriter view came last on purpose. Built around the three questions a UW actually asks: real? stable? enough?</p>
+      </div>
+      <div class="step">
+        <div class="n">06</div>
+        <h3>Ship to three pilots</h3>
+        <p>One specialist lender, one broker network, one bridging firm. Each got a tenant; each got the rules engine to tune.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 APPLICANT FLOW -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">04 — Applicant flow</div>
+    <h2 class="display reveal">If they don't finish, <span class="hl">nothing else matters</span>.</h2>
+    <div class="body reveal">
+      <p>Most of the design effort went into the surface only the applicant ever sees. White-labelled to each lender's brand, mobile-first, and built so an applicant can resume from any device without losing progress.</p>
+      <p>The companion app uses SMS magic-link entry — no app to install, no account to create. The system coaches users through blurry photos, password-protected uploads and wrong-month files <em>before</em> they're submitted, so an underwriter never has to bounce a case for a fixable mistake.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="device-row reveal">
+      <div class="device-text">
+        <h3>Three steps. Five minutes. No back-and-forth.</h3>
+        <p>The applicant gets an SMS, taps a link, verifies with a one-time code, and uploads payslips. The system reads them in 5–10 seconds, shows what it found, and asks for bank statements next.</p>
+        <ul class="device-list">
+          <li>SMS magic-link entry — no app to install, no account to create</li>
+          <li>Coaching for blurry, password-protected and wrong-month uploads</li>
+          <li>Real-time review summary before submit — no guessing what's been sent</li>
+          <li>Works in any modern browser — desktop, iOS, Android</li>
+        </ul>
+      </div>
+      <div class="device-shot">
+        <img src="case-studies/checkrr/landing-mobile.png" alt="Marketing site rendered on mobile — applicant-facing companion app" />
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="shot-wide reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">checkrr.co.uk<span class="accent">/how-it-works</span></div>
+        </div>
+        <img src="case-studies/checkrr/landing-steps.png" alt="How it works — three steps from application to verified case" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>How it works</b> · the same three-step model, told three different ways — applicant, broker, underwriter. One mental model across the whole product.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 UNDERWRITER VIEW -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">05 — Underwriter dashboard</div>
+    <h2 class="display reveal">A single screen for the <span class="hl">three real questions</span>.</h2>
+    <div class="body reveal">
+      <p>Underwriters don't want a spreadsheet — they want a verdict. The case page collapses everything into the three checks an experienced UW actually runs: <strong>is the income real, is it stable, and is there enough room for the loan</strong>.</p>
+      <p>Every figure is linked back to the document it came from. Every flag has a one-click expand to the underlying parse. Compliance loved it; underwriters stopped re-keying figures into Finova within a fortnight.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="shot-wide reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">app.checkrr.co.uk<span class="accent">/dashboard</span></div>
+        </div>
+        <img src="case-studies/checkrr/dashboard.png" alt="Underwriter dashboard — case summary, pass rates, queue" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>Dashboard</b> · queue health at a glance. Cases-to-review, ready-to-decide, needs-review, completed-this-week — the four states an underwriter triages between every morning.</span></div>
+    </div>
+
+    <div class="shot-wide reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">app.checkrr.co.uk<span class="accent">/cases/CASE-2026-00005</span></div>
+        </div>
+        <img src="case-studies/checkrr/affordibilty.png" alt="Case detail page — verification summary, affordability, loan details" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>Case detail</b> · two checks (income, affordability), one verdict. The verification strip at the top mirrors exactly how an experienced UW reads a file — no chrome, no decoration.</span></div>
+    </div>
+
+    <blockquote class="pull reveal">
+      "We stopped re-keying income figures into Finova within a fortnight. The team's still surprised by how much of the shift was just being given the same answer in the same place every time."
+      <cite>— Head of Underwriting, pilot lender</cite>
+    </blockquote>
+  </div>
+</div>
+
+<!-- 06 CASE INTAKE -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">06 — Case intake</div>
+    <h2 class="display reveal">One form. <span class="hl">Two paths</span>. Live summary.</h2>
+    <div class="body reveal">
+      <p>The biggest UX decision in the broker-facing form was branching <em>inside</em> the form rather than gating it. Employed and self-employed applicants need different documents — but you don't know which path applies until you've started typing names.</p>
+      <p>The right column is the receipt — every choice updates a live summary so the broker sees exactly what the applicant will be asked for, before sending the link.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="shots-2 reveal">
+      <div>
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="url">/cases/new · employed</div>
+          </div>
+          <img src="case-studies/checkrr/new-paye.png" alt="New case — employed applicant flow" />
+        </div>
+        <div class="shot-cap"><span class="arrow">→</span><span><b>Employed path</b> · 6-month verification period default, payslips only, summary auto-counts to 12 expected documents.</span></div>
+      </div>
+      <div>
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="url">/cases/new · self-employed</div>
+          </div>
+          <img src="case-studies/checkrr/new-self-employed.png" alt="New case — self-employed applicant flow" />
+        </div>
+        <div class="shot-cap"><span class="arrow">→</span><span><b>Self-employed path</b> · same form, switches to tax-year selector and SA302 upload. Customer-journey panel updates in lockstep.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 ADMIN -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">07 — Admin & rules engine</div>
+    <h2 class="display reveal">The rules engine <span class="hl">is the product</span>.</h2>
+    <div class="body reveal">
+      <p>Every lender wants a different DTI threshold, a different score weighting, a different risk appetite for bridging vs secured. If the platform shipped opinionated defaults, it'd be ripped out in 90 days.</p>
+      <p>Instead I built a configurable rules engine — read-only ONS benchmarks for the parts that should be uniform, editable thresholds for the parts that shouldn't, and visual feedback for every change so a compliance lead can see exactly what their tweak does to a notional case.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="shot-wide reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">/admin/lending-criteria</div>
+        </div>
+        <img src="case-studies/checkrr/dti-screen.png" alt="Lending criteria — DTI threshold sliders, loan type weighting" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>Lending criteria</b> · pass/borderline/fail bands per loan type, with a delta against the secured baseline so risk teams can compare like-for-like.</span></div>
+    </div>
+
+    <div class="shots-2 reveal">
+      <div>
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="url">/admin/system-settings</div>
+          </div>
+          <img src="case-studies/checkrr/ons.png" alt="System settings — ONS spending benchmarks" />
+        </div>
+        <div class="shot-cap"><span class="arrow">→</span><span><b>ONS benchmarks</b> · read-only by design. Compliance leads can see what we measure against without accidentally moving the floor.</span></div>
+      </div>
+      <div>
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="url">/admin/feature-flags</div>
+          </div>
+          <img src="case-studies/checkrr/feature-flags.png" alt="Feature flags — enable/disable platform capabilities per tenant" />
+        </div>
+        <div class="shot-cap"><span class="arrow">→</span><span><b>Feature flags</b> · per-tenant kill switches. ID&V via Onfido, joint applications, SA302 upload — toggled, not coded.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 INTEGRATIONS + BRANDING -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">08 — Integration & white-label</div>
+    <h2 class="display reveal">A <span class="hl">sidecar</span>, not a replacement.</h2>
+    <div class="body reveal">
+      <p>Lenders don't want another system to learn — they want their existing origination platform, CRM and AI tools to feel smarter. checkRR connects to any API mature platform out of the box, and applies a tenant's brand colours from a single logo upload.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="shot-wide reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">app.checkrr.co.uk<span class="accent">/settings/integrations</span></div>
+        </div>
+        <img src="case-studies/checkrr/integrations.png" alt="Integrations — Claude connected, Salesforce / Finova / OMS available" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>Integrations</b> · the four integrations a lender actually asks for. Claude wired in for case triage and underwriter notes; the rest one click away. Status pill, configure, docs — same row, same rhythm.</span></div>
+    </div>
+
+    <div class="shot-wide reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">app.checkrr.co.uk<span class="accent">/settings/branding</span></div>
+        </div>
+        <img src="case-studies/checkrr/white-lable.png" alt="Branding settings — upload a logo and extract a 3-colour palette" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>White-label in 30 seconds</b> · upload a logo, extract Vibrant / Dark Muted / Light Vibrant via colorthief, apply, done. Lenders see their own brand on the applicant flow within a minute of signing up.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 KEY DECISIONS -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">09 — Key decisions</div>
+    <h2 class="display reveal">What got <span class="hl">cut</span>, and why.</h2>
+    <div class="body reveal">
+      <p>The version of checkRR that shipped looks nothing like the version I pitched. Every decision below was a tradeoff between "fits the demo" and "survives a real pilot".</p>
+    </div>
+
+    <div class="decisions reveal">
+      <div class="decision-col kept">
+        <h4><span class="label">Kept</span> — what made the cut</h4>
+        <ul>
+          <li>Mobile-first applicant flow
+            <small>Mortgage applicants finish forms on the train, not at a desk.</small>
+          </li>
+          <li>Read-only ONS benchmarks
+            <small>The thing that makes Enhanced affordability defensible. Don't let tenants edit it.</small>
+          </li>
+          <li>Per-tenant rules engine
+            <small>The reason any of this is sellable. Without it, three lenders is the ceiling.</small>
+          </li>
+          <li>One-page case detail
+            <small>Underwriters scan, they don't drill. Top-of-page = the verdict.</small>
+          </li>
+        </ul>
+      </div>
+      <div class="decision-col cut">
+        <h4><span class="label">Cut</span> — what didn't survive contact</h4>
+        <ul>
+          <li>Open Banking auto-pull
+            <small>Faster on paper. Half of self-employed applicants don't connect; you still need the manual flow.</small>
+          </li>
+          <li>AI underwriter recommendations
+            <small>Pilot UWs hated being overruled by a black box. Moved to "AI summary" — descriptive, not prescriptive.</small>
+          </li>
+          <li>Native iOS app
+            <small>"App fatigue" came up in every applicant interview. Mobile web hits 95% of the same job.</small>
+          </li>
+          <li>In-app messaging
+            <small>Brokers prefer email. We surfaced status changes by email + dashboard — and shipped two months earlier.</small>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 OUTCOMES -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">10 — Outcomes</div>
+    <h2 class="display reveal">Three pilots. <span class="hl">One sold</span>. The rest are talking.</h2>
+    <div class="outcomes-tone reveal">
+      <p>Eleven weeks from first wireframe to a working pilot at a specialist lender. The first pilot reported <strong>case turnaround dropping from 9 days to under 2</strong> within the first month, with the bulk of the saving coming from the moments before an underwriter ever opened a case — applicants completing first time, in mobile, without a follow-up email.</p>
+      <p>The broader pattern, though, was qualitative: underwriters trusted the parsed figures enough to stop re-keying within a fortnight. Compliance signed off on the read-only ONS benchmarks without changes. Two of the three pilot tenants asked for a second cohort before the first had finished.</p>
+      <p>It's still early. The product is launching in Q2 2026, the pilot program is open, and the next thing to design is the broker-facing pipeline view — because the first thing every pilot lender did, after the first week, was ask for one.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PREV / NEXT -->
+<div class="wrap">
+  <div class="nav-foot">
+    <div class="nav-foot-row">
+      <a href="#" class="prev">
+        <div class="label">← Previous</div>
+        <div class="title">Cubik AI</div>
+      </a>
+      <a href="#" class="next">
+        <div class="label">All work →</div>
+        <div class="title">Back to portfolio</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <div>© 2026 Leon Govier · Product Designer & Builder</div>
+      <div class="stamp">v.checkrr · 2026.05</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reading progress
+  const progress = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const ratio = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (Math.min(1, Math.max(0, ratio)) * 100) + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Reveal on scroll — also reveal anything within 92% of viewport on load
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.92) el.classList.add('in');
+    else io.observe(el);
+  });
+</script>
+
+</body>
+</html>

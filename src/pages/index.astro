@@ -1,0 +1,641 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/home.css';
+
+const work = (await getCollection('work', ({ data }) => !data.draft)).sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
+);
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const highlightTitle = (text: string, accents?: string[]) => {
+  let html = escapeHtml(text);
+  if (accents?.length) {
+    for (const phrase of accents) {
+      html = html.replace(
+        escapeHtml(phrase),
+        `<span class="accent">${escapeHtml(phrase)}</span>`,
+      );
+    }
+  }
+  return html;
+};
+
+interface Testimonial {
+  name: string;
+  role: string;
+  quote: string;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    name: 'Jack Warner',
+    role: 'Chief Operating Officer, Market Financial Solutions',
+    quote:
+      'Leon has led a wide range of transformation initiatives across systems, process and governance. He combines genuine diligence with strong product judgement and a clear solution-orientated mindset. He is equally comfortable rolling up his sleeves to resolve detail-level issues as he is operating in senior forums, where he communicates with clarity and confidence.',
+  },
+  {
+    name: 'Craig Collins',
+    role: 'Chief Commercial Officer, Admiral Money',
+    quote:
+      'Leon is a driving force for change with the ability to translate business requirements into best in class UX. A passion for excellence is abundantly clear which, when aligned to his collaborative approach, outputs always exceed expectations. Leon is comfortable working to tight deadlines within high change environments applying the principles of agile implementation.',
+  },
+  {
+    name: 'Tom Cooksey',
+    role: 'Fractional CTO, Logic Rooms',
+    quote:
+      "It pains me to say this because I want to keep Leon all to myself, but I cannot recommend him enough. A calm, composed influence within the team, bringing structure to the UX design process, and the end product — what can I say. There's no hipster, trendy stuff here; this is solid, well thought out design where everything serves a purpose.",
+  },
+  {
+    name: 'Simon Martin',
+    role: 'Chief Commercial Officer, Interbridge Mortgages',
+    quote:
+      'Leon has a passion and dedication for his work which I have seldom seen or experienced in other colleagues. A track record for consistent high quality delivery against demanding timescales and always looking to innovate. A leader and role model for his team in the field of UX, always challenging them to learn new skills. Never afraid to speak his mind and challenge the status quo, but always focused on delivery.',
+  },
+  {
+    name: 'Paul Strinati',
+    role: 'Chief Technology Officer, Interbridge Mortgages Ltd',
+    quote:
+      "Leon worked on the design of a web-app which was being rearchitected to run as a Single Page Application. Leon's focus extended well past the pure UI into the user journeys, and overall UX, culminating in a much cleaner, much more user-friendly application. His approach of working directly with the end users (at all levels of the business) to understand their pain points and frustrations allowed us to focus on what was important to them, aiding adoption and resulting in a product that runs on over 90% of devices.",
+  },
+  {
+    name: 'Paul Howlett',
+    role: 'Product Director, TrakCel',
+    quote:
+      'Leon brought a wide range of UX and UI Design experience to TrakCel and over the term of a short contract was able to quickly engage with the team and went beyond expectations in delivering benefit to the design of the TrakCel product and influence to the future direction of UX, design and development in the organisation. The experience, team-orientation and urgency that Leon brings to his work would be a welcome addition in any product team.',
+  },
+  {
+    name: 'Greg Jarrett',
+    role: 'Head of Design & Super IC',
+    quote:
+      'Leon came into Hills to head up the visual design (UI) team. He performed exceptionally in hiring and managing the team, while delivering the high quality of work the business needed. At the same time he built strong relationships across the business and worked effectively with a wide range of stakeholders and peers. He would be an asset to any digital business.',
+  },
+  {
+    name: 'Myles Carey',
+    role: 'Senior Product Designer scaling startups and scale-ups to millions in ARR',
+    quote:
+      "Leon provides me with nothing but support and guidance when I need it. He passes down his wealth of User Experience and Design knowledge for which I will be grateful. His management skills are very good and has built a culture where my colleagues and I can thrive. I wouldn't hesitate giving Leon my full recommendation to anyone.",
+  },
+  {
+    name: 'Jonathan Manton',
+    role: 'Head of Proposition Development, Pepper Money UK',
+    quote:
+      "I have worked with Leon directly, he supported me on product launches; he has essentially dressed the shop window for the company. To this end, Leon has been spectacular, I quickly learned to be less prescriptive and let Leon's experience and creative flair provide relevant, current and workable solutions. Leon has always provided forward looking solutions which extend beyond the current project.",
+  },
+  {
+    name: 'Kristina Gennow',
+    role: 'Digital Leadership / Product Management, CWT',
+    quote:
+      'Leon was instrumental to our ability to deliver a high quality product to the market. He first identified gaps in existing UX processes, then provided an end-to-end solution to improve understanding of business requirements and communicating final designs to development teams. His expertise in UI/UX is self-evident, and on top of this he is an excellent collaborator, communicator, organised, and does what he says.',
+  },
+  {
+    name: 'Laura Graham',
+    role: 'Lead UX Designer, CWT',
+    quote:
+      "I had the pleasure of working with Leon at CWT, where he significantly improved our UX-to-development handoff. By implementing a Material UI design system and driving full adoption across design and engineering, he brought consistency, clarity, and scalability to our workflow. This streamlined delivery, reduced rework, and improved collaboration between teams. Leon's ability to align design with real-world implementation had a clear and lasting impact on how we build products.",
+  },
+  {
+    name: 'Emma Galvin',
+    role: 'Design Lead, CoinCover',
+    quote:
+      "Leon is a great addition to any team and I couldn't recommend him enough. During a short-term contract, he successfully designed and delivered a high-quality customer portal that put our customer's needs at the forefront, he also improved our design to developer handoff process. Leon brings with him a wealth of UX and UI experience which he is always happy to share.",
+  },
+  // TODO: replace once Cubik AI founder quote arrives
+  {
+    name: 'Cubik AI',
+    role: 'Founder — quote pending',
+    quote: '[Awaiting Cubik AI founder quote]',
+  },
+];
+---
+
+<BaseLayout
+  title="Leon Govier — Product Design & Builder"
+  description="Leon Govier — Product Designer & Builder. Selected work, process, and contact."
+>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="wrap">
+    <Nav variant="home" />
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <h1 class="reveal">
+        An <span class="accent">AI-native</span> designer shipping digital products at
+        <span class="accent">speed</span>.
+      </h1>
+      <p class="lede reveal d1">
+        Currently Product Designer &amp; Builder working with teams that need to move quickly.
+        Design<span class="accent">.</span> Prompt<span class="accent">.</span> Prototype<span class="accent">.</span> Ship<span class="accent">.</span>
+      </p>
+
+      <div class="hero-foot reveal d2">
+        <span class="accent-rule"></span>
+        <div class="socials">
+          <a
+            class="social"
+            href="https://www.linkedin.com/in/leongovier/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
+              ><path
+                d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5zM.22 8h4.56v15H.22V8zm7.5 0h4.37v2.05h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V23h-4.56v-6.86c0-1.64-.03-3.75-2.28-3.75-2.29 0-2.64 1.79-2.64 3.63V23H7.72V8z"
+              ></path></svg
+            >
+          </a>
+          <a class="social" href="#contact" aria-label="Contact">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
+              ><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg
+            >
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORK -->
+    <section class="work" id="work">
+      <div class="work-head">
+        <div>
+          <div class="eyebrow">Selected Work — 2018 / 26</div>
+          <h2>Things I've shipped</h2>
+        </div>
+        <div class="eyebrow">{String(work.length).padStart(2, '0')} projects</div>
+      </div>
+
+      <div class="cs-controls">
+        <div class="cs-tabs" role="tablist" aria-label="Jump to case study">
+          {
+            work.map((entry, i) => {
+              const eb = (entry.data.eyebrow ?? '').split(' — ');
+              const label = eb.length > 1 ? eb.slice(1).join(' — ') : entry.data.title;
+              return (
+                <button
+                  type="button"
+                  class={`cs-tab ${i === 0 ? 'active' : ''}`}
+                  data-tab-index={i}
+                  data-tab-controls="csTrack"
+                  role="tab"
+                  aria-selected={i === 0 ? 'true' : 'false'}
+                >
+                  {label}
+                </button>
+              );
+            })
+          }
+        </div>
+        <div class="tests-controls" aria-hidden="false">
+          <button
+            class="slider-btn"
+            type="button"
+            data-dir="prev"
+            aria-label="Previous case study"
+            aria-controls="csTrack"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M19 12H5M11 18l-6-6 6-6"></path></svg
+            >
+          </button>
+          <button
+            class="slider-btn"
+            type="button"
+            data-dir="next"
+            aria-label="Next case study"
+            aria-controls="csTrack"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+            >
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="cs-list"
+        id="csTrack"
+        data-slider-track
+        data-auto-slide
+        tabindex="0"
+        role="region"
+        aria-label="Case studies"
+      >
+        {
+          work.map((entry, i) => {
+            const num = String(i + 1).padStart(2, '0');
+            const titleHtml = highlightTitle(entry.data.title, entry.data.titleAccents);
+            const tags = entry.data.tags ?? [];
+            const eyebrowText = entry.data.eyebrow ?? `Case study — ${entry.data.title}`;
+            const ebSplit = eyebrowText.split(' — ');
+            const eyebrowPrefix = ebSplit[0];
+            const eyebrowBrand = ebSplit.length > 1 ? ebSplit.slice(1).join(' — ') : null;
+            const ledeHtml = (() => {
+              const safe = escapeHtml(entry.data.lede);
+              if (!eyebrowBrand) return safe;
+              const safeBrand = escapeHtml(eyebrowBrand);
+              return safe.split(safeBrand).join(`<span class="accent">${safeBrand}</span>`);
+            })();
+            return (
+              <article class="cs-item reveal">
+                <div class="cs-item-col cs-item-col-left">
+                  {entry.data.heroImage && (
+                    <div class="cs-item-frame has-image">
+                      <img
+                        src={entry.data.heroImage}
+                        alt={entry.data.heroAlt ?? `${entry.data.title} — hero`}
+                        loading={i < 2 ? 'eager' : 'lazy'}
+                        data-lightbox="cases"
+                      />
+                    </div>
+                  )}
+                  {tags.length > 0 && (
+                    <div class="cs-item-tags">
+                      {tags.map((t) => (
+                        <span class="cs-item-tag">{t}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div class="cs-item-col cs-item-col-right">
+                  <div class="cs-item-eyebrow">
+                    <span class="accent">↗</span>
+                    &nbsp;{eyebrowPrefix}
+                    {eyebrowBrand && (
+                      <Fragment>
+                        {' — '}
+                        <span class="accent">{eyebrowBrand}</span>
+                      </Fragment>
+                    )}
+                  </div>
+                  <h3 class="cs-item-title" set:html={titleHtml} />
+                  {entry.data.phases && (
+                    <div class="cs-item-phase-row">
+                      {entry.data.phases.map((p) => (
+                        <div class="cs-item-phase">
+                          <span class={`cs-item-phase-pct ${p.accent ? 'accent' : ''}`}>
+                            {p.pct}%
+                          </span>
+                          <span class="cs-item-phase-name">{p.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <p class="cs-item-lede" set:html={ledeHtml} />
+                  <a class="cs-item-cta" href="#contact">Full case study available on request.</a>
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+      <div class="process-head">
+        <div class="eyebrow">How I work</div>
+        <h2 class="reveal">Two diamonds. <span class="accent">One AI-powered</span> workflow.</h2>
+        <p class="process-intro reveal">
+          The methodology stays constant — Double Diamond, always. What changes project-to-project is
+          the phase weighting. Domain expertise lets me compress discovery. MCP and Claude Code
+          accelerate build. Senior judgement is knowing where to speed up and where to slow down. I
+          design in Figma, Claude reads it via MCP and generates production code, the fidelity gap
+          collapses. AI as co-pilot, not autopilot — I choose when to use it, and where deterministic
+          logic beats LLM guesswork.
+        </p>
+        <div class="process-phase-row reveal">
+          <div class="process-phase">
+            <span class="process-phase-pct">20%</span>
+            <span class="process-phase-name">Discover</span>
+          </div>
+          <div class="process-phase">
+            <span class="process-phase-pct">20%</span>
+            <span class="process-phase-name">Define</span>
+          </div>
+          <div class="process-phase">
+            <span class="process-phase-pct accent">35%</span>
+            <span class="process-phase-name">Develop</span>
+          </div>
+          <div class="process-phase">
+            <span class="process-phase-pct">25%</span>
+            <span class="process-phase-name">Deliver</span>
+          </div>
+        </div>
+      </div>
+      <div class="process-grid">
+        <div class="step reveal">
+          <div class="step-num">01 / Discover</div>
+          <h3>Understand the problem space</h3>
+          <p>
+            Sit with the team and the users. Map constraints, workflows, the messy reality. This
+            phase doesn't accelerate — understanding the problem space takes the time it takes. AI can
+            summarize transcripts and pull patterns from research notes, but the conversations
+            themselves happen at human speed.
+          </p>
+        </div>
+        <div class="step reveal d1">
+          <div class="step-num">02 / Define</div>
+          <h3>Frame the right problem</h3>
+          <p>
+            Synthesise what research actually says, not what everyone assumed it would say. Kill
+            scope that doesn't serve the core job. Sometimes this is a three-week reframe (Admiral
+            Money's pivot from form-conversion to quick-quote). Sometimes the brief is already sharp
+            and Define compresses to a week. Knowing which is senior judgement.
+          </p>
+        </div>
+        <div class="step reveal d2">
+          <div class="step-num">03 / Develop</div>
+          <h3>Figma to production, via MCP</h3>
+          <p>
+            I design in Figma — components, tokens, layouts, flows. Claude reads the Figma file via
+            MCP (Model Context Protocol) and generates production-ready React code. No screenshots,
+            no manual handoff, no fidelity loss. The design file becomes the source of truth.
+            Engineers refine working components, not translating mockups. Develop is where AI
+            compounds hardest.
+          </p>
+        </div>
+        <div class="step reveal d3">
+          <div class="step-num">04 / Deliver</div>
+          <h3>Stay close to launch</h3>
+          <p>
+            Pair with engineers through QA, polish the details that Claude missed, then watch it in
+            the wild. AI doesn't ship products. People do. The handoff still requires judgement calls
+            — what's MVP, what's polish, what breaks if we cut it. The gap between design file and
+            shipped product is smaller, but the last 10% still needs a human.
+          </p>
+        </div>
+      </div>
+
+      <div class="process-principle reveal">
+        <h3>AI as co-pilot, not autopilot</h3>
+        <p>
+          Conversational AI, vision extraction, structured data generation — these are tools, not
+          replacements. I choose when to use them (Admiral Money's quote calculator: deterministic
+          math, not LLM guesswork). Senior judgement is knowing where AI accelerates and where it
+          introduces risk.
+        </p>
+      </div>
+    </section>
+
+    <!-- TOOLS -->
+    <section class="tools" id="tools">
+      <div class="tools-head">
+        <div class="eyebrow">Tools &amp; stack</div>
+        <p class="tools-intro reveal">
+          The tools I reach for. Chosen for speed, quality, and how well they play together.
+        </p>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-col reveal">
+          <div class="tool-cat">AI &amp; Workflow</div>
+          <div class="tool-chips">
+            <span class="tool-chip">Claude</span>
+            <span class="tool-chip">Claude Code</span>
+            <span class="tool-chip">Claude Design</span>
+            <span class="tool-chip">Claude Co-work</span>
+            <span class="tool-chip">ChatGPT</span>
+            <span class="tool-chip">MCP</span>
+            <span class="tool-chip">VS Code</span>
+          </div>
+        </div>
+        <div class="tool-col reveal">
+          <div class="tool-cat">Design</div>
+          <div class="tool-chips">
+            <span class="tool-chip">Figma</span>
+            <span class="tool-chip">FigJam</span>
+            <span class="tool-chip">Claude Design</span>
+            <span class="tool-chip">Adobe Suite</span>
+          </div>
+        </div>
+        <div class="tool-col reveal">
+          <div class="tool-cat">Build &amp; Code</div>
+          <div class="tool-chips">
+            <span class="tool-chip">HTML</span>
+            <span class="tool-chip">CSS</span>
+            <span class="tool-chip">JavaScript</span>
+            <span class="tool-chip">TypeScript</span>
+            <span class="tool-chip">Tailwind</span>
+            <span class="tool-chip">Astro</span>
+            <span class="tool-chip">WordPress</span>
+            <span class="tool-chip">Vercel</span>
+          </div>
+        </div>
+        <div class="tool-col reveal">
+          <div class="tool-cat">Collaboration</div>
+          <div class="tool-chips">
+            <span class="tool-chip">Figma</span>
+            <span class="tool-chip">Zeplin</span>
+            <span class="tool-chip">GitHub</span>
+            <span class="tool-chip">Storybook</span>
+            <span class="tool-chip">MS Azure</span>
+            <span class="tool-chip">Jira</span>
+            <span class="tool-chip">Notion</span>
+            <span class="tool-chip">Slack</span>
+          </div>
+        </div>
+        <div class="tool-col reveal">
+          <div class="tool-cat">Research</div>
+          <div class="tool-chips">
+            <span class="tool-chip">Maze</span>
+            <span class="tool-chip">LucidChart</span>
+            <span class="tool-chip">UserTesting</span>
+            <span class="tool-chip">Arcade</span>
+          </div>
+        </div>
+        <div class="tool-col reveal">
+          <div class="tool-cat">Methodologies</div>
+          <div class="tool-chips">
+            <span class="tool-chip">Double Diamond</span>
+            <span class="tool-chip">Agile</span>
+            <span class="tool-chip">SAFe</span>
+            <span class="tool-chip">Lean</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS — slider, 8 cards, content TBD -->
+    <section class="tests" id="feedback">
+      <div class="tests-head">
+        <div class="eyebrow">Feedback received</div>
+        <div class="tests-controls" aria-hidden="false">
+          <button
+            class="slider-btn"
+            type="button"
+            data-dir="prev"
+            aria-label="Previous testimonial"
+            aria-controls="testsTrack"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M19 12H5M11 18l-6-6 6-6"></path></svg
+            >
+          </button>
+          <button
+            class="slider-btn"
+            type="button"
+            data-dir="next"
+            aria-label="Next testimonial"
+            aria-controls="testsTrack"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+            >
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="tests-track"
+        id="testsTrack"
+        data-slider-track
+        tabindex="0"
+        role="region"
+        aria-label="Testimonials"
+      >
+        {
+          testimonials.map((t) => {
+            const [roleText, ...companyParts] = t.role.split(', ');
+            const company = companyParts.join(', ');
+            return (
+              <div class="test">
+                <q>{t.quote}</q>
+                <div class="who">
+                  <div>
+                    <div class="name">{t.name}</div>
+                    <div class="role-text">
+                      {roleText}
+                      {company && (
+                        <Fragment>
+                          , <span class="role-company">{company}</span>
+                        </Fragment>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <!-- GALLERY — masonry, all tiles visible -->
+    <section class="home-gallery" id="gallery">
+      <div class="gallery-head">
+        <div class="eyebrow">Selected work</div>
+        <h2 class="reveal">Not everything is a <span class="accent">complex data</span> dashboard</h2>
+        <p class="gallery-intro reveal">
+          Other engagements I've shipped. Different clients, same principles.
+        </p>
+      </div>
+
+      <div class="gallery-masonry">
+        {
+          [
+            {
+              num: '01',
+              label: 'Plots — property finder app & branding',
+              image: '/gallery/plots.webp',
+              alt: 'Plots — property finder app and branding, twin-phone mockup',
+            },
+            {
+              num: '02',
+              label: 'William Hill — in-app platform',
+              image: '/gallery/william-hill.webp',
+              alt: 'William Hill — in-app platform, twin-phone mockup',
+            },
+            {
+              num: '03',
+              label: 'Vejji — vegetarian food finder app & branding',
+              image: '/gallery/discover.webp',
+              alt: 'Vejji — vegetarian food finder app and branding',
+            },
+            {
+              num: '04',
+              label: 'UXD — app design & branding',
+              image: '/gallery/uxd.webp',
+              alt: 'UXD — app design and branding, twin-phone mockup',
+            },
+            {
+              num: '05',
+              label: 'Apple Watch — companion app for horseracing',
+              image: '/gallery/apple-watch.png',
+              alt: 'Apple Watch — companion app for horseracing',
+            },
+            {
+              num: '06',
+              label: 'Creadigol — recruitment app & branding',
+              image: '/gallery/creadigol.png',
+              alt: 'Creadigol — recruitment app and brand identity',
+            },
+            {
+              num: '07',
+              label: 'Crestr — commercial fractional investment app & branding',
+              image: '/gallery/crestr.png',
+              alt: 'Crestr — commercial fractional investment app and branding',
+            },
+            {
+              num: '08',
+              label: 'Optimum Credit — savings app',
+              image: '/gallery/oc-savings.png',
+              alt: 'Optimum Credit — savings app, twin-phone mockup',
+            },
+            {
+              num: '09',
+              label: 'RoyalJet — Qatar Airlines onboarding app design',
+              image: '/gallery/royaljet.png',
+              alt: 'RoyalJet — Qatar Airlines onboarding app design',
+            },
+          ].map((tile) => (
+            <figure class="gallery-tile">
+              <div class={`gallery-frame ${tile.image ? 'has-image' : ''}`}>
+                {tile.image ? (
+                  <img
+                    src={tile.image}
+                    alt={tile.alt}
+                    loading="lazy"
+                    width="1691"
+                    height="2048"
+                    data-lightbox="gallery"
+                  />
+                ) : (
+                  <span class="gallery-num">{tile.num}</span>
+                )}
+              </div>
+              <figcaption>↗ {tile.label}</figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="cta" id="contact">
+      <div class="cta-inner">
+        <div class="eyebrow reveal">Say hello</div>
+        <h2 class="reveal d1">
+          Got something <span class="accent">interesting</span><br />to build?
+        </h2>
+        <div class="cta-row reveal d2">
+          <a href="mailto:hello@leongovier.com" class="btn btn-primary">
+            hello@leongovier.com
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              ><path d="M5 12h14M13 6l6 6-6 6"></path></svg
+            >
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <Footer />
+  </div>
+
+  <script>
+    import '../scripts/home.ts';
+    import '../scripts/lightbox.ts';
+  </script>
+</BaseLayout>

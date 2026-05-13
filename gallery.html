@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gallery — Leon Govier</title>
+<meta name="description" content="Selected project mockups — laptop chassis cropped out, screens recomposed on Bauhaus-style backgrounds tuned per brand." />
+<style>
+  :root{
+    --ink:#3A3A3A; --ink-2:#707070; --ink-3:#A0A0A0;
+    --rule:#E6E6E3; --bg:#FFFFFF; --bg-2:#F4F4F2;
+    --accent:#FF6B1A;
+    --max:1240px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter Tight",-apple-system,BlinkMacSystemFont,sans-serif;
+    letter-spacing:-0.01em;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* Top chrome — matches the rest of the portfolio scratch pages */
+  nav.top{
+    max-width:var(--max);margin:0 auto;
+    padding:32px 48px 24px;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .logo{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:14px;font-weight:500;color:var(--ink);text-decoration:none;
+  }
+  .logo .slash{color:var(--ink-3);margin:0 2px}
+  .back{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:12px;color:var(--ink-2);text-decoration:none;
+    transition:color .2s, gap .2s;
+  }
+  .back:hover{color:var(--accent);gap:12px}
+
+  /* Page content */
+  .page{max-width:var(--max);margin:0 auto;padding:32px 48px 120px}
+  .page-head{margin-bottom:48px}
+  .page-head .eyebrow{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:12px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ink-2);margin-bottom:14px;
+  }
+  .page-head .eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:999px;background:var(--accent);margin-right:10px;vertical-align:middle}
+  .page-head h1{font-size:42px;font-weight:300;letter-spacing:-0.03em;margin:0 0 12px;text-wrap:balance}
+  .page-head h1 .a{color:var(--accent)}
+  .page-head p{color:var(--ink-2);max-width:560px;font-size:16px;line-height:1.55;margin:0}
+
+  .grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:36px;margin-top:40px}
+
+  .card{display:flex;flex-direction:column;gap:14px}
+  .stage{
+    position:relative;
+    aspect-ratio:16/10;
+    border-radius:6px;
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .stage .deco{position:absolute;inset:0;pointer-events:none}
+  .stage .screen{
+    position:absolute;
+    left:50%;top:50%;transform:translate(-50%,-50%);
+    width:86%;
+    border-radius:8px;
+    box-shadow:
+      0 30px 60px rgba(0,0,0,0.22),
+      0 12px 24px rgba(0,0,0,0.14),
+      0 0 0 1px rgba(0,0,0,0.04);
+    display:block;
+  }
+  .stage.dark .screen{
+    box-shadow:
+      0 30px 60px rgba(0,0,0,0.55),
+      0 12px 24px rgba(0,0,0,0.35),
+      0 0 0 1px rgba(255,255,255,0.06);
+  }
+
+  .meta{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+  .meta .num{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);
+  }
+  .meta .role{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);
+  }
+  .title{font-size:18px;font-weight:500;letter-spacing:-0.01em;margin:0;color:var(--ink)}
+  .desc{font-size:14px;color:var(--ink-2);line-height:1.5;margin:0}
+
+  /* ---- BAUHAUS BACKGROUNDS (one per card) ---- */
+
+  /* CHK checkRR — mint + cream */
+  .bg-checkrr{background:#0B2A23}
+  .bg-checkrr .c1{position:absolute;left:-10%;top:-15%;width:48%;aspect-ratio:1;border-radius:50%;background:#2FB39A}
+  .bg-checkrr .c2{position:absolute;right:-8%;bottom:-25%;width:50%;aspect-ratio:1;border-radius:50%;background:#7FE5C8}
+  .bg-checkrr .strip{position:absolute;left:6%;bottom:14%;width:30%;height:6px;background:#F4ECDF}
+  .bg-checkrr .dot{position:absolute;right:14%;top:12%;width:16px;height:16px;border-radius:50%;background:#F4ECDF}
+
+  /* CBK Cubik — orange on jet */
+  .bg-cubik{background:#0E0E0E}
+  .bg-cubik .c1{position:absolute;right:-12%;top:-20%;width:55%;aspect-ratio:1;border-radius:50%;background:#FF6B1A}
+  .bg-cubik .c2{position:absolute;left:8%;bottom:-30%;width:38%;aspect-ratio:1;border-radius:50%;background:#2A1810}
+  .bg-cubik .strip{position:absolute;left:0;right:0;top:24%;height:1px;background:rgba(255,107,26,0.4)}
+  .bg-cubik .dot{position:absolute;left:14%;top:12%;width:14px;height:14px;border-radius:50%;background:#FF6B1A}
+
+  /* 01 CoinCover — cobalt + blue accents */
+  .bg-coincover{background:#0B2D5B}
+  .bg-coincover .c1{position:absolute;left:-8%;top:-12%;width:42%;height:90%;border-radius:50%;background:#1463FF}
+  .bg-coincover .c2{position:absolute;right:-6%;bottom:-30%;width:50%;aspect-ratio:1;border-radius:50%;background:#5089FF}
+  .bg-coincover .c3{position:absolute;right:8%;top:10%;width:14%;aspect-ratio:1;border-radius:50%;background:#FFD24A}
+  .bg-coincover .ln{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,0.18)}
+
+  /* 02 AVS — deep violet with magenta wedge */
+  .bg-avs{background:#2E0F66}
+  .bg-avs .rect{position:absolute;left:0;top:0;width:48%;height:100%;background:#5928C9}
+  .bg-avs .c1{position:absolute;right:-12%;top:-20%;width:60%;aspect-ratio:1;border-radius:50%;background:#FF4D88}
+  .bg-avs .strip{position:absolute;left:5%;bottom:8%;width:30%;height:6px;background:#FFD24A}
+  .bg-avs .dot{position:absolute;right:14%;bottom:14%;width:18px;height:18px;border-radius:50%;background:#FFD24A}
+
+  /* 03 CWT — warm cream + orange disc */
+  .bg-cwt{background:#F4ECDF}
+  .bg-cwt .c1{position:absolute;right:-10%;top:-12%;width:48%;aspect-ratio:1;border-radius:50%;background:#FF6A2C}
+  .bg-cwt .c2{position:absolute;left:6%;bottom:-20%;width:36%;aspect-ratio:1;border-radius:50%;background:#1F2A37}
+  .bg-cwt .strip{position:absolute;left:0;right:0;top:0;height:8px;background:#1F2A37}
+  .bg-cwt .ln{position:absolute;left:6%;right:6%;bottom:14%;height:1px;background:rgba(31,42,55,0.25)}
+
+  /* 04 Jamf — slate with green dot */
+  .bg-jamf{background:#E4E8EE}
+  .bg-jamf .rect{position:absolute;left:0;top:0;width:100%;height:38%;background:#1F2937}
+  .bg-jamf .c1{position:absolute;left:8%;top:18%;width:18%;aspect-ratio:1;border-radius:50%;background:#37B26D}
+  .bg-jamf .c2{position:absolute;right:-8%;bottom:-30%;width:55%;aspect-ratio:1;border-radius:50%;background:#9BA7B6}
+  .bg-jamf .strip{position:absolute;right:8%;top:8%;width:24%;height:4px;background:#E4E8EE}
+
+  /* 05 Pepper — deep maroon + green/red marks */
+  .bg-pepper{background:#2A0808}
+  .bg-pepper .c1{position:absolute;left:-10%;bottom:-20%;width:50%;aspect-ratio:1;border-radius:50%;background:#D6202B}
+  .bg-pepper .c2{position:absolute;right:8%;top:8%;width:16%;aspect-ratio:1;border-radius:50%;background:#2F8F4A}
+  .bg-pepper .strip{position:absolute;left:10%;top:10%;width:30%;height:6px;background:#FFFFFF;opacity:0.85}
+  .bg-pepper .dot{position:absolute;right:14%;bottom:14%;width:14px;height:14px;border-radius:50%;background:#FFFFFF}
+
+  /* 06 Admiral Money — sky blue with cyan arc */
+  .bg-am{background:#E6F2F7}
+  .bg-am .c1{position:absolute;right:-15%;top:-25%;width:65%;aspect-ratio:1;border-radius:50%;background:#00B7CE}
+  .bg-am .c2{position:absolute;left:8%;bottom:-15%;width:30%;aspect-ratio:1;border-radius:50%;background:#0C3E9C}
+  .bg-am .ring{position:absolute;left:10%;top:12%;width:80px;height:80px;border-radius:50%;border:6px solid #0C3E9C}
+  .bg-am .strip{position:absolute;left:0;right:0;bottom:0;height:6px;background:#0C3E9C}
+
+  /* 07 MFS — navy with gold strips */
+  .bg-mfs{background:#0E2241}
+  .bg-mfs .rect{position:absolute;right:0;top:0;width:42%;height:100%;background:#0A1A33}
+  .bg-mfs .strip1{position:absolute;left:0;right:0;top:18%;height:3px;background:#E6A93A}
+  .bg-mfs .strip2{position:absolute;left:0;right:0;bottom:18%;height:3px;background:#E6A93A}
+  .bg-mfs .c1{position:absolute;right:-10%;bottom:-25%;width:42%;aspect-ratio:1;border-radius:50%;background:#E6A93A}
+  .bg-mfs .dot{position:absolute;left:10%;top:10%;width:14px;height:14px;border-radius:50%;background:#E6A93A}
+
+  /* 08 AQA — aubergine + magenta */
+  .bg-aqa{background:#2A0A52}
+  .bg-aqa .c1{position:absolute;left:-10%;top:-15%;width:55%;aspect-ratio:1;border-radius:50%;background:#5B1FA0}
+  .bg-aqa .c2{position:absolute;right:8%;bottom:8%;width:22%;aspect-ratio:1;border-radius:50%;background:#C8186B}
+  .bg-aqa .strip{position:absolute;left:0;right:0;top:50%;height:2px;background:rgba(255,255,255,0.18)}
+  .bg-aqa .dot{position:absolute;right:14%;top:14%;width:12px;height:12px;border-radius:50%;background:#E64F8F}
+
+  /* footer note */
+  .note{
+    font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-3);
+    margin-top:64px;border-top:1px solid var(--rule);padding-top:24px;
+  }
+
+  /* Responsive — matches the project's three-breakpoint scale */
+  @media (max-width: 1023px){
+    nav.top{padding:28px 32px 20px}
+    .page{padding:24px 32px 96px}
+  }
+  @media (max-width: 719px){
+    nav.top{padding:24px 24px 16px}
+    .page{padding:16px 24px 80px}
+    .grid{grid-template-columns:1fr;gap:24px}
+    .page-head h1{font-size:34px}
+  }
+  @media (max-width: 519px){
+    nav.top{padding:20px 20px 12px}
+    .page{padding:12px 20px 64px}
+    .page-head h1{font-size:30px}
+    .page-head{margin-bottom:32px}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="top">
+  <a href="index.html" class="logo">leon-govier<span class="slash">/</span>design</a>
+  <a href="index.html" class="back">← All work</a>
+</nav>
+
+<main class="page">
+  <header class="page-head">
+    <div class="eyebrow"><span class="dot"></span>Gallery · Frameless heroes</div>
+    <h1>MacBook frames <span class="a">removed</span>, screens <span class="a">recomposed</span> on bauhaus backgrounds.</h1>
+    <p>Ten project mockups — laptop chassis cropped out, screens placed on a colored composition unique to each brand. Drop these into the home grid or case study heros as needed.</p>
+  </header>
+
+  <div class="grid">
+
+    <article class="card">
+      <div class="stage dark bg-checkrr">
+        <div class="deco"><span class="c1"></span><span class="c2"></span><span class="strip"></span><span class="dot"></span></div>
+        <img class="screen" src="case-studies/checkrr/dashboard-flat.png" alt="checkRR underwriter dashboard" />
+      </div>
+      <div class="meta"><span class="num">Featured · Fintech</span><span class="role">Product design &amp; build</span></div>
+      <h3 class="title">checkRR — Income verification</h3>
+      <p class="desc">AI-assisted underwriting platform. From conversation to £150k software asset, shipped to 3 pilots in 11 weeks.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage dark bg-cubik">
+        <div class="deco"><span class="c1"></span><span class="c2"></span><span class="strip"></span><span class="dot"></span></div>
+        <img class="screen" src="case-studies/cubik-ai/commercial-flat.png" alt="Cubik AI commercial workspace" />
+      </div>
+      <div class="meta"><span class="num">Featured · AI</span><span class="role">Product design &amp; build</span></div>
+      <h3 class="title">Cubik AI — Commercial workspace</h3>
+      <p class="desc">Agentic workspace for commercial teams. Briefs in, drafts and decks out, with humans in the loop.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage dark bg-coincover">
+        <div class="deco"><span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="ln"></span></div>
+        <img class="screen" src="case-studies/hero-crops/coincover-screen.png" alt="CoinCover Trust Pack" />
+      </div>
+      <div class="meta"><span class="num">01 · Fintech</span><span class="role">Product design</span></div>
+      <h3 class="title">CoinCover — Trust Pack</h3>
+      <p class="desc">Compliance hub for crypto custody. Document review, attestations, and audit trail in one view.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage dark bg-avs">
+        <div class="deco"><span class="rect"></span><span class="c1"></span><span class="strip"></span><span class="dot"></span></div>
+        <img class="screen" src="case-studies/hero-crops/avs-screen.png" alt="AdaptiveCRM matches" />
+      </div>
+      <div class="meta"><span class="num">02 · CRM</span><span class="role">Product design</span></div>
+      <h3 class="title">AdaptiveCRM — Customer matches</h3>
+      <p class="desc">Inventory-to-customer matching for high-end automotive. Score, follow up, convert opportunities.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage bg-cwt">
+        <div class="deco"><span class="strip"></span><span class="c1"></span><span class="c2"></span><span class="ln"></span></div>
+        <img class="screen" src="case-studies/hero-crops/cwt-screen.png" alt="myCWT administration" />
+      </div>
+      <div class="meta"><span class="num">03 · Travel</span><span class="role">Product design</span></div>
+      <h3 class="title">myCWT — Administration</h3>
+      <p class="desc">User and customer governance for a global business travel platform. Search, clone, audit.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage bg-jamf">
+        <div class="deco"><span class="rect"></span><span class="c1"></span><span class="c2"></span><span class="strip"></span></div>
+        <img class="screen" src="case-studies/hero-crops/jamf-screen.png" alt="Executive Threat Protect" />
+      </div>
+      <div class="meta"><span class="num">04 · Security</span><span class="role">Product design</span></div>
+      <h3 class="title">Executive Threat Protect — SOC</h3>
+      <p class="desc">Mobile threat analysis for executive travel. Devices, events, post-travel inspection at a glance.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage dark bg-pepper">
+        <div class="deco"><span class="c1"></span><span class="c2"></span><span class="strip"></span><span class="dot"></span></div>
+        <img class="screen" src="case-studies/hero-crops/pepper-screen.png" alt="Pepper Money mortgage calculator" />
+      </div>
+      <div class="meta"><span class="num">05 · Mortgages</span><span class="role">Product design</span></div>
+      <h3 class="title">Pepper Money — Residential calculator</h3>
+      <p class="desc">Broker-facing calculator. Pre-qualify, income, commitments, expenditure, final result.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage bg-am">
+        <div class="deco"><span class="c1"></span><span class="c2"></span><span class="ring"></span><span class="strip"></span></div>
+        <img class="screen" src="case-studies/hero-crops/am-screen.png" alt="Admiral Money conversational quote" />
+      </div>
+      <div class="meta"><span class="num">06 · Lending</span><span class="role">Product design</span></div>
+      <h3 class="title">Admiral Money — Borrowing, in conversation</h3>
+      <p class="desc">No forms, no jargon. A conversational quote demo for car finance and personal loans.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage dark bg-mfs">
+        <div class="deco"><span class="rect"></span><span class="strip1"></span><span class="strip2"></span><span class="c1"></span><span class="dot"></span></div>
+        <img class="screen" src="case-studies/hero-crops/mfs-screen.png" alt="MFS BTL calculator" />
+      </div>
+      <div class="meta"><span class="num">07 · Specialist finance</span><span class="role">Product design</span></div>
+      <h3 class="title">MFS — Residential BTL calculator</h3>
+      <p class="desc">Specialist BTL pricing tool with live criteria, ICR thresholds, and fee-range comparison.</p>
+    </article>
+
+    <article class="card">
+      <div class="stage dark bg-aqa">
+        <div class="deco"><span class="c1"></span><span class="c2"></span><span class="strip"></span><span class="dot"></span></div>
+        <img class="screen" src="case-studies/hero-crops/aqa-screen.png" alt="AQA Centre Services" />
+      </div>
+      <div class="meta"><span class="num">08 · Education</span><span class="role">Product design</span></div>
+      <h3 class="title">AQA — Centre Services</h3>
+      <p class="desc">Exam-centre portal for UK schools. Results, resources, and post-results services in one home.</p>
+    </article>
+
+  </div>
+
+  <p class="note">Source mockups cropped programmatically — chassis removed, screen content on Bauhaus-style compositions tuned per brand.</p>
+</main>
+
+</body>
+</html>

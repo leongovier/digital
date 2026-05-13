@@ -1,0 +1,70 @@
+---
+export interface Props {
+  variant?: 'laptop' | 'mobile' | 'grid' | 'type';
+}
+
+const { variant: rawVariant } = Astro.props;
+const allowed = ['laptop', 'mobile', 'grid', 'type'] as const;
+const variant: (typeof allowed)[number] = (allowed as readonly string[]).includes(rawVariant ?? '')
+  ? (rawVariant as (typeof allowed)[number])
+  : 'laptop';
+---
+
+{
+  variant === 'laptop' && (
+    <div class="case-art art-laptop">
+      <div class="device">
+        <div class="screen">
+          <div class="row s" />
+          <div class="row accent" />
+          <div class="row l" />
+          <div class="row m" />
+          <div class="grid-rows">
+            <div class="tile" />
+            <div class="tile hl" />
+            <div class="tile" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  variant === 'mobile' && (
+    <div class="case-art art-mobile">
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="pill a" />
+          <div class="pill b" />
+          <div class="pill c" />
+          <div class="card-stack">
+            <div class="card" />
+            <div class="card dark" />
+            <div class="card" />
+            <div class="card" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+{
+  variant === 'grid' && (
+    <div class="case-art art-grid">
+      <div /><div class="x" /><div /><div /><div class="y" /><div />
+      <div /><div /><div class="y" /><div /><div /><div class="x" />
+      <div class="x" /><div /><div /><div /><div /><div />
+      <div /><div /><div /><div class="y" /><div /><div />
+    </div>
+  )
+}
+
+{
+  variant === 'type' && (
+    <div class="case-art art-type">
+      <span>Type as <em>interface</em>.</span>
+    </div>
+  )
+}

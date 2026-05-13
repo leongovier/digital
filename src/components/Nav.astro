@@ -1,0 +1,49 @@
+---
+export interface Props {
+  variant?: 'home' | 'detail';
+}
+
+const { variant = 'home' } = Astro.props;
+
+const links = [
+  { href: variant === 'home' ? '#home' : '/', label: 'Home' },
+  { href: variant === 'home' ? '#work' : '/#work', label: 'Case studies' },
+  { href: variant === 'home' ? '#process' : '/#process', label: 'Process' },
+  { href: variant === 'home' ? '#feedback' : '/#feedback', label: 'Feedback' },
+  { href: variant === 'home' ? '#gallery' : '/#gallery', label: 'Gallery' },
+  { href: variant === 'home' ? '#contact' : '/#contact', label: 'Contact' },
+];
+
+const homeHref = variant === 'home' ? '#' : '/';
+---
+
+<nav class={`top ${variant === 'detail' ? 'detail' : ''}`}>
+  <a href={homeHref} class="logo">
+    Leon Govier
+  </a>
+
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="primaryNav"
+    aria-label="Open menu"
+  >
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <div class="nav-links" id="primaryNav">
+    {
+      links.map((link, i) => (
+        <a
+          href={link.href}
+          class={`nav-link ${variant === 'home' && i === 0 ? 'active' : ''}`}
+        >
+          {link.label}
+        </a>
+      ))
+    }
+  </div>
+</nav>

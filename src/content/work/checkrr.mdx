@@ -1,0 +1,296 @@
+---
+title: "Replacing the 7-day document chase with a 5-minute applicant flow."
+titleAccents:
+  - "7-day document chase"
+  - "5-minute applicant flow"
+lede: "Most income-verification tools are built for underwriters. checkRR is built for the applicant who has to do the boring part — uploading three months of payslips on a Tuesday lunch break — and the broker who has to chase them when they don't."
+role: "Founder · Product & Design"
+year: "2026 · Q1–Q2"
+team: "Solo build → 3 pilot lenders"
+scope: "Marketing · Portal · Admin · API"
+tag: "Specialist lending"
+tags:
+  - "Specialist Lending"
+  - "Income Verification"
+  - "B2B SaaS"
+  - "Multi-Tenant"
+  - "Mobile-First"
+  - "Rules Engine"
+  - "OCR"
+  - "ONS Benchmarks"
+  - "Claude Code"
+  - "Solo Build"
+cardDescription: "checkRR — proof of income & affordability without the back-and-forth"
+cardArt: "laptop"
+eyebrow: "Case study · 2026 · checkRR"
+order: 0
+heroImage: "/case-studies/checkrr/landing-hero.png"
+heroAlt: "checkRR marketing site hero — Proof of income & affordability without the back-and-forth"
+heroBrowserUrl: "checkrr.co.uk"
+heroCaption: "the public face. Everything below is the product the page is selling."
+heroCaptionLabel: "Marketing site"
+nextProject:
+  title: "Cubik AI"
+  slug: "cubik-ai"
+---
+
+import Block from '../../components/Block.astro';
+import InsightGrid from '../../components/InsightGrid.astro';
+import ProcessGrid from '../../components/ProcessGrid.astro';
+import DeviceRow from '../../components/DeviceRow.astro';
+import BrowserShot from '../../components/BrowserShot.astro';
+import BrowserShots2 from '../../components/BrowserShots2.astro';
+import PullQuote from '../../components/PullQuote.astro';
+import Decisions from '../../components/Decisions.astro';
+import OutcomesBlock from '../../components/OutcomesBlock.astro';
+
+<Block label="01 — Problem">
+  <h2>Document chases don't scale.</h2>
+  <p>
+    Talk to any specialist lender or broker about onboarding a self-employed applicant and you'll hear the same thing: <strong>three weeks of email tennis</strong>. The applicant uploads the wrong month, sends a screenshot instead of a PDF, password-protects the file, or just goes quiet.
+  </p>
+  <p>
+    Existing tools — Onfido, Plaid, the big credit bureaus — solve identity and connected-bank flows. None of them handle the <strong>messy middle</strong>: payslips, SA302s, and three months of bank statements that need parsing, deduplicating, and cross-checking against ONS spending benchmarks before an underwriter can sign anything off.
+  </p>
+  <p>
+    I'd watched two lenders try to build this in-house and shelve it. The pattern was always the same — a beautiful underwriter dashboard, no thought put into the customer-facing upload flow, and a 35% completion rate that nobody wanted to talk about.
+  </p>
+</Block>
+
+<Block label="02 — Research">
+  <h2>Six conversations that shaped the product.</h2>
+  <p>
+    Before writing a line of code I sat with two underwriters, a broker, two compliance leads and one applicant who'd just been through a buy-to-let application. The same three frustrations came up again and again.
+  </p>
+  <InsightGrid
+    slot="full"
+    insights={[
+      {
+        num: "Insight 01",
+        title: "Applicants don't fail — instructions do",
+        body: "\"I don't know what 'last 3 months' means — is that the last 3 calendar months or the last 3 pay cycles?\" Every applicant we shadowed asked a variant of this. The form treats it as obvious. It isn't."
+      },
+      {
+        num: "Insight 02",
+        title: "Underwriters re-key everything",
+        body: "Even when a file lands cleanly, an underwriter manually transcribes income figures into the OMS. Hours per case. They don't want a smarter inbox — they want a cleaner row in the system they already use."
+      },
+      {
+        num: "Insight 03",
+        title: "Risk appetite is per-tenant, not universal",
+        body: "One lender's \"borderline\" is another's \"reject\". Any platform that ships hard-coded thresholds is dead on arrival in this market. The rules engine had to be the product."
+      }
+    ]}
+  />
+</Block>
+
+<Block label="03 — Process">
+  <h2>From sketch to pilot in eleven weeks.</h2>
+  <p>
+    I worked back from the moment of friction — the applicant staring at a 4MB PDF on their phone — and forward from the moment of decision — the underwriter glancing at one screen to approve. Everything else had to disappear.
+  </p>
+  <ProcessGrid
+    slot="full"
+    steps={[
+      { num: "01", title: "Map the chase", body: "Six interviews, two ride-alongs. Mapped every email, document and decision point in a current 9-day average case lifecycle." },
+      { num: "02", title: "Find the wedge", body: "\"Send a magic link, get parsed payslips back\" was the smallest thing that could prove the pitch. Everything else was V2." },
+      { num: "03", title: "Sketch on paper", body: "Drew the applicant flow eleven times before writing a component. Mobile-first. Three steps, never four." },
+      { num: "04", title: "Build the brain", body: "OCR + parsing + the affordability score weights. Tuned against 200 real (anonymised) payslip PDFs across 6 employers." },
+      { num: "05", title: "Wrap it in a dashboard", body: "Underwriter view came last on purpose. Built around the three questions a UW actually asks: real? stable? enough?" },
+      { num: "06", title: "Ship to three pilots", body: "One specialist lender, one broker network, one bridging firm. Each got a tenant; each got the rules engine to tune." }
+    ]}
+  />
+</Block>
+
+<Block label="04 — Applicant flow">
+  <h2>If they don't finish, nothing else matters.</h2>
+  <p>
+    Most of the design effort went into the surface only the applicant ever sees. White-labelled to each lender's brand, mobile-first, and built so an applicant can resume from any device without losing progress.
+  </p>
+  <p>
+    The companion app uses SMS magic-link entry — no app to install, no account to create. The system coaches users through blurry photos, password-protected uploads and wrong-month files <em>before</em> they're submitted, so an underwriter never has to bounce a case for a fixable mistake.
+  </p>
+  <DeviceRow
+    slot="full"
+    heading="Three steps. Five minutes. No back-and-forth."
+    body="The applicant gets an SMS, taps a link, verifies with a one-time code, and uploads payslips. The system reads them in 5–10 seconds, shows what it found, and asks for bank statements next."
+    bullets={[
+      "SMS magic-link entry — no app to install, no account to create",
+      "Coaching for blurry, password-protected and wrong-month uploads",
+      "Real-time review summary before submit — no guessing what's been sent",
+      "Works in any modern browser — desktop, iOS, Android"
+    ]}
+    imageSrc="/case-studies/checkrr/landing-mobile.png"
+    imageAlt="Marketing site rendered on mobile — applicant-facing companion app"
+  />
+  <BrowserShot
+    slot="full"
+    src="/case-studies/checkrr/landing-steps.png"
+    alt="How it works — three steps from application to verified case"
+    url="checkrr.co.uk"
+    urlAccent="/how-it-works"
+    captionLabel="How it works"
+    caption="the same three-step model, told three different ways — applicant, broker, underwriter. One mental model across the whole product."
+  />
+</Block>
+
+<Block label="05 — Underwriter dashboard">
+  <h2>A single screen for the three real questions.</h2>
+  <p>
+    Underwriters don't want a spreadsheet — they want a verdict. The case page collapses everything into the three checks an experienced UW actually runs: <strong>is the income real, is it stable, and is there enough room for the loan</strong>.
+  </p>
+  <p>
+    Every figure is linked back to the document it came from. Every flag has a one-click expand to the underlying parse. Compliance loved it; underwriters stopped re-keying figures into Finova within a fortnight.
+  </p>
+  <BrowserShot
+    slot="full"
+    src="/case-studies/checkrr/dashboard.png"
+    alt="Underwriter dashboard — case summary, pass rates, queue"
+    url="app.checkrr.co.uk"
+    urlAccent="/dashboard"
+    captionLabel="Dashboard"
+    caption="queue health at a glance. Cases-to-review, ready-to-decide, needs-review, completed-this-week — the four states an underwriter triages between every morning."
+  />
+  <BrowserShot
+    slot="full"
+    src="/case-studies/checkrr/affordibilty.png"
+    alt="Case detail page — verification summary, affordability, loan details"
+    url="app.checkrr.co.uk"
+    urlAccent="/cases/CASE-2026-00005"
+    captionLabel="Case detail"
+    caption="two checks (income, affordability), one verdict. The verification strip at the top mirrors exactly how an experienced UW reads a file — no chrome, no decoration."
+  />
+  <PullQuote slot="full" cite="Head of Underwriting, pilot lender">
+    "We stopped re-keying income figures into Finova within a fortnight. The team's still surprised by how much of the shift was just being given the same answer in the same place every time."
+  </PullQuote>
+</Block>
+
+<Block label="06 — Case intake">
+  <h2>One form. Two paths. Live summary.</h2>
+  <p>
+    The biggest UX decision in the broker-facing form was branching <em>inside</em> the form rather than gating it. Employed and self-employed applicants need different documents — but you don't know which path applies until you've started typing names.
+  </p>
+  <p>
+    The right column is the receipt — every choice updates a live summary so the broker sees exactly what the applicant will be asked for, before sending the link.
+  </p>
+  <BrowserShots2
+    slot="full"
+    shots={[
+      {
+        src: "/case-studies/checkrr/new-paye.png",
+        alt: "New case — employed applicant flow",
+        url: "/cases/new · employed",
+        captionLabel: "Employed path",
+        caption: "6-month verification period default, payslips only, summary auto-counts to 12 expected documents."
+      },
+      {
+        src: "/case-studies/checkrr/new-self-employed.png",
+        alt: "New case — self-employed applicant flow",
+        url: "/cases/new · self-employed",
+        captionLabel: "Self-employed path",
+        caption: "same form, switches to tax-year selector and SA302 upload. Customer-journey panel updates in lockstep."
+      }
+    ]}
+  />
+</Block>
+
+<Block label="07 — Admin & rules engine">
+  <h2>The rules engine is the product.</h2>
+  <p>
+    Every lender wants a different DTI threshold, a different score weighting, a different risk appetite for bridging vs secured. If the platform shipped opinionated defaults, it'd be ripped out in 90 days.
+  </p>
+  <p>
+    Instead I built a configurable rules engine — read-only ONS benchmarks for the parts that should be uniform, editable thresholds for the parts that shouldn't, and visual feedback for every change so a compliance lead can see exactly what their tweak does to a notional case.
+  </p>
+  <BrowserShot
+    slot="full"
+    src="/case-studies/checkrr/dti-screen.png"
+    alt="Lending criteria — DTI threshold sliders, loan type weighting"
+    url="/admin/lending-criteria"
+    captionLabel="Lending criteria"
+    caption="pass/borderline/fail bands per loan type, with a delta against the secured baseline so risk teams can compare like-for-like."
+  />
+  <BrowserShots2
+    slot="full"
+    shots={[
+      {
+        src: "/case-studies/checkrr/ons.png",
+        alt: "System settings — ONS spending benchmarks",
+        url: "/admin/system-settings",
+        captionLabel: "ONS benchmarks",
+        caption: "read-only by design. Compliance leads can see what we measure against without accidentally moving the floor."
+      },
+      {
+        src: "/case-studies/checkrr/feature-flags.png",
+        alt: "Feature flags — enable/disable platform capabilities per tenant",
+        url: "/admin/feature-flags",
+        captionLabel: "Feature flags",
+        caption: "per-tenant kill switches. ID&V via Onfido, joint applications, SA302 upload — toggled, not coded."
+      }
+    ]}
+  />
+</Block>
+
+<Block label="08 — Integration & white-label">
+  <h2>A sidecar, not a replacement.</h2>
+  <p>
+    Lenders don't want another system to learn — they want their existing origination platform, CRM and AI tools to feel smarter. checkRR connects to any API mature platform out of the box, and applies a tenant's brand colours from a single logo upload.
+  </p>
+  <BrowserShot
+    slot="full"
+    src="/case-studies/checkrr/integrations.png"
+    alt="Integrations — Claude connected, Salesforce / Finova / OMS available"
+    url="app.checkrr.co.uk"
+    urlAccent="/settings/integrations"
+    captionLabel="Integrations"
+    caption="the four integrations a lender actually asks for. Claude wired in for case triage and underwriter notes; the rest one click away. Status pill, configure, docs — same row, same rhythm."
+  />
+  <BrowserShot
+    slot="full"
+    src="/case-studies/checkrr/white-lable.png"
+    alt="Branding settings — upload a logo and extract a 3-colour palette"
+    url="app.checkrr.co.uk"
+    urlAccent="/settings/branding"
+    captionLabel="White-label in 30 seconds"
+    caption="upload a logo, extract Vibrant / Dark Muted / Light Vibrant via colorthief, apply, done. Lenders see their own brand on the applicant flow within a minute of signing up."
+  />
+</Block>
+
+<Block label="09 — Key decisions">
+  <h2>What got cut, and why.</h2>
+  <p>
+    The version of checkRR that shipped looks nothing like the version I pitched. Every decision below was a tradeoff between "fits the demo" and "survives a real pilot".
+  </p>
+  <Decisions
+    slot="full"
+    kept={[
+      { title: "Mobile-first applicant flow", body: "Mortgage applicants finish forms on the train, not at a desk." },
+      { title: "Read-only ONS benchmarks", body: "The thing that makes Enhanced affordability defensible. Don't let tenants edit it." },
+      { title: "Per-tenant rules engine", body: "The reason any of this is sellable. Without it, three lenders is the ceiling." },
+      { title: "One-page case detail", body: "Underwriters scan, they don't drill. Top-of-page = the verdict." }
+    ]}
+    cut={[
+      { title: "Open Banking auto-pull", body: "Faster on paper. Half of self-employed applicants don't connect; you still need the manual flow." },
+      { title: "AI underwriter recommendations", body: "Pilot UWs hated being overruled by a black box. Moved to \"AI summary\" — descriptive, not prescriptive." },
+      { title: "Native iOS app", body: "\"App fatigue\" came up in every applicant interview. Mobile web hits 95% of the same job." },
+      { title: "In-app messaging", body: "Brokers prefer email. We surfaced status changes by email + dashboard — and shipped two months earlier." }
+    ]}
+  />
+</Block>
+
+<Block label="10 — Outcomes">
+  <h2>Three pilots. One sold. The rest are talking.</h2>
+  <p>
+    Eleven weeks from first wireframe to a working pilot at a specialist lender. The first pilot reported case turnaround dropping from 9 days to under 2 within the first month, with the bulk of the saving coming from the moments before an underwriter ever opened a case — applicants completing first time, in mobile, without a follow-up email.
+  </p>
+  <p>
+    The broader pattern, though, was qualitative: underwriters trusted the parsed figures enough to stop re-keying within a fortnight. Compliance signed off on the read-only ONS benchmarks without changes. Two of the three pilot tenants asked for a second cohort before the first had finished.
+  </p>
+  <p>
+    It's still early. The product is launching in Q2 2026, the pilot program is open, and the next thing to design is the broker-facing pipeline view — because the first thing every pilot lender did, after the first week, was ask for one.
+  </p>
+</Block>
+
+<OutcomesBlock>
+  Eleven weeks from first wireframe to working pilot. <strong>Case turnaround dropped from 9 days to under 2</strong> in the first month — almost all of it from applicants completing first time, on mobile, without a follow-up email. Underwriters stopped re-keying figures into Finova within a fortnight. <strong>Two of three pilot tenants asked for a second cohort</strong> before the first had finished.
+</OutcomesBlock>

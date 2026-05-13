@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PF Suggestions — Drive Sweep</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #0f0f10;
+    color: #e8e8ec;
+    line-height: 1.5;
+  }
+  header {
+    padding: 48px 48px 24px;
+    border-bottom: 1px solid #222;
+    background: linear-gradient(180deg, #1a1a1d 0%, #0f0f10 100%);
+  }
+  header h1 { margin: 0 0 8px; font-size: 28px; font-weight: 600; letter-spacing: -0.02em; }
+  header p { margin: 0; color: #8a8a90; max-width: 680px; }
+  header .meta { margin-top: 12px; font-size: 13px; color: #6a6a70; }
+  .controls {
+    display: flex;
+    gap: 12px;
+    padding: 16px 48px;
+    background: #131316;
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    flex-wrap: wrap;
+  }
+  .controls button {
+    background: #1f1f24;
+    color: #e8e8ec;
+    border: 1px solid #2d2d33;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s;
+  }
+  .controls button:hover { background: #2a2a30; border-color: #3a3a42; }
+  .controls button.active { background: #3a6df0; border-color: #3a6df0; color: white; }
+  section { padding: 32px 48px; border-bottom: 1px solid #1a1a1d; }
+  section h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  section .desc { margin: 0 0 20px; color: #8a8a90; font-size: 13px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .card {
+    background: #1a1a1d;
+    border: 1px solid #26262b;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, border-color 0.15s;
+  }
+  .card:hover { transform: translateY(-2px); border-color: #3a6df0; }
+  .card .thumb {
+    aspect-ratio: 4 / 3;
+    background: #0a0a0c repeating-linear-gradient(45deg, #0a0a0c 0, #0a0a0c 10px, #111114 10px, #111114 20px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .card .thumb img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  .card .thumb .placeholder {
+    color: #4a4a4f;
+    font-size: 12px;
+    text-align: center;
+    padding: 16px;
+  }
+  .card .info { padding: 10px 12px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+  .card .info .name {
+    font-size: 13px;
+    font-weight: 500;
+    color: #e8e8ec;
+    word-break: break-word;
+    line-height: 1.3;
+  }
+  .card .info .meta-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #6a6a70; margin-top: 2px; }
+  .card .actions { display: flex; border-top: 1px solid #26262b; }
+  .card .actions a {
+    flex: 1;
+    padding: 8px;
+    text-align: center;
+    color: #9aa8d8;
+    text-decoration: none;
+    font-size: 12px;
+    transition: background 0.15s;
+  }
+  .card .actions a:hover { background: #22222a; color: #c5cdf2; }
+  .card .actions a + a { border-left: 1px solid #26262b; }
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    background: #2a3550;
+    color: #9aa8d8;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge.recent { background: #1f4030; color: #5fd09b; }
+  .badge.svg { background: #4a3520; color: #f0a85f; }
+  .note {
+    background: #1f2030;
+    border-left: 3px solid #3a6df0;
+    padding: 14px 18px;
+    margin: 24px 48px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #c5cdf2;
+  }
+  .note strong { color: #e8e8ec; }
+  .stats { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
+  .stat { font-size: 12px; color: #8a8a90; }
+  .stat strong { color: #e8e8ec; font-size: 16px; display: block; }
+</style>
+</head>
+<body>
+<header>
+  <h1>PF Suggestions — Google Drive sweep</h1>
+  <p>Curated portfolio-worthy candidates from your Drive, grouped by project. Click any thumbnail to open the file in Drive — from there you can download or copy to this folder.</p>
+  <div class="meta">Generated 5 May 2026 · Drive owner: cwshidesign@gmail.com (+ shared)</div>
+  <div class="stats">
+    <div class="stat"><strong>9</strong>Recent logos (2024–26)</div>
+    <div class="stat"><strong>7</strong>Mockup-{n} JPGs</div>
+    <div class="stat"><strong>11</strong>Devices mockups</div>
+    <div class="stat"><strong>8</strong>KT website screens</div>
+    <div class="stat"><strong>9</strong>Portfolio series</div>
+    <div class="stat"><strong>~30</strong>Older client work</div>
+  </div>
+</header>
+
+<div class="note">
+  <strong>How to use this page.</strong> Each card has a Drive thumbnail. Click <em>Open in Drive</em> to view the original at full resolution, then use Drive's download button (⤓) to grab it. Or right-click → "Save image as…" on the thumbnail itself for a quick lower-res grab. Tell me which ones you want pulled to local disk and I can fetch them in batches (text-based assets like SVG copy fine; binary PNG/JPG hits a context-size limit through this tool but you can always download via Drive directly).
+</div>
+
+<div class="controls">
+  <button class="active" onclick="filterAll(event)">All</button>
+  <button onclick="filterSection('recent', event)">Recent (2024+)</button>
+  <button onclick="filterSection('mockups', event)">Mockups</button>
+  <button onclick="filterSection('websites', event)">Website screens</button>
+  <button onclick="filterSection('logos', event)">Logos &amp; SVG</button>
+  <button onclick="filterSection('older', event)">Older client work</button>
+</div>
+
+<section data-cat="recent">
+  <h2>Recent logos &amp; brand work (2024–2026) <span class="badge recent">New</span></h2>
+  <p class="desc">Most recently viewed/modified files in your Drive. Twenty4 appears to be an active brand project (March–April 2026), Smartplan, Ajax Bell, Concept Pro and Gent are 2024–25 logo work.</p>
+  <div class="grid" id="grid-recent"></div>
+</section>
+
+<section data-cat="mockups">
+  <h2>Mockup-{1–7} JPGs (2021)</h2>
+  <p class="desc">Set of seven hi-res JPEG product/device mockups, ~1.5–1.9MB each. Likely a single project shoot — worth picking the strongest 2–3 for portfolio.</p>
+  <div class="grid" id="grid-mockup7"></div>
+</section>
+
+<section data-cat="mockups">
+  <h2>Devices mockup set (2019, ×11)</h2>
+  <p class="desc">Eleven multi-device mockup PNGs (laptop + phone + tablet compositions). Same project shows up in two folders (Oct 2019 originals + a June 2019 set of duplicates).</p>
+  <div class="grid" id="grid-devices"></div>
+</section>
+
+<section data-cat="websites">
+  <h2>KT website screens (2019)</h2>
+  <p class="desc">Eight numbered website screens — looks like a finished site sweep (kt-web-1 through 8). Good single-project case study material.</p>
+  <div class="grid" id="grid-kt"></div>
+</section>
+
+<section data-cat="websites">
+  <h2>Conservatory / Doors / Windows site (2019)</h2>
+  <p class="desc">Three "homepage_master" PNGs for a windows / doors / conservatory site — sequential variants of the same design.</p>
+  <div class="grid" id="grid-conservatory"></div>
+</section>
+
+<section data-cat="mockups">
+  <h2>Standalone device &amp; vehicle mockups (2018)</h2>
+  <p class="desc">iMac, iPhone and van wrap mockups — useful as portfolio-page hero images.</p>
+  <div class="grid" id="grid-standalone"></div>
+</section>
+
+<section data-cat="websites">
+  <h2>Portfolio-{1–9}@2x JPGs (2018)</h2>
+  <p class="desc">A nine-piece numbered portfolio series. Looks like screenshots assembled for an old portfolio site — could be cannibalised for the new one.</p>
+  <div class="grid" id="grid-portfolio"></div>
+</section>
+
+<section data-cat="logos">
+  <h2>Brand SVGs (Twenty4 / Apptronic-era)</h2>
+  <p class="desc">Vector logo files — these are <strong>safe to pull locally</strong> (small text-based files). Several colour/background variants of the same wordmark.</p>
+  <div class="grid" id="grid-svg"></div>
+</section>
+
+<section data-cat="logos">
+  <h2>App-icon assets (xxxhdpi only — 2021)</h2>
+  <p class="desc">Highest-density variants of an Android app icon set. Skipping the 5 lower DPI tiers.</p>
+  <div class="grid" id="grid-appicons"></div>
+</section>
+
+<section data-cat="older">
+  <h2>Older client work (2016–2018)</h2>
+  <p class="desc">Earlier client output — AMCO portfolio, Lewis Motors homepage, ABB web banners, and a numbered "homepage" series. Worth checking which of these you still want to feature.</p>
+  <div class="grid" id="grid-older"></div>
+</section>
+
+<script>
+const D = (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w400`;
+const V = (id) => `https://drive.google.com/file/d/${id}/view`;
+
+const data = {
+  recent: [
+    { id: '1_BdthLsPi-VG7hNHBAGHfZigWM9_-sjW', name: 'Twenty4-Logo-white-1024×223.png', size: '57 KB', date: 'Apr 2026' },
+    { id: '1bqUAy7s0ip1Bk2n9KJ1CrifaqSaG-SZj', name: 'Twenty4 Logo.png', size: '178 KB', date: 'Mar 2026' },
+    { id: '1Vd9YRgKX7iWM-7YJDaXgKiIoUPBgcR0f', name: 'Twenty4Logo.png', size: '17 KB', date: 'Mar 2026' },
+    { id: '1qeDp_7NjdMqKna5TtsrLZ6c9mgrzB74x', name: 'Twent4-.png', size: '113 KB', date: 'Mar 2026' },
+    { id: '1RyOTDhhB4LI5ZDZeG1HwHLy1WtAr4HE0', name: 'Logo.png (Twenty4 dir)', size: '282 KB', date: 'Mar 2026' },
+    { id: '1IHPVdEkz5N6ELN12MsyTs4zm8yIDS7DK', name: 'smartplan.png', size: '513 KB', date: 'Mar 2026' },
+    { id: '1U7fwh6Stlez8jk8fq1Nx5hhIOBb3cB6U', name: 'Ajax Bell logo.png', size: '38 KB', date: 'Mar 2026' },
+    { id: '1NeOyviWwUA2qP0O4SnTvjIiTVhH5hhPO', name: 'concept-pro-logo.png', size: '32 KB', date: 'Mar 2026' },
+    { id: '1uv2D6x552h_NZagcLXa6wlLhfnMD24QY', name: 'Gent logo.jpg', size: '1.7 MB', date: 'Jul 2024' }
+  ],
+  mockup7: [
+    { id: '1UgheDX5rn_AhrWbT_WCl0j08k690hC7M', name: 'mockup-1.jpg', size: '1.47 MB', date: 'Feb 2021' },
+    { id: '1Xz-YYTB0Q8j5E84KgV-2M715kGPkKT-U', name: 'mockup-2.jpg', size: '1.62 MB', date: 'Feb 2021' },
+    { id: '1C6-M1ZpNMGVjjyj3kRVQehRmd0goTTDt', name: 'mockup-3.jpg', size: '1.55 MB', date: 'Feb 2021' },
+    { id: '1WF4uamaZmYB21NYigiH1IgqVEFfE2a6S', name: 'mockup-4.jpg', size: '1.66 MB', date: 'Feb 2021' },
+    { id: '18JyFRWURLUsej-dDPGF6k2cGkdtoQjSV', name: 'mockup-5.jpg', size: '1.88 MB', date: 'Feb 2021' },
+    { id: '1Hf7sZwxpzz1ypFoLXuJ4_3ILJ2UnyeFZ', name: 'mockup-6.jpg', size: '1.63 MB', date: 'Feb 2021' },
+    { id: '1wDkDf8--aYIg3fk9oN-hN5tOAx-BVwPJ', name: 'mockup-7.jpg', size: '1.71 MB', date: 'Feb 2021' }
+  ],
+  devices: [
+    { id: '1ehklP0jJ7k4A-PPjWkL4rIm5oHOAyMml', name: 'devices_mockup_1.png', size: '1.45 MB', date: 'Oct 2019' },
+    { id: '1ZM-ZzcOLm4bluwC7nb8gvVpVoVt4ENTN', name: 'devices_mockup_2.png', size: '800 KB', date: 'Oct 2019' },
+    { id: '1eOzqPh04m3yPT82-x92SLXI9VqPUoRoV', name: 'devices_mockup_3.png', size: '826 KB', date: 'Oct 2019' },
+    { id: '1suecf1F4Wi-WGNqJCa58ITZQtVQIzVDc', name: 'devices_mockup_4.png', size: '1.31 MB', date: 'Oct 2019' },
+    { id: '1NhHtMrDU5VC2K5j7t2HQICWcDe-1iEKM', name: 'devices_mockup_5.png', size: '2.32 MB', date: 'Oct 2019' },
+    { id: '14IVZs2q9bwr8U1zep1nTArKuj9sNm_Rc', name: 'devices_mockup_6.png', size: '1.65 MB', date: 'Oct 2019' },
+    { id: '16uKt0YGicobJHKUBhze8plPR5Y14-TME', name: 'devices_mockup_7.png', size: '1.73 MB', date: 'Oct 2019' },
+    { id: '1uIKvvQg8sndS9-9CeTwbZxbHO7WioFF9', name: 'devices_mockup_8.png', size: '2.24 MB', date: 'Oct 2019' },
+    { id: '1i--LblzVJH7S-GBiN5cmkVfqaZXBwTFb', name: 'devices_mockup_9.png', size: '1.47 MB', date: 'Oct 2019' },
+    { id: '1XmlfjoTeM9Xq62bf4unPAi8xl4lwgeY0', name: 'devices_mockup_10.png', size: '1.59 MB', date: 'Oct 2019' },
+    { id: '1evJWpsKRhyc0ZtzxxJjJIMy2S0FmaKT6', name: 'devices_mockup_11.png', size: '1.65 MB', date: 'Oct 2019' }
+  ],
+  kt: [
+    { id: '1UJm8bzU01qbRb2W5fVYWGgXV_CEJTBuZ', name: 'kt-web-1.png', size: '1.05 MB', date: 'Mar 2019' },
+    { id: '1LQSk9DPZK2tYjzVb_sQxaKdcQSosZZub', name: 'kt-web-2.png', size: '315 KB', date: 'Mar 2019' },
+    { id: '18woJmAZQTnZlJb5IwnLd9YOqYp2tRLUx', name: 'kt-web-3.png', size: '211 KB', date: 'Mar 2019' },
+    { id: '1FrAneg-7WntVclFH4nSemXWgGeNVAsoh', name: 'kt-web-4.png', size: '459 KB', date: 'Mar 2019' },
+    { id: '1mYZDYIRQPiA0w7V_PoRFL_m_Vojx0p6T', name: 'kt-web-5.png', size: '229 KB', date: 'Mar 2019' },
+    { id: '1KV2aRxiVuJPGstiicS5TlYqHudJG5-zr', name: 'kt-web-6.png', size: '363 KB', date: 'Mar 2019' },
+    { id: '1DtP8FbaVMAN7OnhyQTjgPI0-6_sG8YHe', name: 'kt-web-7.png', size: '1.16 MB', date: 'Mar 2019' },
+    { id: '15lP-11Z67sZrK6iDhKCrnKB-_lweR_tM', name: 'kt-web-8.png', size: '1.51 MB', date: 'Mar 2019' }
+  ],
+  conservatory: [
+    { id: '1O44boHu4cmJMdextvn1mtmOMGzKN_4zT', name: 'homepage_master_0000_doors.png', size: '426 KB', date: 'Oct 2019' },
+    { id: '1geIRAup4NJzmljg7AWTyzkwjgqT-etBB', name: 'homepage_master_0001_conservatory.png', size: '472 KB', date: 'Oct 2019' },
+    { id: '1xBaIV-BzmLmE9__oTlvEZ8fOQhPvqqp_', name: 'homepage_master_0002_windows.png', size: '474 KB', date: 'Oct 2019' }
+  ],
+  standalone: [
+    { id: '1La2Fzk7KNNWYFiFV0iqfOXKoEtuf5GvS', name: 'imac-mockup.png', size: '2.27 MB', date: 'Oct 2018' },
+    { id: '18pn8NS4I_4IklzJb89LMSl8M-XiDU4sV', name: 'iphone-mockup.png', size: '799 KB', date: 'Oct 2018' },
+    { id: '1xB-5V0W-fOx3KzbbEfo3keA4phvu3QHy', name: 'device_mock-up.png', size: '739 KB', date: 'Feb 2019' },
+    { id: '1dfagOmI3pQy1ULpwkp4EVQZ6oqOwlFbt', name: 'van-mockup.png', size: '268 KB', date: 'Feb 2018' },
+    { id: '1w6mitE2Rgjxscp0yysj5y2l4OSx2G9LS', name: 'van-mockup-place.jpg', size: '339 KB', date: 'Feb 2018' },
+    { id: '1tZbi3XBSWm-HqdfvfbGuHqZn3_Wg4Zxn', name: 'mock-up_lean.png', size: '7 KB', date: 'Feb 2018' }
+  ],
+  portfolio: [
+    { id: '1E170AM2S4ub0Me_SZ3NdS-dcdC9wqXbS', name: 'portfolio-1@2x.jpg', size: '1.06 MB', date: 'Feb 2018' },
+    { id: '1jXjFP4unIzU7IgcwrdwXDfOhH1RU7PBj', name: 'portfolio-2@2x.jpg', size: '1.34 MB', date: 'Feb 2018' },
+    { id: '1yD0cYBtZWZsHLvKmCG2i0aNn_bhhBeoD', name: 'portfolio-3@2x.jpg', size: '1.05 MB', date: 'Feb 2018' },
+    { id: '1MfE26NHkwbgpyp6kNS5uQV2w1MDV2Eli', name: 'portfolio-4@2x.jpg', size: '1.33 MB', date: 'Feb 2018' },
+    { id: '14S3aoH3uEn5Sks3ikLKKRIlkfDqHYF0Y', name: 'portfolio-5@2x.jpg', size: '1.14 MB', date: 'Feb 2018' },
+    { id: '1tFF3Kg2fmm3i2v7mXwediG4daX8DBmdz', name: 'portfolio-6@2x.jpg', size: '983 KB', date: 'Feb 2018' },
+    { id: '17jEumsSBZQI-M0GZeNd0TFvgPnUb4gbp', name: 'portfolio-7@2x.jpg', size: '1.54 MB', date: 'Feb 2018' },
+    { id: '1bFVyp7WLVJuF8D6PBYNZefzHOtbUUDsH', name: 'portfolio-8@2x.jpg', size: '1.24 MB', date: 'Feb 2018' },
+    { id: '1PfXCalIeMbjve3TvmMwwgmr1cS1rGZyD', name: 'portfolio-9@2x.jpg', size: '1.29 MB', date: 'Feb 2018' }
+  ],
+  svg: [
+    { id: '1qPMNIyvLns3RsF3puNFsP_kTbEZhBsya', name: 'logo-white-bg.svg', size: '7 KB', date: '2021', svg: true },
+    { id: '1i_Oxv1vl9kHdKKxaC-YcJ1zf_WsA6JrR', name: 'logo-dark-bg.svg', size: '7 KB', date: '2021', svg: true },
+    { id: '1o5iDQ16T7QMFPCZDcddJbFZxrhvcfT_T', name: 'logo-dark-bg-ol.svg', size: '7 KB', date: '2021', svg: true },
+    { id: '1ShGooQB5qqnoPxaYYmAfFYX1GHMoRdFs', name: 'web-logo-blue-light-bg.svg', size: '5.6 KB', date: '2021', svg: true },
+    { id: '1GHq4GWwf34V4HE1oF47v7BY-K7RtE1k3', name: 'web-logo-blue-dark-bg.svg', size: '5.6 KB', date: '2021', svg: true },
+    { id: '1DaVIHDAF68PpJzLhbo1cHuFuaj5xdtjQ', name: 'web-logo-pink-light-bg.svg', size: '2.9 KB', date: '2021', svg: true },
+    { id: '1zTVPBPrXsIqieox5q7vAGYO02IM3NG3A', name: 'web-logo-pink-dark-bg.svg', size: '2.9 KB', date: '2021', svg: true },
+    { id: '10LvRHGESQQ7MEtX5Cyy_2GnWW4Hc53Xl', name: 'web-logo.svg (Apptronic)', size: '2.9 KB', date: '2021', svg: true },
+    { id: '1G7XP16NSnKR7mPyVuzYtyq7KvGMtQutP', name: 'web-logo.svg (gradient mark)', size: '2 KB', date: '2018', svg: true, downloaded: true },
+    { id: '1aNcZWKPj09h_PUMeE6hGsR_96R9Hilnn', name: 'Portfolio.svg', size: '62 KB', date: 'Oct 2017', svg: true }
+  ],
+  appicons: [
+    { id: '12sfV-CszUZq4FxuUcqrxS_szycRcftPO', name: 'logo-color (xxxhdpi).png', size: '452 KB', date: '2021' },
+    { id: '1KkYIgH1TecCGEGMppA1XA7us3rTwySKw', name: 'logo-portrait (xxxhdpi).png', size: '587 KB', date: '2021' },
+    { id: '1RIHghlF2d_CaJ3aux5YFCh6XkqrRFF_I', name: 'logo-reverse (xxxhdpi).png', size: '400 KB', date: '2021' },
+    { id: '1jcxf8CMsnyUylGG4NOLhiU2eVJ1VTqOv', name: 'logo-reverse_1 (xxxhdpi).png', size: '467 KB', date: '2021' },
+    { id: '1UPT9wgtNwi7iGVI6HLwmMz81ZDlgXRIg', name: 'logo-pink-pt (xxxhdpi).png', size: '118 KB', date: '2021' },
+    { id: '1nkirkL3hjb7ZXGcwPAzATTYmDHh9nT_V', name: 'logo-pink-ls (xxxhdpi).png', size: '39 KB', date: '2021' },
+    { id: '1z1Wv5ZjEnNjeHuwcNu2JP7U2ECHUXK_-', name: 'logo-blue-ls (xxxhdpi).png', size: '39 KB', date: '2021' },
+    { id: '1dzzMuLavptkXw75lHdO4z6Pa4S_-_H2D', name: 'logo-blue-pt (xxxhdpi).png', size: '100 KB', date: '2021' },
+    { id: '1uPveL3MQ918SeMskovKP8sn96h8f-Vq8', name: 'logo-black-ls (xxxhdpi).png', size: '39 KB', date: '2021' },
+    { id: '1_wBj7tlOmQzZ0rTYnU_gy4PfEkDrn75W', name: 'logo-black-pt (xxxhdpi).png', size: '97 KB', date: '2021' },
+    { id: '1TvCd2DzT4yhPfiDd36QiKDsXfdPw4VPJ', name: 'logo-white-ls (xxxhdpi).png', size: '36 KB', date: '2021' }
+  ],
+  older: [
+    { id: '0B7m0Pbj4Ng5Sa3B4MHlab2JxTjQ', name: 'AMCO-Portfolio.jpg', size: '685 KB', date: 'Jun 2016' },
+    { id: '0B7m0Pbj4Ng5SR1Jhd3NOWndpOW8', name: 'lewis_motor_homepage.jpg', size: '270 KB', date: 'Jun 2016' },
+    { id: '0B7m0Pbj4Ng5SakRseDNlU0hRMDQ', name: 'Abb-web-banner1.jpg', size: '398 KB', date: 'Aug 2016' },
+    { id: '0B7m0Pbj4Ng5STDdVM0laTlpvcU0', name: 'Abb-web-banner2.jpg', size: '436 KB', date: 'Aug 2016' },
+    { id: '0B7m0Pbj4Ng5SelhsN2cwRFlhSjQ', name: 'Abb-web-banner3.jpg', size: '307 KB', date: 'Aug 2016' },
+    { id: '0B7m0Pbj4Ng5STU1GNkYzN0Fvekk', name: 'Abb-web-banner4.jpg', size: '318 KB', date: 'Aug 2016' },
+    { id: '0B7m0Pbj4Ng5SRTZfQ1dBVlE4d1k', name: 'homepage.jpg (large)', size: '1.42 MB', date: 'Aug 2016' },
+    { id: '0B7m0Pbj4Ng5SVXNDaXZLbjhiYlE', name: 'homepage1.jpg', size: '280 KB', date: 'May 2016' },
+    { id: '0B7m0Pbj4Ng5SRGZoTGdDNHlITUU', name: 'homepage2.jpg', size: '257 KB', date: 'May 2016' },
+    { id: '0B7m0Pbj4Ng5SX01pazRjX2VzQkU', name: 'homepage3.jpg', size: '210 KB', date: 'May 2016' },
+    { id: '0B7m0Pbj4Ng5ScUpYUVNhLXcwTjA', name: 'homepage4.jpg', size: '139 KB', date: 'May 2016' },
+    { id: '0B7m0Pbj4Ng5SeGc4ZzBjX2U1QjQ', name: 'homepage5.jpg', size: '236 KB', date: 'May 2016' },
+    { id: '0B7m0Pbj4Ng5SZzc0dkNKODZTSFE', name: 'homepage6.jpg', size: '243 KB', date: 'May 2016' },
+    { id: '0B7m0Pbj4Ng5SbUlnd1VxMzRDSGs', name: 'homepage7.jpg', size: '156 KB', date: 'May 2016' },
+    { id: '0B7m0Pbj4Ng5SalAzb0lQWkh1SVk', name: 'homepageBanner.png', size: '496 KB', date: 'Jul 2016' }
+  ]
+};
+
+function card(item) {
+  const badges = [];
+  if (item.svg) badges.push('<span class="badge svg">SVG</span>');
+  if (item.downloaded) badges.push('<span class="badge recent">Local copy</span>');
+  return `
+    <div class="card">
+      <a href="${V(item.id)}" target="_blank" rel="noopener" class="thumb">
+        <img src="${D(item.id)}" alt="${item.name}" loading="lazy"
+             onerror="this.outerHTML='<div class=&quot;placeholder&quot;>No preview · click <em>Open in Drive</em> below</div>'">
+      </a>
+      <div class="info">
+        <div class="name">${item.name}</div>
+        <div class="meta-row">
+          <span>${item.size} · ${item.date}</span>
+          <span>${badges.join(' ')}</span>
+        </div>
+      </div>
+      <div class="actions">
+        <a href="${V(item.id)}" target="_blank" rel="noopener">Open in Drive</a>
+        <a href="${D(item.id).replace('w400','w1600')}" target="_blank" rel="noopener">Bigger preview</a>
+      </div>
+    </div>`;
+}
+
+Object.entries(data).forEach(([k, items]) => {
+  const grid = document.getElementById('grid-' + k);
+  if (grid) grid.innerHTML = items.map(card).join('');
+});
+
+function filterAll(e) {
+  document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('section').forEach(s => s.style.display = '');
+}
+function filterSection(cat, e) {
+  document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  document.querySelectorAll('section').forEach(s => {
+    s.style.display = s.dataset.cat === cat ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>

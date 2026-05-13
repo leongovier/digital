@@ -1,0 +1,254 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/case-study.css';
+
+export interface ProjectRef {
+  title: string;
+  slug: string;
+}
+
+export interface Props {
+  title: string;
+  titleAccents?: string[];
+  lede: string;
+  role: string;
+  year: string;
+  team: string;
+  scope: string;
+  eyebrow?: string;
+  heroImage?: string;
+  heroAlt?: string;
+  heroBrowserUrl?: string;
+  heroBrowserUrlAccent?: string;
+  heroCaption?: string;
+  heroCaptionLabel?: string;
+  prevProject?: ProjectRef;
+  nextProject?: ProjectRef;
+}
+
+const {
+  title,
+  titleAccents,
+  lede,
+  role,
+  year,
+  team,
+  scope,
+  eyebrow,
+  heroImage,
+  heroAlt,
+  heroBrowserUrl,
+  heroBrowserUrlAccent,
+  heroCaption,
+  heroCaptionLabel,
+  prevProject,
+  nextProject,
+} = Astro.props;
+
+const hasHeroBrowser = Boolean(heroImage && heroBrowserUrl);
+
+const eyebrowText = eyebrow ?? `Case study — ${title}`;
+
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+const highlightTitle = (text: string, accents?: string[]) => {
+  let html = escapeHtml(text);
+  if (accents?.length) {
+    for (const phrase of accents) {
+      html = html.replace(
+        escapeHtml(phrase),
+        `<span class="accent">${escapeHtml(phrase)}</span>`,
+      );
+    }
+  }
+  return html;
+};
+
+const titleHtml = highlightTitle(title, titleAccents);
+---
+
+<BaseLayout title={`${title} — Leon Govier`} description={lede}>
+  <div class="progress" id="progress"></div>
+
+  <Nav variant="detail" />
+
+  <div class="narrow">
+    <a href="/#work" class="back">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        ><path d="M19 12H5M11 18l-6-6 6-6"></path></svg
+      >
+      All work
+    </a>
+  </div>
+
+  <!-- HERO -->
+  <section class="cs-hero">
+    <div class="narrow">
+      <div class="cs-eyebrow">
+        <span class="accent">↗</span>
+        &nbsp;{eyebrowText}
+      </div>
+      <h1 set:html={titleHtml}></h1>
+      <p class="lede">{lede}</p>
+    </div>
+
+    <div class="wrap">
+      <div class="meta">
+        <div>
+          <div class="meta-label">Role</div>
+          <div class="meta-val">{role}</div>
+        </div>
+        <div>
+          <div class="meta-label">Year</div>
+          <div class="meta-val">{year}</div>
+        </div>
+        <div>
+          <div class="meta-label">Team</div>
+          <div class="meta-val">{team}</div>
+        </div>
+        <div>
+          <div class="meta-label">Scope</div>
+          <div class="meta-val">{scope}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      {hasHeroBrowser ? (
+        <div class="hero-browser-shot">
+          <div class="browser">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="browser-url">
+                {heroBrowserUrl}
+                {heroBrowserUrlAccent && <span class="accent">{heroBrowserUrlAccent}</span>}
+              </div>
+            </div>
+            <img src={heroImage} alt={heroAlt ?? `${title} — hero`} loading="eager" />
+          </div>
+          {heroCaption && (
+            <div class="shot-cap">
+              <span class="arrow">→</span>
+              <span>
+                {heroCaptionLabel && <b>{heroCaptionLabel}</b>}
+                {heroCaptionLabel && ' · '}
+                {heroCaption}
+              </span>
+            </div>
+          )}
+        </div>
+      ) : (
+      <div class={`hero-image ${heroImage ? 'has-image' : ''}`}>
+        {
+          heroImage ? (
+            <img src={heroImage} alt={heroAlt ?? `${title} — hero`} loading="eager" />
+          ) : (
+            <div class="device">
+              <div class="screen">
+                <div class="topbar">
+                  <div class="pill accent" />
+                  <div class="pill m" />
+                  <div class="pill s" />
+                  <div style="margin-left: auto" class="pill s" />
+                </div>
+                <div class="filters">
+                  <div class="chip on" />
+                  <div class="chip" />
+                  <div class="chip" />
+                  <div class="chip" />
+                </div>
+                <div class="table">
+                  <div class="tr head">
+                    <div />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                    <div />
+                  </div>
+                  <div class="tr">
+                    <div class="cell dot" />
+                    <div class="cell" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                  </div>
+                  <div class="tr">
+                    <div class="cell dot" style="background: #ddd" />
+                    <div class="cell" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                  </div>
+                  <div class="tr">
+                    <div class="cell dot" />
+                    <div class="cell" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                  </div>
+                  <div class="tr">
+                    <div class="cell dot" style="background: #ddd" />
+                    <div class="cell" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                  </div>
+                  <div class="tr">
+                    <div class="cell dot" />
+                    <div class="cell" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                    <div class="cell short" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        }
+      </div>
+      )}
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <section class="cs-body">
+    <slot />
+  </section>
+
+  <!-- NEXT/PREV -->
+  {
+    (prevProject || nextProject) && (
+      <section class="nav-foot">
+        <div class="wrap">
+          <div class={`nav-foot-row ${!prevProject || !nextProject ? 'single' : ''}`}>
+            {prevProject && (
+              <a href={`/work/${prevProject.slug}`} class="prev">
+                <div class="nf-label">← Previous project</div>
+                <div class="nf-title">{prevProject.title}</div>
+              </a>
+            )}
+            {nextProject && (
+              <a href={`/work/${nextProject.slug}`} class="next">
+                <div class="nf-label">Next project →</div>
+                <div class="nf-title">{nextProject.title}</div>
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Footer />
+
+  <script>
+    import '../scripts/progress.ts';
+  </script>
+</BaseLayout>

@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AdaptiveCRM — Leon Govier</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-2: #F4F4F2;
+    --bg-3: #FAFAF8;
+    --ink: #3A3A3A;
+    --ink-2: #707070;
+    --ink-3: #A0A0A0;
+    --rule: #E6E6E3;
+    --accent: #FF6B1A;
+    --accent-soft: #FF6B1A1A;
+    --max: 1240px;
+    --narrow: 760px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg); color: var(--ink);
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    letter-spacing: -0.01em;
+  }
+  img { display: block; max-width: 100%; height: auto; }
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 48px; }
+  .narrow { max-width: var(--narrow); margin: 0 auto; padding: 0 48px; }
+
+  /* Reading progress */
+  .progress { position: fixed; top: 0; left: 0; height: 2px; width: 0%; background: var(--accent); z-index: 100; transition: width 0.08s linear; }
+
+  /* NAV */
+  nav.top { padding: 32px 48px 24px; display: flex; align-items: center; justify-content: space-between; max-width: var(--max); margin: 0 auto; }
+  .logo { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; color: var(--ink); text-decoration: none; }
+  .logo .slash { color: var(--ink-3); margin: 0 2px; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-link { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--ink-2); text-decoration: none; position: relative; padding: 4px 0; transition: color .2s; }
+  .nav-link::after { content: ''; position: absolute; left: 0; bottom: -2px; width: 100%; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+  .nav-link:hover { color: var(--accent); }
+  .nav-link:hover::after { transform: scaleX(1); }
+
+  .back { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-2); text-decoration: none; margin-top: 56px; transition: color .2s, gap .2s; }
+  .back:hover { color: var(--accent); gap: 12px; }
+
+  /* HERO */
+  section.hero { padding: 32px 0 48px; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 10px; margin-bottom: 28px; }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  h1.display {
+    font-size: clamp(40px, 6vw, 60px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    margin: 0 0 32px;
+    text-wrap: balance;
+  }
+  h1.display .hl { color: var(--accent); }
+  .lede {
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 720px;
+    font-weight: 400;
+    margin: 0 0 56px;
+  }
+
+  /* META STRIP */
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0;
+    margin-bottom: 56px;
+  }
+  .meta > div { padding-right: 24px; border-right: 1px solid var(--rule); }
+  .meta > div:last-child { border-right: none; }
+  .meta-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+  .meta-value { font-size: 16px; color: var(--ink); font-weight: 500; }
+
+  /* HERO SHOT */
+  .hero-shot { margin: 0 0 88px; }
+  .browser {
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.18), 0 4px 12px -4px rgba(0,0,0,0.04);
+  }
+  .browser-bar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    background: #FAFAF8;
+    border-bottom: 1px solid var(--rule);
+  }
+  .browser-bar .dots { display: flex; gap: 6px; }
+  .browser-bar .dot { width: 11px; height: 11px; border-radius: 50%; background: #E0E0DC; }
+  .browser-bar .url {
+    flex: 1; margin-left: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-3);
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 4px 12px;
+    text-align: center;
+  }
+  .browser-bar .url .accent { color: var(--ink-2); }
+  .browser img { width: 100%; display: block; }
+
+  /* SECTION SCAFFOLD */
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h2.display {
+    font-size: clamp(36px, 4.8vw, 56px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 28px;
+    text-wrap: balance;
+  }
+  h2.display .hl { color: var(--accent); }
+  .body {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    max-width: 680px;
+  }
+  .body p { margin: 0 0 22px; }
+  .body p:last-child { margin-bottom: 0; }
+  .body strong { color: var(--ink); font-weight: 500; }
+
+  .block { padding: 96px 0; border-top: 1px solid var(--rule); }
+  .block-tight { padding: 64px 0; border-top: 1px solid var(--rule); }
+
+  /* CARD ROW */
+  .cards-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px; }
+  .card {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 32px 28px;
+    background: var(--bg);
+    transition: border-color .2s, transform .2s;
+  }
+  .card:hover { border-color: var(--ink); }
+  .card .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .card h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
+  }
+  .card p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    margin: 0;
+  }
+
+  /* PROCESS GRID — numbered steps */
+  .process { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 48px; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+  .step { padding: 36px 32px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .step .n {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    color: var(--accent);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .step h3 { font-size: 17px; font-weight: 500; color: var(--ink); margin: 0 0 10px; }
+  .step p { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+
+  /* PULL QUOTE */
+  blockquote.pull {
+    margin: 64px 0;
+    padding: 40px 0 40px 32px;
+    border-left: 2px solid var(--accent);
+    font-size: clamp(22px, 2.3vw, 28px);
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  blockquote.pull cite {
+    display: block;
+    margin-top: 20px;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+    letter-spacing: 0.04em;
+  }
+
+  /* PILLARS — three-up content blocks */
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+  .pillar h3 { font-size: 18px; font-weight: 500; color: var(--ink); margin: 0 0 14px; letter-spacing: -0.01em; }
+  .pillar p { font-size: 15px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+  .pillar .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  /* DECISIONS — what we built / what we cut */
+  .decisions { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
+  .decision-col {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 32px;
+  }
+  .decision-col.kept { background: var(--bg-3); }
+  .decision-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    color: var(--ink-3);
+  }
+  .decision-col.kept h4 .label { color: var(--accent); }
+  .decision-col.cut h4 .label { color: var(--ink-2); }
+  .decision-col ul { list-style: none; padding: 0; margin: 0; }
+  .decision-col li {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .decision-col li:last-child { border-bottom: none; }
+  .decision-col li small {
+    display: block;
+    color: var(--ink-3);
+    font-size: 13px;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  /* OUTCOMES TONE */
+  .outcomes-tone {
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    margin-top: 24px;
+  }
+  .outcomes-tone strong { color: var(--accent); font-weight: 500; }
+
+  /* PREV/NEXT */
+  .nav-foot { border-top: 1px solid var(--rule); padding: 56px 0 24px; }
+  .nav-foot-row { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .nav-foot a {
+    text-decoration: none; color: var(--ink);
+    padding: 20px 0;
+    display: block;
+    transition: color .2s;
+  }
+  .nav-foot a:hover { color: var(--accent); }
+  .nav-foot .label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+  .nav-foot .title { font-size: 22px; font-weight: 400; letter-spacing: -0.015em; }
+  .nav-foot a.next { text-align: right; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--rule);
+    padding: 32px 0 48px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  footer .row { display: flex; justify-content: space-between; align-items: center; }
+  footer .stamp { color: var(--accent); }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (max-width: 1080px) {
+    .cards-3, .process, .pillars { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 720px) {
+    .wrap, .narrow, nav.top { padding-left: 24px; padding-right: 24px; }
+    nav.top { padding-top: 20px; }
+    .nav-links { gap: 20px; }
+    section.hero { padding-top: 16px; }
+    .meta { grid-template-columns: 1fr 1fr; gap: 20px 0; }
+    .meta > div:nth-child(2n) { border-right: none; }
+    .meta > div { padding: 8px 16px 8px 0; border-right: 1px solid var(--rule); }
+    .cards-3, .process, .pillars, .decisions { grid-template-columns: 1fr; }
+    .nav-foot-row { grid-template-columns: 1fr; }
+    .nav-foot a.next { text-align: left; }
+    .browser-bar .url { font-size: 9px; }
+    .block { padding: 64px 0; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="top">
+  <a href="index.html" class="logo">leon-govier<span class="slash">/</span>design</a>
+  <div class="nav-links">
+    <a href="index.html#work" class="nav-link">Work</a>
+    <a href="index.html#process" class="nav-link">Process</a>
+    <a href="index.html#contact" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<div class="narrow">
+  <a href="index.html#work" class="back">← All work</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="narrow">
+    <div class="eyebrow"><span class="dot"></span> Case study · 2026 · AdaptiveCRM</div>
+    <h1 class="display reveal">A CRM that flips the question from <span class="hl">"find cars for customers"</span> to <span class="hl">"who wants this car?"</span></h1>
+    <p class="lede reveal">A full-stack CRM for a UK luxury car dealer, built in under two weeks using Claude and Claude Code as the primary workflow. Lead pipeline, stock inventory, AI-powered customer matching, and a margin-aware financial dashboard — designed, prototyped and shipped end-to-end by one designer.</p>
+
+    <div class="meta reveal">
+      <div>
+        <div class="meta-label">Role</div>
+        <div class="meta-value">Lead PD / Product Owner</div>
+      </div>
+      <div>
+        <div class="meta-label">Year</div>
+        <div class="meta-value">2026 · May</div>
+      </div>
+      <div>
+        <div class="meta-label">Team</div>
+        <div class="meta-value">Solo · Claude · Claude Code</div>
+      </div>
+      <div>
+        <div class="meta-label">Scope</div>
+        <div class="meta-value">Concept → Live</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SHOT -->
+  <div class="wrap">
+    <div class="hero-shot reveal">
+      <div class="browser">
+        <div class="browser-bar">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="url">adaptivecrm.app<span class="accent">/dashboard</span></div>
+        </div>
+        <img src="https://portfolio.leongovier.com/case-studies/avs/hero-avs.webp" alt="AdaptiveCRM — luxury car dealer CRM with AI-powered customer matching" />
+      </div>
+      <div class="shot-cap"><span class="arrow">→</span><span><b>Dashboard</b> · pipeline, stock value, monthly sales and the team activity feed — gated to manager+ for cost prices and margin.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 THE BRIEF -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">01 — The brief</div>
+    <h2 class="display reveal">"Build us a <span class="hl">CRM</span>." That wasn't the real problem.</h2>
+    <div class="body reveal">
+      <p>The brief came in as a standard CRM build — pipeline management, stock tracking, customer records. The kind of thing a developer could scaffold in a day and a designer could polish in a week.</p>
+      <p>But during the first scoping conversation a specific pain point reframed the whole project: <strong>"I find a car on AutoTrader. I think a customer wants it. I retype all the details into a spreadsheet, then I manually search through every customer to see who'd want it. Half the time I forget. Half the time I can't remember who said they wanted a grey SUV six months ago."</strong></p>
+      <p>That's not a CRM problem. That's a reverse-search problem. And no CRM on the market solves it well for small independent dealers. The decision to build the product around that workflow — drop a screenshot, get ranked customers — was made in the first hour of the engagement. Everything else followed from it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 02 THE REFRAME -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">02 — The reframe</div>
+    <h2 class="display reveal">Find a customer for <span class="hl">this car</span>.</h2>
+    <div class="body reveal">
+      <p>Every CRM on the market is built around the conventional direction: "I have a customer — find them a car." The real workflow for an active dealer is the inverse. Dealers browse AutoTrader constantly. They get WhatsApp messages from contacts about available stock. They walk around auction forecourts photographing vehicles. In each case, the question is always <em>"which of my customers would want this?"</em> — not "which car should I show this customer?"</p>
+      <p>Reframing the matching surface around this inversion was the single most important design decision in the product. It turned a secondary feature into the centrepiece, and it shaped the entire information architecture.</p>
+    </div>
+
+    <blockquote class="pull reveal">
+      "This car hits every one of your criteria — make, budget, body type, mileage." A scored breakdown gives the salesperson something to open the call with. That's a better opening than a cold call.
+    </blockquote>
+  </div>
+</div>
+
+<!-- 03 RESEARCH -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">03 — Domain research</div>
+    <h2 class="display reveal">Dealerships don't work like <span class="hl">generic CRMs</span>.</h2>
+    <div class="body reveal">
+      <p>No formal user research phase — no shadowing, no interviews, no usability testing. The brief was build-first, with the bet that a working system in the dealer's hands would surface more actionable feedback than weeks of upfront discovery. Domain understanding came from the scoping conversation and prior industry knowledge. That trade-off is owned.</p>
+      <p>Three insights from the briefing shaped the architecture before the first page was designed.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="cards-3 reveal">
+      <div class="card">
+        <div class="num">Insight 01</div>
+        <h3>The pipeline has eight stages, not four</h3>
+        <p>New → Qualified → Matched → Appointment → Test drive → Negotiation → Deal agreed → Delivered. Generic CRM stages (Prospect / Lead / Opportunity / Closed) don't map to how a car sale progresses. Build a pipeline staff won't recognise and it'll be abandoned within a month.</p>
+      </div>
+      <div class="card">
+        <div class="num">Insight 02</div>
+        <h3>Role hierarchy is a permission model, not a setting</h3>
+        <p>Sales exec sees their own deals, no cost prices. Sales manager sees everything financial. Dealer principal sees margin and stock value. Get the model wrong and you either expose commercial data or block staff from doing their job.</p>
+      </div>
+      <div class="card">
+        <div class="num">Insight 03</div>
+        <h3>Sourcing happens across three channels at once</h3>
+        <p>AutoTrader pages, Facebook listings, WhatsApp forwards, auction forecourts. Any tool that only works with structured input (a URL, a form) fails for most real-world sourcing. The import layer had to handle unstructured text as a first-class input.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 UNIFIED IMPORT -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">04 — Unified import</div>
+    <h2 class="display reveal">One modal. <span class="hl">Three tabs</span>. Same JSON.</h2>
+    <div class="body reveal">
+      <p>The vehicle import tool could have been three features: an AutoTrader URL scraper, an image uploader, and a text field. Building them separately would have meant three UX patterns, three data pipelines, and three places a dealer goes depending on how they found the vehicle.</p>
+      <p>Instead: one modal, three tabs — <strong>URL · screenshot · text/chat</strong>. Claude extracts the same canonical JSON regardless of input. The matching engine and the data preview only had to be designed once. The dealer doesn't think about how they found the car. They just import it.</p>
+      <p>This was a product architecture decision, not a design decision. Every time a feature set started to diverge, the question was: is the underlying data model the same? If yes, one surface is almost always better than three.</p>
+    </div>
+
+    <div class="pillars reveal">
+      <div class="pillar">
+        <div class="label">URL</div>
+        <h3>Paste an AutoTrader link</h3>
+        <p>Page is parsed for make, model, mileage, price, photos. Falls back to the screenshot path if the page is JS-rendered or anti-bot protected.</p>
+      </div>
+      <div class="pillar">
+        <div class="label">Screenshot</div>
+        <h3>Drop a photo</h3>
+        <p>Vision extraction reads the listing or the car itself — number plate, badge, mileage, condition. Claude Haiku 4.5, roughly half a penny per lookup.</p>
+      </div>
+      <div class="pillar">
+        <div class="label">Text · chat</div>
+        <h3>Paste a WhatsApp message</h3>
+        <p>Free-form text from a contact, an auction note, or a forwarded listing. Same canonical JSON out. Same ranked matches.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 BUILD METHODOLOGY -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">05 — Build methodology</div>
+    <h2 class="display reveal">Design as a live widget. <span class="hl">Build as a spec</span>.</h2>
+    <div class="body reveal">
+      <p>Every major page was prototyped as a live widget before a build prompt was written — dashboard, matches page, lead detail, stock wizard, match detail — designed, reviewed and iterated in conversation. Then a structured <code>.md</code> build prompt: what to build, the exact component structure, edge cases, acceptance criteria, effort estimate. Claude Code executed against the spec.</p>
+      <p>The gap between "designed" and "built" was measured in hours, not weeks.</p>
+    </div>
+
+    <div class="wrap">
+      <div class="process reveal">
+        <div class="step">
+          <div class="n">01</div>
+          <h3>Live mockup</h3>
+          <p>Page prototyped as an interactive widget in-conversation. Reviewed and iterated against screenshots of the live build.</p>
+        </div>
+        <div class="step">
+          <div class="n">02</div>
+          <h3>Build prompt</h3>
+          <p>Structured <code>.md</code> spec — what to build, CSS, component structure, edge cases, acceptance criteria, effort estimate.</p>
+        </div>
+        <div class="step">
+          <div class="n">03</div>
+          <h3>Claude Code execution</h3>
+          <p>Spec handed to Claude Code in VS Code. Permission model and design tokens enforced from the first prompt, not retrofitted.</p>
+        </div>
+        <div class="step">
+          <div class="n">04</div>
+          <h3>Screenshot review</h3>
+          <p>Final UI checked against the mockup. Adjustments specified as deltas. Most fixes shipped in a single follow-up build.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 PERMISSIONS -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">06 — Permissions as design</div>
+    <h2 class="display reveal">A <span class="hl">PermissionGate</span> from the first prompt.</h2>
+    <div class="body reveal">
+      <p>The role hierarchy was a first-class design constraint, not a developer afterthought. Cost prices, margin calculators, the financial dashboard, the tags admin — all gated from the first build prompt. Retrofitting permissions is one of the most common sources of bugs and security issues in internal tools. Designing them in prevented an entire class of problems.</p>
+      <p>Sales executives see their pipeline, their leads, their activity. Sales managers see the full team and full financials. Dealer principals see the stock value, the margin, the turnover. Same product, three reads of it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 07 DECISIONS -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">07 — Decisions</div>
+    <h2 class="display reveal">The <span class="hl">deferred list</span> is as important as the shipped list.</h2>
+    <div class="body reveal">
+      <p>A well-maintained "not now" list is product management. A growing "later" pile is technical debt. Every deferred item had a documented rationale and a clear path back into scope.</p>
+    </div>
+
+    <div class="decisions reveal">
+      <div class="decision-col kept">
+        <h4><span class="label">Kept</span> — what made the cut</h4>
+        <ul>
+          <li>Unified import (URL / screenshot / text)
+            <small>One modal, three tabs, same JSON. The product architecture decision that made the whole thing work.</small>
+          </li>
+          <li>Match detail with scored breakdown
+            <small>Make 40, budget 20, body 15, mileage 15, tags 10. Gives the salesperson an opening line for the call.</small>
+          </li>
+          <li>Role-gated financial layer
+            <small>PermissionGate from prompt one. No retrofitting, no leaks.</small>
+          </li>
+          <li>Build prompt methodology
+            <small>Structured .md specs as PRD + architecture + impl guide. The single biggest reason this shipped in two weeks.</small>
+          </li>
+        </ul>
+      </div>
+      <div class="decision-col cut">
+        <h4><span class="label">Cut</span> — what didn't survive contact</h4>
+        <ul>
+          <li>Finance quote tool
+            <small>Out of scope early. The CRM is the wedge; finance gets its own surface later if it's still wanted.</small>
+          </li>
+          <li>AutoTrader URL scraper
+            <small>JS-rendered, anti-bot protected. The screenshot path covers the same job more reliably. Revisit if Partner API lands.</small>
+          </li>
+          <li>Native iOS app
+            <small>PWA covers mobile capture without a second codebase or App Store overhead. Install-to-home-screen is enough.</small>
+          </li>
+          <li>Lead-from-import
+            <small>Requires a customer-picker UX that needed its own design pass. Deferred, not abandoned.</small>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 OUTCOMES -->
+<div class="block">
+  <div class="narrow">
+    <div class="section-num">08 — Outcomes</div>
+    <h2 class="display reveal">A working CRM, in the dealer's hands, in <span class="hl">under two weeks</span>.</h2>
+    <div class="outcomes-tone reveal">
+      <p>A production-deployed full-stack CRM covering lead intake, stock management, customer matching, financial intelligence and social marketing. Live on Vercel. Built in under two weeks by one designer with Claude and Claude Code as the primary workflow.</p>
+      <p>The import workflow collapsed <strong>roughly ten minutes of manual searching down to under three</strong> per discovered vehicle — a 70% time reduction. Estimated five hours a week back to the sales team once embedded. Zero missed matches: the ranked list surfaces customers that manual memory-search would have missed entirely. AI extraction marginal cost: <strong>under half a penny per lookup</strong>.</p>
+      <p>The next surface is the mobile capture PWA — a <code>/capture</code> route for the phone-in-pocket workflow at auctions and forecourts. After that: competitor pricing tracking, match-to-sale analytics, and the AutoTrader Partner API once credentials land.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PREV / NEXT -->
+<div class="wrap">
+  <div class="nav-foot">
+    <div class="nav-foot-row">
+      <a href="project-checkrr.html" class="prev">
+        <div class="label">← Previous</div>
+        <div class="title">checkRR</div>
+      </a>
+      <a href="index.html#work" class="next">
+        <div class="label">All work →</div>
+        <div class="title">Back to portfolio</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="row">
+      <div>© 2026 Leon Govier · Product Designer & Builder</div>
+      <div class="stamp">v.adaptivecrm · 2026.05</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reading progress
+  const progress = document.getElementById('progress');
+  const onScroll = () => {
+    const h = document.documentElement;
+    const ratio = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    progress.style.width = (Math.min(1, Math.max(0, ratio)) * 100) + '%';
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Reveal on scroll
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.06, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight * 0.92) el.classList.add('in');
+    else io.observe(el);
+  });
+</script>
+
+</body>
+</html>
