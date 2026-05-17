@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/lightbox.css';
 
 export interface Props {
   title: string;
@@ -28,7 +29,8 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? 'https://portfolio.leongovier.
     <meta name="author" content="Leon Govier" />
 
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Leon Govier" />
@@ -47,7 +49,7 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? 'https://portfolio.leongovier.
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Quicksand:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
 

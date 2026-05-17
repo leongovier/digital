@@ -1,0 +1,417 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/work-detail.css';
+
+// Hero slider — enumerate /public/case-studies/coincover/slider/ at build time.
+import fs from 'node:fs';
+const sliderDir = './public/case-studies/coincover/slider';
+const sliderImages = fs
+  .readdirSync(sliderDir)
+  .filter((f) => /\.(webp|png|jpe?g)$/i.test(f))
+  .sort()
+  .map((f) => `/case-studies/coincover/slider/${f}`);
+---
+
+<BaseLayout
+  title="Coincover — Case Study"
+  description="A 4-month contract engagement at Coincover — built a tokenised design system from zero across four audience platforms, structured the in-house design team, and left a system the team continued extending after handover."
+>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="wrap">
+    <Nav variant="detail" />
+
+    {/* BODY — 2-col: sticky meta left, image-rich content right */}
+    <div class="tpl-layout">
+      <aside class="tpl-meta">
+        <div class="tpl-meta-titlerow">
+          <h2 class="tpl-meta-title">Coincover</h2>
+          <button class="tpl-meta-link" type="button" data-copy-link aria-label="Copy link to this case study">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 1 0-7.07-7.07l-1 1" />
+              <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 1 0 7.07 7.07l1-1" />
+            </svg>
+            <span class="tpl-meta-link-feedback" aria-hidden="true">Copied</span>
+          </button>
+        </div>
+
+        <dl class="tpl-meta-list">
+          <div class="tpl-meta-row">
+            <dt>Summary</dt>
+            <dd>
+              Coincover is a crypto wallet protection and recovery platform serving customers,
+              integration partners, internal admins, and operations teams. The engagement
+              established a fully tokenised design system from zero, structured a small in-house
+              design team into a sustainable practice, and shipped a unified component library
+              across four distinct audience experiences inside a four-month contract.
+            </dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Timeline</dt>
+            <dd>4-month contract engagement</dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Tools</dt>
+            <dd class="tpl-meta-chips">
+              <span class="tpl-meta-chip">Figma</span>
+              <span class="tpl-meta-chip">React</span>
+              <span class="tpl-meta-chip">Design tokens</span>
+              <span class="tpl-meta-chip">Maze</span>
+              <span class="tpl-meta-chip">WCAG 2.1 AA</span>
+              <span class="tpl-meta-chip">Jira</span>
+            </dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Outcome</dt>
+            <dd class="tpl-meta-clamp">Tokenised design system shipped to production across customer, partner, admin, and operations platforms — adopted, extended, and maintained by the in-house team after handover</dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Key metrics</dt>
+            <dd class="tpl-meta-clamp">Zero-to-tokenised design system in 4 months, 4-audience platform consistency, reduced handover rework, improved sprint velocity, WCAG-aligned component library</dd>
+          </div>
+        </dl>
+
+        <nav class="tpl-pn" aria-label="Project navigation">
+          <a href="/work/astra" class="tpl-pn-link tpl-pn-prev">
+            <svg width="18" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+              <path d="M21 5H1M6 1L1 5l5 4" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <span class="tpl-pn-label">Prev.</span>
+          </a>
+          <a href="#" class="tpl-pn-link tpl-pn-next">
+            <span class="tpl-pn-label">Next</span>
+            <svg width="18" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+              <path d="M1 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          </a>
+        </nav>
+      </aside>
+
+      <div class={`tpl-content ${sliderImages.length === 0 ? 'is-empty-slider' : ''}`}>
+        {sliderImages.length > 0 && (
+          <div class="tpl-slider" data-slider data-autoplay="8000">
+            <div class="tpl-slider-track" data-slider-track>
+              {sliderImages.map((src, i) => (
+                <div class={`tpl-slide ${i === 0 ? 'is-active' : ''}`} data-slide>
+                  <img
+                    src={src}
+                    alt={`Slide ${i + 1}`}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    data-lightbox="checkrr"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {sliderImages.length > 1 && (
+              <>
+                <button class="tpl-slider-btn tpl-slider-prev" type="button" data-slider-prev aria-label="Previous slide">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
+                <button class="tpl-slider-btn tpl-slider-next" type="button" data-slider-next aria-label="Next slide">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
+                </button>
+                <div class="tpl-slider-dots" data-slider-dots>
+                  {sliderImages.map((_, i) => (
+                    <button
+                      type="button"
+                      class={`tpl-slider-dot ${i === 0 ? 'is-active' : ''}`}
+                      data-slide-index={i}
+                      aria-label={`Go to slide ${i + 1}`}
+                    ></button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* DOUBLE DIAMOND — headers are siblings inside .tpl-phases so they
+            can stack-stick at progressive top offsets. */}
+        <div class="tpl-phases">
+        <a class="tpl-phase-head" href="#phase-01" style="--phase-index: 0">
+          <span class="tpl-phase-num">01</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Discover</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-01">
+          <h2 class="tpl-phase-title">A platform serving four audiences with no shared design foundation</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              Coincover had grown across four product surfaces — customer wallet protection, B2B
+              partner platform, admin console, and operations tooling — but had no shared design
+              system underpinning them. Inconsistent components, divergent interaction patterns,
+              no formal accessibility baseline.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/coincover/slider/03.png"
+              alt="Coincover product surface — Discover phase"
+            />
+          </figure>
+          <p>
+            Discovery quickly established that <strong>the absence of a design system wasn't a UI
+            problem — it was a scale problem</strong>. Four different audiences with different
+            mental models and regulatory expectations: customers needed reassurance around
+            protecting irreplaceable assets, partners needed integration confidence, admins and
+            operations teams needed efficient, dense, task-oriented interfaces. Every new feature
+            meant rebuilding components, re-litigating patterns, and absorbing design debt.
+            Engineering rework was high; designer velocity was capped by the absence of shared
+            primitives.
+          </p>
+          <p>
+            A second discovery shaped the engagement scope: the design team itself needed
+            leadership scaffolding before any system could land successfully. Without shared
+            practices, even a perfect system would fragment within months. Team structuring,
+            mentoring on Figma practice, and design-to-development handover workflows became
+            preconditions for the system surviving past contract end.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              A design system in a fast-growing product is only as strong as the team practice
+              that maintains it — the system itself is necessary but never sufficient.
+            </p>
+          </aside>
+        </div>
+
+        <a class="tpl-phase-head" href="#phase-02" style="--phase-index: 1">
+          <span class="tpl-phase-num">02</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Define</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-02">
+          <h2 class="tpl-phase-title">A tokenised foundation engineered for four audiences and one team</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              Define a design system architecture that serves four functionally distinct
+              platforms — customer, partner, admin, ops — from a single tokenised foundation,
+              maintainable by a small in-house team after handover.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/coincover/slider/05.png"
+              alt="Coincover product surface — Define phase"
+            />
+          </figure>
+          <p>
+            The architecture sat on three principles: <strong><code>tokens</code> first,
+            audience-aware components second, governance practices third</strong>. Design tokens
+            for colour, spacing, typography, radius, elevation, and motion were the immutable
+            foundation — the single source of truth that downstream components and
+            audience-specific patterns inherited from. Components flexed across audiences without
+            forking: customer surfaces prioritised reassurance, partner surfaces prioritised data
+            density, admin and operations surfaces prioritised efficiency. One system, four
+            expressions.
+          </p>
+          <p>
+            Figma was the canonical source of truth, paired 1:1 with a custom React component
+            library in production. Storybook was deliberately skipped — adding another tool layer
+            would have slowed adoption rather than supported it. WCAG 2.1 AA was built into the
+            primitives from day one, not retrofitted later — especially critical for customers
+            protecting irreplaceable assets.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              The most maintainable systems are the ones that match the team's capacity to
+              maintain them — adding tooling beyond that capacity creates fragility, not strength.
+            </p>
+          </aside>
+        </div>
+
+        <a class="tpl-phase-head" href="#phase-03" style="--phase-index: 2">
+          <span class="tpl-phase-num">03</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Develop</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-03">
+          <h2 class="tpl-phase-title">Player-coach delivery — shipping the system while structuring the team</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              Ship a fully tokenised design system across four production platforms in four
+              months, while establishing the team practices and handover workflows that let the
+              system survive long-term.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/coincover/slider/08.png"
+              alt="Coincover product surface — Develop phase"
+            />
+          </figure>
+          <p>
+            Development ran in two parallel tracks. The first was <strong>the design system itself
+            — designing, documenting, and shipping tokens, components, and patterns across all
+            four audience surfaces in production</strong>. The second was structural —
+            establishing team practices, mentoring on Figma, and codifying the
+            design-to-development handover workflow that would outlast my contract.
+          </p>
+          <p>
+            As player-coach, I split time between hands-on design and team leadership: building
+            the Figma library, defining component APIs, validating decisions in Maze, and pairing
+            with team designers on real product work. The React component library was co-designed
+            with engineering rather than thrown over a wall — propnames, variants, and composition
+            patterns agreed jointly so implemented components matched the Figma library exactly,
+            with no translation cost. Every component documented its variants, accessibility
+            requirements, intended use, and extension points. The system was designed for a
+            future that didn't include me.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              A four-month contract is enough time to establish a design system foundation — but
+              only if the system is engineered for the team that has to maintain it, not for the
+              contractor that built it.
+            </p>
+          </aside>
+        </div>
+
+        <a class="tpl-phase-head" href="#phase-04" style="--phase-index: 3">
+          <span class="tpl-phase-num">04</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Deliver</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-04">
+          <h2 class="tpl-phase-title">A design system that outlasted the engagement</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              Deliver the production-ready tokenised system across four audience platforms — with
+              team practices and handover workflows in place to let the in-house team continue
+              extending it independently.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/coincover/slider/10.png"
+              alt="Coincover product surface — Deliver phase"
+            />
+          </figure>
+          <p>
+            The engagement delivered a <span class="accent">tokenised design system shipped to
+            production</span> across all four audience surfaces — customer wallet protection,
+            partner platform, admin console, and operations tooling — with WCAG 2.1 AA
+            accessibility built into the primitives from day one. Figma and React libraries were
+            paired sources of truth, aligned 1:1.
+          </p>
+          <p>
+            Measurable impact across four months: <span class="accent">reduced developer handover
+            rework</span>, <span class="accent">improved sprint velocity</span>, and
+            <span class="accent">design consistency across all four audiences</span>. But the
+            strongest outcome wasn't measurable in the first month — it was visible in the months
+            after.
+          </p>
+          <p>
+            <strong>The in-house team continued using and extending the system after the
+            engagement ended</strong>, adding new components and audience-specific patterns against
+            the original foundation. That's the proof a contractor's design system actually
+            worked: it survived the contractor leaving, and the team felt confident enough to
+            build on top of it without external support. The team-practice scaffolding —
+            handover workflows, library governance, review routines — became part of the
+            deliverable, raising the team's design maturity overall.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              The truest measure of a design system isn't what it looks like at handover — it's
+              whether the team still wants to use it six months later.
+            </p>
+          </aside>
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+
+<script>
+  import '../../scripts/lightbox.ts';
+
+  // Copy-link button — copies the current page URL to the clipboard and flashes "Copied".
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        btn.classList.add('is-copied');
+        window.setTimeout(() => btn.classList.remove('is-copied'), 1600);
+      } catch {
+        // Clipboard API unavailable (e.g. insecure context) — silently fail.
+      }
+    });
+  });
+
+  // SLIDER — auto-advance with pause-on-hover + manual prev/next/dots.
+  // Single behaviour module; safe across multiple sliders on a page.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-slider]').forEach((slider) => {
+    const track = slider.querySelector<HTMLElement>('[data-slider-track]');
+    const slides = Array.from(slider.querySelectorAll<HTMLElement>('[data-slide]'));
+    const dots = Array.from(slider.querySelectorAll<HTMLElement>('[data-slide-index]'));
+    const prev = slider.querySelector<HTMLElement>('[data-slider-prev]');
+    const next = slider.querySelector<HTMLElement>('[data-slider-next]');
+    if (!track || slides.length < 2) return;
+
+    const autoplayMs = Number(slider.dataset.autoplay ?? 0);
+    let current = 0;
+    let timer: number | null = null;
+
+    const render = () => {
+      track.style.transform = `translateX(-${current * 100}%)`;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+    };
+
+    const goTo = (i: number) => {
+      current = (i + slides.length) % slides.length;
+      render();
+    };
+
+    const start = () => {
+      if (!autoplayMs || reduceMotion) return;
+      stop();
+      timer = window.setInterval(() => goTo(current + 1), autoplayMs);
+    };
+    const stop = () => {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    prev?.addEventListener('click', () => { goTo(current - 1); start(); });
+    next?.addEventListener('click', () => { goTo(current + 1); start(); });
+    dots.forEach((dot) =>
+      dot.addEventListener('click', () => {
+        const idx = Number(dot.dataset.slideIndex ?? 0);
+        goTo(idx);
+        start();
+      }),
+    );
+
+    slider.addEventListener('mouseenter', stop);
+    slider.addEventListener('mouseleave', start);
+    slider.addEventListener('focusin', stop);
+    slider.addEventListener('focusout', start);
+
+    render();
+    start();
+  });
+</script>

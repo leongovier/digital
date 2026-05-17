@@ -1,0 +1,422 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/work-detail.css';
+
+// Hero slider — enumerate /public/case-studies/astra/slider/ at build time.
+import fs from 'node:fs';
+const sliderDir = './public/case-studies/astra/slider';
+const sliderImages = fs
+  .readdirSync(sliderDir)
+  .filter((f) => /\.(webp|png|jpe?g)$/i.test(f))
+  .sort()
+  .map((f) => `/case-studies/astra/slider/${f}`);
+---
+
+<BaseLayout
+  title="Astra Design System — Case Study"
+  description="A tokenised design system closing the gap between SLDS2-aligned Figma designs and Salesforce implementation — a single source of truth flowing from SLDS2 to Astra DS to Figma to Storybook to VS Code."
+>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="wrap">
+    <Nav variant="detail" />
+
+    {/* BODY — 2-col: sticky meta left, image-rich content right */}
+    <div class="tpl-layout">
+      <aside class="tpl-meta">
+        <div class="tpl-meta-titlerow">
+          <h2 class="tpl-meta-title">Astra Design System</h2>
+          <button class="tpl-meta-link" type="button" data-copy-link aria-label="Copy link to this case study">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+              <path d="M10 13a5 5 0 0 0 7.07 0l3-3a5 5 0 1 0-7.07-7.07l-1 1" />
+              <path d="M14 11a5 5 0 0 0-7.07 0l-3 3a5 5 0 1 0 7.07 7.07l1-1" />
+            </svg>
+            <span class="tpl-meta-link-feedback" aria-hidden="true">Copied</span>
+          </button>
+        </div>
+
+        <dl class="tpl-meta-list">
+          <div class="tpl-meta-row">
+            <dt>Summary</dt>
+            <dd>
+              When Salesforce implementation drifted from SLDS2-aligned Figma designs, it created
+              fragmentation across the digital estate — inconsistent UI, misaligned components,
+              unpredictable spacing, and drift between design and code. Astra Design System closed
+              that gap through tokenization, establishing a single source of truth that flows from
+              SLDS2 → Astra DS → Figma → Storybook → VS Code.
+            </dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Timeline</dt>
+            <dd>Multi-phase design system programme — research-driven foundation, tokenization, Storybook component library, cross-product adoption</dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Tools</dt>
+            <dd class="tpl-meta-chips">
+              <span class="tpl-meta-chip">Figma</span>
+              <span class="tpl-meta-chip">SLDS2</span>
+              <span class="tpl-meta-chip">Design Tokens</span>
+              <span class="tpl-meta-chip">Storybook</span>
+              <span class="tpl-meta-chip">Maze</span>
+              <span class="tpl-meta-chip">VS Code</span>
+              <span class="tpl-meta-chip">Salesforce FSC</span>
+              <span class="tpl-meta-chip">React</span>
+              <span class="tpl-meta-chip">Node.js</span>
+              <span class="tpl-meta-chip">Azure DevOps</span>
+              <span class="tpl-meta-chip">Lucidchart</span>
+            </dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Outcome</dt>
+            <dd class="tpl-meta-clamp">Tokenized design system reducing sprint waste by 15–20%, development cost by 10–15%, with consistent UI across Salesforce and external platforms</dd>
+          </div>
+          <div class="tpl-meta-row">
+            <dt>Key metrics</dt>
+            <dd class="tpl-meta-clamp">15–20% sprint waste reduction, 10–15% development cost reduction, single source of truth from design to code, consistent component behaviour across products</dd>
+          </div>
+        </dl>
+
+        <nav class="tpl-pn" aria-label="Project navigation">
+          <a href="/work/polaris-calculator-suite" class="tpl-pn-link tpl-pn-prev">
+            <svg width="18" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+              <path d="M21 5H1M6 1L1 5l5 4" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+            <span class="tpl-pn-label">Prev.</span>
+          </a>
+          <a href="#" class="tpl-pn-link tpl-pn-next">
+            <span class="tpl-pn-label">Next</span>
+            <svg width="18" height="10" viewBox="0 0 22 10" fill="none" aria-hidden="true">
+              <path d="M1 5h20M16 1l5 4-5 4" stroke="currentColor" stroke-width="1.5" />
+            </svg>
+          </a>
+        </nav>
+      </aside>
+
+      <div class={`tpl-content ${sliderImages.length === 0 ? 'is-empty-slider' : ''}`}>
+        {sliderImages.length > 0 && (
+          <div class="tpl-slider" data-slider data-autoplay="8000">
+            <div class="tpl-slider-track" data-slider-track>
+              {sliderImages.map((src, i) => (
+                <div class={`tpl-slide ${i === 0 ? 'is-active' : ''}`} data-slide>
+                  <img
+                    src={src}
+                    alt={`Slide ${i + 1}`}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                    data-lightbox="checkrr"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {sliderImages.length > 1 && (
+              <>
+                <button class="tpl-slider-btn tpl-slider-prev" type="button" data-slider-prev aria-label="Previous slide">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M15 18l-6-6 6-6" />
+                  </svg>
+                </button>
+                <button class="tpl-slider-btn tpl-slider-next" type="button" data-slider-next aria-label="Next slide">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
+                </button>
+                <div class="tpl-slider-dots" data-slider-dots>
+                  {sliderImages.map((_, i) => (
+                    <button
+                      type="button"
+                      class={`tpl-slider-dot ${i === 0 ? 'is-active' : ''}`}
+                      data-slide-index={i}
+                      aria-label={`Go to slide ${i + 1}`}
+                    ></button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* DOUBLE DIAMOND — headers are siblings inside .tpl-phases so they
+            can stack-stick at progressive top offsets. */}
+        <div class="tpl-phases">
+        <a class="tpl-phase-head" href="#phase-01" style="--phase-index: 0">
+          <span class="tpl-phase-num">01</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Discover</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-01">
+          <h2 class="tpl-phase-title">Closing the gap between Figma and Salesforce</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              When Salesforce implementation fails to match SLDS2-aligned Figma designs, it
+              creates fragmentation — inconsistent UI, misaligned components, unpredictable
+              spacing, and drift between design and code. This affects usability, accessibility,
+              engineering efficiency, development cost, and long-term maintainability.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/astra/slider/03.webp"
+              alt="Astra Design System — Discover phase"
+            />
+          </figure>
+          <p>
+            Discovery revealed that <strong>the real problem wasn't individual UI inconsistencies
+            — it was the absence of a single source of truth</strong> between design and
+            engineering. Designers worked in Figma with SLDS2 tokens. Engineers built in
+            Salesforce using inherited Lightning defaults, Flexipage 2-column constraints, and
+            custom spacing that didn't match the design tokens. The result: typography hierarchies
+            blended with body text, accordion headers behaved like buttons with incorrect spacing,
+            grid systems had unpredictable alignment, and section titles shifted due to inherited
+            padding.
+          </p>
+          <p>
+            A detailed audit catalogued 11 critical gaps: typography hierarchy, accordion headers,
+            grid system, component alignment, section titles, table styling, cards, nested
+            components, accordion content, spacing system, and interactions. Each gap represented
+            technical debt compounding over time, eroding trust in the platform and slowing user
+            workflows.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              Inconsistent implementation erodes trust in the platform, slows user workflows,
+              increases QA failure rates, and expands sprint cycles due to avoidable rework.
+            </p>
+          </aside>
+        </div>
+
+        <a class="tpl-phase-head" href="#phase-02" style="--phase-index: 1">
+          <span class="tpl-phase-num">02</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Define</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-02">
+          <h2 class="tpl-phase-title">Establishing tokenization as the design-to-code bridge</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              Define a scalable architecture where design tokens unify Figma and engineering,
+              ensuring SLDS2 governs structure, behaviour, spacing, accessibility, and semantics
+              — with zero drift between approved design and production code.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/astra/slider/05.webp"
+              alt="Astra Design System — Define phase"
+            />
+          </figure>
+          <p>
+            The definition phase built on a research-driven methodology:
+            <strong>experiments → proof → insights → conclusions</strong>. Experiments (usability
+            tests, user interviews, surveys, A/B tests, field studies) gathered data. Proof
+            captured raw, unbiased observations ("3 out of 5 users struggled to find the filter
+            option"). Insights synthesized understanding ("Users are missing the filter option
+            because it's placed below the fold on smaller screens"). Conclusions drove actionable
+            recommendations ("Relocate the filter button above the product grid on mobile").
+          </p>
+          <p>
+            This structured approach informed the Astra Design System stack: SLDS2 as foundational
+            design language, Astra DS as proprietary layer with branded styles and
+            product-specific rules, Design Tokens as platform-agnostic definitions ensuring
+            design-code alignment, Figma as operational source of truth consuming tokens, Maze for
+            rapid usability validation, Storybook as engineering component laboratory, and VS Code
+            consuming the same token set for predictable UI implementation.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              A design system is only valuable when it aligns operational workflows, engineering
+              delivery, and platform architecture — not just UI components.
+            </p>
+          </aside>
+        </div>
+
+        <a class="tpl-phase-head" href="#phase-03" style="--phase-index: 2">
+          <span class="tpl-phase-num">03</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Develop</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-03">
+          <h2 class="tpl-phase-title">Building the token-driven pipeline from design to production</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              Develop a tokenized design system where SLDS2 flows into Astra DS, tokens are
+              consumed by Figma and Storybook, components are built and validated in isolation,
+              and production code matches approved design exactly — eliminating drift.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/astra/slider/07.webp"
+              alt="Astra Design System — Develop phase"
+            />
+          </figure>
+          <p>
+            Development focused on the end-to-end pipeline:
+            <strong>SLDS2 → Astra DS → tokens → Figma → Storybook → VS Code</strong>. Designers
+            work entirely in Figma, where Astra DS tokens and component definitions are consumed
+            to keep all design artefacts aligned with system-level rules. Maze runs on top of
+            Figma prototypes for fast, link-based usability tests, validating UX decisions early
+            and eliminating subjective feedback loops before development begins.
+          </p>
+          <p>
+            Storybook became the engineering component laboratory, where developers build,
+            document, test, and validate UI components in isolation using Astra DS tokens before
+            entering product code. This creates a single reference point for engineering and QA,
+            ensuring acceptance criteria are grounded in documented, testable components. VS Code
+            consumes the same token set and component definitions, ensuring predictable,
+            consistent UI implementation across all Astra products — what designers prototype in
+            Figma matches what engineers build in Storybook, which matches what ships in
+            production.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              Tokens drive every visual and behavioural decision — designers prototype with the
+              same logic engineers build with, resulting in predictable delivery and reduced
+              rework.
+            </p>
+          </aside>
+        </div>
+
+        <a class="tpl-phase-head" href="#phase-04" style="--phase-index: 3">
+          <span class="tpl-phase-num">04</span>
+          <span class="tpl-phase-rule" aria-hidden="true"></span>
+          <span class="tpl-phase-label">Deliver</span>
+        </a>
+        <div class="tpl-phase-body" id="phase-04">
+          <h2 class="tpl-phase-title">Validating design system impact through reduced waste and cost</h2>
+          <aside class="tpl-callout tpl-callout-problem">
+            <span class="tpl-callout-label">Problem</span>
+            <p>
+              Deploy Astra Design System across products, measure sprint waste reduction and
+              development cost savings, validate design-code alignment, and confirm the tokenized
+              pipeline eliminates drift between Figma and Salesforce.
+            </p>
+          </aside>
+          <figure class="tpl-figure">
+            <img
+              src="/case-studies/astra/slider/09.webp"
+              alt="Astra Design System — Deliver phase"
+            />
+          </figure>
+          <p>
+            Astra successfully established a tokenized design system extending from SLDS2
+            foundations through to production code. By standardising the entire
+            design-to-engineering pipeline across
+            <strong>SLDS2 → Astra DS → tokens → Figma → Storybook → VS Code</strong>, the
+            programme materially reduced waste and rework.
+            <span class="accent">An expected 15–20% reduction in sprint waste</span> tied directly
+            to fewer redesigns, fewer refactors, and cleaner hand-offs.
+            <span class="accent">An expected 10–15% reduction in development cost</span> came from
+            rapid component reuse, Storybook removing implementation inconsistencies, tokens
+            guaranteeing design-code alignment, and QA starting from a stable, documented baseline.
+          </p>
+          <p>
+            The programme fundamentally changed delivery velocity. Product, design, and
+            engineering teams work from the same definitions — eliminating subjective
+            interpretation, design drift, and the cycle of "build → QA finds misalignment →
+            rework." Operational gains extend beyond cost: faster time-to-market, higher quality
+            (consistent component behaviour, accessibility inherited from SLDS2, QA tests aligned
+            to Storybook expectations), and real productivity gains — thousands of hours reclaimed
+            annually across Product, UX, Engineering, and QA.
+          </p>
+          <aside class="tpl-learning">
+            <span class="tpl-learning-label">What I learned</span>
+            <p>
+              The strongest design systems eliminate the gap between what's designed and what's
+              built — tokens ensure designers and engineers work from identical definitions, not
+              interpretations.
+            </p>
+          </aside>
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+
+<script>
+  import '../../scripts/lightbox.ts';
+
+  // Copy-link button — copies the current page URL to the clipboard and flashes "Copied".
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-link]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        btn.classList.add('is-copied');
+        window.setTimeout(() => btn.classList.remove('is-copied'), 1600);
+      } catch {
+        // Clipboard API unavailable (e.g. insecure context) — silently fail.
+      }
+    });
+  });
+
+  // SLIDER — auto-advance with pause-on-hover + manual prev/next/dots.
+  // Single behaviour module; safe across multiple sliders on a page.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-slider]').forEach((slider) => {
+    const track = slider.querySelector<HTMLElement>('[data-slider-track]');
+    const slides = Array.from(slider.querySelectorAll<HTMLElement>('[data-slide]'));
+    const dots = Array.from(slider.querySelectorAll<HTMLElement>('[data-slide-index]'));
+    const prev = slider.querySelector<HTMLElement>('[data-slider-prev]');
+    const next = slider.querySelector<HTMLElement>('[data-slider-next]');
+    if (!track || slides.length < 2) return;
+
+    const autoplayMs = Number(slider.dataset.autoplay ?? 0);
+    let current = 0;
+    let timer: number | null = null;
+
+    const render = () => {
+      track.style.transform = `translateX(-${current * 100}%)`;
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      dots.forEach((d, i) => d.classList.toggle('is-active', i === current));
+    };
+
+    const goTo = (i: number) => {
+      current = (i + slides.length) % slides.length;
+      render();
+    };
+
+    const start = () => {
+      if (!autoplayMs || reduceMotion) return;
+      stop();
+      timer = window.setInterval(() => goTo(current + 1), autoplayMs);
+    };
+    const stop = () => {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    prev?.addEventListener('click', () => { goTo(current - 1); start(); });
+    next?.addEventListener('click', () => { goTo(current + 1); start(); });
+    dots.forEach((dot) =>
+      dot.addEventListener('click', () => {
+        const idx = Number(dot.dataset.slideIndex ?? 0);
+        goTo(idx);
+        start();
+      }),
+    );
+
+    slider.addEventListener('mouseenter', stop);
+    slider.addEventListener('mouseleave', start);
+    slider.addEventListener('focusin', stop);
+    slider.addEventListener('focusout', start);
+
+    render();
+    start();
+  });
+</script>

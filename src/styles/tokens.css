@@ -1,17 +1,66 @@
 :root {
-  /* Surfaces */
+  /* Surfaces — v2 (all-white canvas) */
   --bg: #FFFFFF;
-  --bg-2: #F4F4F2;
-  --rule: #E6E6E3;
+  --bg-2: #f6f6f6;
+  --rule: rgba(14, 18, 25, 0.09);
 
-  /* Type */
-  --ink: #3A3A3A;
-  --ink-2: #707070;
-  --ink-3: #A0A0A0;
+  /* Type — v2 ink scale */
+  --ink: #1a1d26;
+  --ink-2: #4b525e;
+  --ink-3: #828892;
 
-  /* Accent */
-  --accent: #FF6B1A;
-  --accent-soft: #FF6B1A1A;
+  /* Typography — v2: Quicksand headings, Inter Tight body */
+  --font-heading: 'Quicksand', sans-serif;
+  --font-body: 'Inter Tight', sans-serif;
+
+  /* Text color scale — darkest → lightest.
+     --color-heading and --color-body are aliases kept for the earlier paste. */
+  --text-primary:    #1a1d26;   /* H1/H2, primary content */
+  --text-secondary:  #4b525e;   /* H3–H6, subheadings */
+  --text-tertiary:   #828892;   /* labels, de-emphasized */
+  --text-quaternary: #4b525e;   /* body paragraphs */
+  --text-muted:      #828892;   /* captions, metadata */
+  --text-disabled:   #bcc1c4;   /* disabled state */
+
+  --text-inverse-primary:   rgb(255, 255, 255);
+  --text-inverse-secondary: rgba(255, 255, 255, 0.85);
+  --text-inverse-tertiary:  rgba(255, 255, 255, 0.65);
+
+  /* Brand accent tokens. */
+  --text-accent-teal:       rgb(79, 209, 197);
+  --text-accent-teal-hover: rgb(65, 190, 179);
+  --text-accent:       var(--accent);
+  --text-accent-hover: var(--accent);
+  --text-link:         var(--accent);
+  --text-link-hover:   var(--text-primary);
+
+  --text-success: rgb(34, 197, 94);
+  --text-warning: rgb(251, 146, 60);
+  --text-error:   rgb(239, 68, 68);
+  --text-info:    rgb(59, 130, 246);
+
+  --color-heading: var(--text-primary);
+  --color-body:    var(--text-quaternary);
+
+  --text-xs:   0.75rem;     /* 12px */
+  --text-sm:   0.875rem;    /* 14px */
+  --text-base: 1.0625rem;   /* 17px — paragraph base */
+  --text-lg:   1.25rem;     /* 20px */
+  --text-xl:   1.5rem;      /* 24px */
+  --text-2xl:  2rem;        /* 32px */
+  --text-3xl:  2.5rem;      /* 40px */
+  --text-4xl:  3rem;        /* 48px */
+  --text-5xl:  3.5625rem;   /* 57px — H1 */
+
+  --leading-tight:   1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose:   1.75;
+
+  /* Accent — v2 ember orange */
+  --accent: #f5a623;
+  --accent-soft: #f5a62333;
 
   /* Layout */
   --max: 1240px;

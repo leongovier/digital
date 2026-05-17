@@ -3,11 +3,16 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 import CaseStudy from '../../layouts/CaseStudy.astro';
 
 export async function getStaticPaths() {
+  // Slugs that have their own static page (e.g. src/pages/work/checkrr.astro)
+  // must be excluded here to avoid duplicate-route collisions at build time.
+  const STATIC_SLUGS = new Set(['checkrr', 'cubik-ai', 'coincover', 'cwt']);
   const entries = await getCollection('work');
-  return entries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+  return entries
+    .filter((entry) => !STATIC_SLUGS.has(entry.slug))
+    .map((entry) => ({
+      params: { slug: entry.slug },
+      props: { entry },
+    }));
 }
 
 interface Props {

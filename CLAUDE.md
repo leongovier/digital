@@ -58,14 +58,14 @@ Don't introduce ad-hoc breakpoints. If a section needs different behaviour, add 
 
 ## Typography
 
-- **Inter Tight** (300/400/500/600/700) — body + display. Söhne stand-in.
+- **Quicksand** (300/400/500/600/700) — body + display.
 - **JetBrains Mono** (400/500) — labels, eyebrows, nav, metadata.
 - Body letter-spacing: `-0.01em` global.
 - Display headlines: `-0.025em` to `-0.04em`.
 - `text-wrap: balance` on hero h1 + display h2s.
 - Headlines weight 300–400 (light/regular). Body 400. Mono labels uppercase with 0.08em tracking.
 
-Do not use Inter (use Inter Tight). Do not introduce a third typeface without asking.
+Do not introduce a third typeface without asking.
 
 ## Accent rules
 

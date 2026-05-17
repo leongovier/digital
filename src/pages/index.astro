@@ -1,641 +1,776 @@
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
 import '../styles/home.css';
 
-const work = (await getCollection('work', ({ data }) => !data.draft)).sort(
-  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99),
-);
+/* ---------- Content ---------- */
 
-const escapeHtml = (s: string) =>
-  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-const highlightTitle = (text: string, accents?: string[]) => {
-  let html = escapeHtml(text);
-  if (accents?.length) {
-    for (const phrase of accents) {
-      html = html.replace(
-        escapeHtml(phrase),
-        `<span class="accent">${escapeHtml(phrase)}</span>`,
-      );
-    }
-  }
-  return html;
-};
-
-interface Testimonial {
-  name: string;
-  role: string;
-  quote: string;
+interface CaseStudy {
+  num: string;
+  title: string;
+  tags: string[];
+  body: string;
+  href: string;
+  img: string;
+  alt: string;
+  feature?: boolean;
 }
 
-const testimonials: Testimonial[] = [
+const cases: CaseStudy[] = [
   {
-    name: 'Jack Warner',
-    role: 'Chief Operating Officer, Market Financial Solutions',
-    quote:
-      'Leon has led a wide range of transformation initiatives across systems, process and governance. He combines genuine diligence with strong product judgement and a clear solution-orientated mindset. He is equally comfortable rolling up his sleeves to resolve detail-level issues as he is operating in senior forums, where he communicates with clarity and confidence.',
+    num: '01',
+    title: 'checkRR',
+    tags: ['SAAS', 'WEBSITE', 'PWA', 'BRANDING', 'DESIGN SYSTEM'],
+    body: 'checkRR turns mortgage affordability checks into a guided 5-minute applicant flow. Applicants — PAYE or self-employed — upload three months of payslips and statements themselves, and the product verifies income against ONS benchmarks to return a clear affordability and DTI picture. Brokers get that verified data instantly through a white-label dashboard, instead of chasing paperwork for a week. Shipped end to end: marketing site, installable PWA, brand identity, and the design system underneath.',
+    href: '/work/checkrr',
+    img: '/case-studies/checkrr/home-card.webp',
+    alt: 'checkRR — marketing site and applicant product',
+    feature: true,
   },
   {
-    name: 'Craig Collins',
-    role: 'Chief Commercial Officer, Admiral Money',
-    quote:
-      'Leon is a driving force for change with the ability to translate business requirements into best in class UX. A passion for excellence is abundantly clear which, when aligned to his collaborative approach, outputs always exceed expectations. Leon is comfortable working to tight deadlines within high change environments applying the principles of agile implementation.',
+    num: '02',
+    title: 'Cubik CRM',
+    tags: ['SAAS', 'CRM', 'PIPELINE', 'SPECIALIST LENDING'],
+    body: "The broker workspace for Cubik's specialist-lending suite — the AI quote engine embedded straight into pipeline and lead management, so brokers generate indicative quotes and track cases from enquiry to completion without switching tools. A four-week solo build: designed, prompted and shipped with Claude Design and Claude Code.",
+    href: '/work/cubik-crm',
+    img: '/case-studies/cubik-crm/slider/01.webp',
+    alt: 'Cubik CRM dashboard',
   },
   {
-    name: 'Tom Cooksey',
-    role: 'Fractional CTO, Logic Rooms',
-    quote:
-      "It pains me to say this because I want to keep Leon all to myself, but I cannot recommend him enough. A calm, composed influence within the team, bringing structure to the UX design process, and the end product — what can I say. There's no hipster, trendy stuff here; this is solid, well thought out design where everything serves a purpose.",
+    num: '03',
+    title: 'Cubik AI',
+    tags: ['AI', 'CONVERSATIONAL UX', 'QUOTE ENGINE', 'SPECIALIST LENDING'],
+    body: 'A turn-by-turn chat that builds an indicative commercial quote alongside a structured form. Bridging and Commercial Buy-to-Let, indicative quotes in under 60 seconds, full audit trail. Designed, prompted, prototyped and shipped using Claude Design, Claude chat and Claude Code as the production pipeline.',
+    href: '/work/cubik-ai',
+    img: '/case-studies/cubik-ai/calculator-card.webp',
+    alt: 'Cubik AI conversational quote interface',
   },
   {
-    name: 'Simon Martin',
-    role: 'Chief Commercial Officer, Interbridge Mortgages',
-    quote:
-      'Leon has a passion and dedication for his work which I have seldom seen or experienced in other colleagues. A track record for consistent high quality delivery against demanding timescales and always looking to innovate. A leader and role model for his team in the field of UX, always challenging them to learn new skills. Never afraid to speak his mind and challenge the status quo, but always focused on delivery.',
+    num: '04',
+    title: 'AdaptiveCRM',
+    tags: ['AI', 'CRM', 'REVERSE MATCHING', 'LUXURY AUTOMOTIVE'],
+    body: 'A CRM for a UK luxury-car dealer that inverts the usual workflow. Drop in a screenshot, photo or WhatsApp message of a vehicle and AdaptiveCRM extracts the details and ranks which customers in the database actually want it — in under ten seconds.',
+    href: '/work/adaptive-crm',
+    img: '/case-studies/adaptive-crm/slider/avs-04-matches-list.webp',
+    alt: 'AdaptiveCRM workspace',
   },
   {
-    name: 'Paul Strinati',
-    role: 'Chief Technology Officer, Interbridge Mortgages Ltd',
-    quote:
-      "Leon worked on the design of a web-app which was being rearchitected to run as a Single Page Application. Leon's focus extended well past the pure UI into the user journeys, and overall UX, culminating in a much cleaner, much more user-friendly application. His approach of working directly with the end users (at all levels of the business) to understand their pain points and frustrations allowed us to focus on what was important to them, aiding adoption and resulting in a product that runs on over 90% of devices.",
+    num: '05',
+    title: 'Astra Design System',
+    tags: ['SALESFORCE', 'SLDS2', 'TOKEN-FIRST', 'DESIGN SYSTEM'],
+    body: 'A token-first design system that closed the gap between SLDS2-aligned Figma designs and their Salesforce implementation — ending the drift between what was designed and what shipped. One source of truth flowing SLDS2 → Astra → Figma → Storybook → VS Code.',
+    href: '/work/astra',
+    img: '/case-studies/astra/slider/01.webp',
+    alt: 'Astra Design System — tokens and components',
   },
   {
-    name: 'Paul Howlett',
-    role: 'Product Director, TrakCel',
-    quote:
-      'Leon brought a wide range of UX and UI Design experience to TrakCel and over the term of a short contract was able to quickly engage with the team and went beyond expectations in delivering benefit to the design of the TrakCel product and influence to the future direction of UX, design and development in the organisation. The experience, team-orientation and urgency that Leon brings to his work would be a welcome addition in any product team.',
+    num: '06',
+    title: 'Coincover',
+    tags: ['CRYPTO SECURITY', 'DESIGN SYSTEM', 'TOKEN-FIRST', 'FINTECH'],
+    body: 'A crypto wallet protection and recovery platform serving four audiences at once — customers, partners, admins and operations teams. Built a fully tokenised design system from zero, one component library spanning all four, and shaped the in-house design team into a practice that kept extending it after handover.',
+    href: '/work/coincover',
+    img: '/case-studies/coincover/slider/01.png',
+    alt: 'Coincover wallet recovery flow',
   },
   {
-    name: 'Greg Jarrett',
-    role: 'Head of Design & Super IC',
-    quote:
-      'Leon came into Hills to head up the visual design (UI) team. He performed exceptionally in hiring and managing the team, while delivering the high quality of work the business needed. At the same time he built strong relationships across the business and worked effectively with a wide range of stakeholders and peers. He would be an asset to any digital business.',
+    num: '07',
+    title: 'Polaris',
+    tags: ['MORTGAGE CALCULATORS', 'BRIDGING & BTL', 'SPECIALIST LENDING'],
+    body: 'A standalone mortgage calculator platform built for MFS — production-ready bridging and buy-to-let calculators that run outside Salesforce yet stay embeddable inside it via Visualforce. Built to regain delivery control after a Salesforce-native build stalled.',
+    href: '/work/polaris-calculator-suite',
+    img: '/case-studies/polaris-calculator-suite/slider/01.webp',
+    alt: 'Polaris enterprise pricing board',
   },
   {
-    name: 'Myles Carey',
-    role: 'Senior Product Designer scaling startups and scale-ups to millions in ARR',
-    quote:
-      "Leon provides me with nothing but support and guidance when I need it. He passes down his wealth of User Experience and Design knowledge for which I will be grateful. His management skills are very good and has built a culture where my colleagues and I can thrive. I wouldn't hesitate giving Leon my full recommendation to anyone.",
+    num: '08',
+    title: 'Jamf ETP',
+    tags: ['DESIGN SYSTEM', 'SECURITY CONSOLE', 'ENTERPRISE'],
+    body: "Absorbed a newly acquired mobile threat defence platform into Jamf's design system — a high-stakes security console redesigned, with new patterns contributed back into the broader system.",
+    href: '/work/jamf-etp',
+    img: '/case-studies/jamf-etp/slider/01.webp',
+    alt: 'Jamf ETP security console',
   },
   {
-    name: 'Jonathan Manton',
-    role: 'Head of Proposition Development, Pepper Money UK',
-    quote:
-      "I have worked with Leon directly, he supported me on product launches; he has essentially dressed the shop window for the company. To this end, Leon has been spectacular, I quickly learned to be less prescriptive and let Leon's experience and creative flair provide relevant, current and workable solutions. Leon has always provided forward looking solutions which extend beyond the current project.",
-  },
-  {
-    name: 'Kristina Gennow',
-    role: 'Digital Leadership / Product Management, CWT',
-    quote:
-      'Leon was instrumental to our ability to deliver a high quality product to the market. He first identified gaps in existing UX processes, then provided an end-to-end solution to improve understanding of business requirements and communicating final designs to development teams. His expertise in UI/UX is self-evident, and on top of this he is an excellent collaborator, communicator, organised, and does what he says.',
-  },
-  {
-    name: 'Laura Graham',
-    role: 'Lead UX Designer, CWT',
-    quote:
-      "I had the pleasure of working with Leon at CWT, where he significantly improved our UX-to-development handoff. By implementing a Material UI design system and driving full adoption across design and engineering, he brought consistency, clarity, and scalability to our workflow. This streamlined delivery, reduced rework, and improved collaboration between teams. Leon's ability to align design with real-world implementation had a clear and lasting impact on how we build products.",
-  },
-  {
-    name: 'Emma Galvin',
-    role: 'Design Lead, CoinCover',
-    quote:
-      "Leon is a great addition to any team and I couldn't recommend him enough. During a short-term contract, he successfully designed and delivered a high-quality customer portal that put our customer's needs at the forefront, he also improved our design to developer handoff process. Leon brings with him a wealth of UX and UI experience which he is always happy to share.",
-  },
-  // TODO: replace once Cubik AI founder quote arrives
-  {
-    name: 'Cubik AI',
-    role: 'Founder — quote pending',
-    quote: '[Awaiting Cubik AI founder quote]',
+    num: '09',
+    title: 'CWT',
+    tags: ['DATA VIZ', 'DASHBOARDS', 'DESIGN SYSTEM', 'ENTERPRISE ANALYTICS'],
+    body: "Led UX for CWT's Data & Analytics function — internal dashboards across five data domains, and a tokenised analytics design system built from zero for a team new to data viz.",
+    href: '/work/cwt',
+    img: '/case-studies/cwt/slider/01.webp',
+    alt: 'CWT analytics dashboard',
   },
 ];
+
+const featureCase = cases[0];
+const gridCases = cases.slice(1);
+
+interface Step {
+  num: string;
+  chevron: string;
+  title: string;
+  body: string;
+  pct: string;
+  dash: string;
+}
+
+const steps: Step[] = [
+  {
+    num: '01 / Discover',
+    chevron: '‹',
+    title: 'Understand the problem space',
+    body: "Sit with the team and the users. Map constraints, workflows, the messy reality. This phase doesn't accelerate — understanding the problem space takes the time it takes. AI can summarize transcripts and pull patterns from research notes, but the conversations themselves happen at human speed, where the real signal actually lives.",
+    pct: '20%',
+    dash: '19 100',
+  },
+  {
+    num: '02 / Define',
+    chevron: '›',
+    title: 'Frame the right problem, not symptoms',
+    body: "Synthesise what research actually says, not what everyone assumed it would say. Kill scope that doesn't serve the core job. Sometimes this is a three-week reframe (CheckRR's lending journey, where research surfaced a different core job than the brief assumed). Sometimes the brief is already sharp and Define compresses to a week.",
+    pct: '20%',
+    dash: '19 100',
+  },
+  {
+    num: '03 / Develop',
+    chevron: '‹',
+    title: 'Figma to production, via MCP',
+    body: 'I design in Figma — components, tokens, layouts, flows. Claude reads the Figma file via MCP and generates production-ready React code. No screenshots, no manual handoff, no fidelity loss. The design file becomes the source of truth. Engineers refine working components, not translating mockups. Develop is where AI compounds hardest.',
+    pct: '35%',
+    dash: '34 100',
+  },
+  {
+    num: '04 / Deliver',
+    chevron: '›',
+    title: 'Stay close to launch',
+    body: "Pair with engineers through QA, polish the details that Claude missed, then watch it in the wild. AI doesn't ship products. People do. The handoff still requires judgement calls — what's MVP, what's polish, what breaks if we cut it. The gap between design file and shipped product is smaller, but the last 10% still needs a human.",
+    pct: '25%',
+    dash: '24 100',
+  },
+];
+
+interface ToolCategory {
+  name: string;
+  chips: { label: string; ember?: boolean }[];
+}
+
+const toolCategories: ToolCategory[] = [
+  {
+    name: 'AI & Workflow',
+    chips: [
+      { label: 'Claude', ember: true },
+      { label: 'Claude Code' },
+      { label: 'Claude Design' },
+      { label: 'Claude Co-work' },
+      { label: 'ChatGPT' },
+      { label: 'MCP' },
+      { label: 'VS Code' },
+    ],
+  },
+  {
+    name: 'Design',
+    chips: [
+      { label: 'Figma', ember: true },
+      { label: 'FigJam' },
+      { label: 'Claude Design' },
+      { label: 'Adobe Suite' },
+    ],
+  },
+  {
+    name: 'Build & Code',
+    chips: [
+      { label: 'HTML', ember: true },
+      { label: 'CSS' },
+      { label: 'JavaScript' },
+      { label: 'TypeScript' },
+      { label: 'Tailwind' },
+      { label: 'Astro' },
+      { label: 'WordPress' },
+      { label: 'Vercel' },
+    ],
+  },
+  {
+    name: 'Collaboration',
+    chips: [
+      { label: 'Figma' },
+      { label: 'GitHub' },
+      { label: 'MS Azure' },
+      { label: 'Zeplin' },
+      { label: 'Storybook' },
+      { label: 'Jira' },
+      { label: 'Notion' },
+      { label: 'Slack' },
+    ],
+  },
+  {
+    name: 'Research',
+    chips: [
+      { label: 'Maze' },
+      { label: 'UserTesting' },
+      { label: 'Arcade' },
+      { label: 'LucidChart' },
+    ],
+  },
+  {
+    name: 'Methodologies',
+    chips: [
+      { label: 'Double Diamond', ember: true },
+      { label: 'Agile' },
+      { label: 'SAFe' },
+      { label: 'Lean' },
+    ],
+  },
+];
+
+interface TimelineStop {
+  label: string;
+  range: string;
+  current?: boolean;
+}
+
+const timeline: TimelineStop[] = [
+  { label: 'EKF Diagnostics', range: '2014 — 2016' },
+  { label: 'William Hill', range: '2016 — 2017' },
+  { label: 'TrakCel · Stonestep · Instimatch', range: '2017 — 2018' },
+  { label: 'Pepper Money UK', range: '2018 — 2022' },
+  { label: 'CWT · Jamf · CoinCover', range: '2022 — 2024' },
+  { label: 'Market Financial Solutions', range: '2024 — 2026' },
+  { label: 'Cubik · Adaptive · Linney', range: '2026 — Now', current: true },
+];
+
+interface GalleryItem {
+  label: string;
+  img?: string;
+}
+
+const gallery: GalleryItem[] = [
+  { label: 'Plots — property finder app & branding', img: '/gallery/plots.webp' },
+  { label: 'UXD — app design & branding', img: '/gallery/uxd.webp' },
+  { label: 'Crestr — commercial fractional investment app & branding', img: '/gallery/crestr.png' },
+  { label: 'William Hill — in-app platform', img: '/gallery/william-hill.webp' },
+  { label: 'Apple Watch — companion app for horseracing', img: '/gallery/apple-watch.png' },
+  { label: 'Optimum Credit — savings app', img: '/gallery/oc-savings.png' },
+  { label: 'Vejji — vegetarian food finder app & branding', img: '/gallery/discover.webp' },
+  { label: 'Creadigol — recruitment app & branding', img: '/gallery/creadigol.png' },
+  { label: 'RoyalJet — Qatar Airlines onboarding app design', img: '/gallery/royaljet.png' },
+];
+
+interface Feedback {
+  quote: string;
+  name: string;
+  role: string;
+  company?: string;
+}
+
+const feedback: Feedback[] = [
+  {
+    quote:
+      'Leon has led a wide range of transformation initiatives across systems, process and governance. He combines genuine diligence with strong product judgement and a clear solution-orientated mindset. He is equally comfortable rolling up his sleeves to resolve detail-level issues as he is operating in senior forums, where he communicates with clarity and confidence.',
+    name: 'Jack Warner',
+    role: 'Chief Operating Officer',
+    company: 'Market Financial Solutions',
+  },
+  {
+    quote:
+      'Leon is a driving force for change with the ability to translate business requirements into best in class UX. A passion for excellence is abundantly clear which, when aligned to his collaborative approach, outputs always exceed expectations. Leon is comfortable working to tight deadlines within high change environments applying the principles of agile implementation.',
+    name: 'Craig Collins',
+    role: 'Chief Commercial Officer',
+    company: 'Admiral Money',
+  },
+  {
+    quote:
+      "It pains me to say this because I want to keep Leon all to myself, but I cannot recommend him enough. A calm, composed influence within the team, bringing structure to the UX design process, and the end product — what can I say. There's no hipster, trendy stuff here; this is solid, well thought out design where everything serves a purpose.",
+    name: 'Tom Cooksey',
+    role: 'Fractional CTO',
+    company: 'Logic Rooms',
+  },
+  {
+    quote:
+      'Leon has a passion and dedication for his work which I have seldom seen or experienced in other colleagues. A track record for consistent high quality delivery against demanding timescales and always looking to innovate. A leader and role model for his team in the field of UX, always challenging them to learn new skills. Never afraid to speak his mind and challenge the status quo, but always focused on delivery.',
+    name: 'Simon Martin',
+    role: 'Chief Commercial Officer',
+    company: 'Interbridge Mortgages',
+  },
+  {
+    quote:
+      "Leon worked on the design of a web-app which was being rearchitected to run as a Single Page Application. Leon's focus extended well past the pure UI into the user journeys, and overall UX, culminating in a much cleaner, much more user-friendly application. His approach of working directly with the end users (at all levels of the business) to understand their pain points and frustrations allowed us to focus on what was important to them, aiding adoption and resulting in a product that runs on over 90% of devices.",
+    name: 'Paul Strinati',
+    role: 'Chief Technology Officer',
+    company: 'Interbridge Mortgages Ltd',
+  },
+  {
+    quote:
+      'Leon brought a wide range of UX and UI Design experience to TrakCel and over the term of a short contract was able to quickly engage with the team and went beyond expectations in delivering benefit to the design of the TrakCel product and influence to the future direction of UX, design and development in the organisation. The experience, team-orientation and urgency that Leon brings to his work would be a welcome addition in any product team.',
+    name: 'Paul Howlett',
+    role: 'Product Director',
+    company: 'TrakCel',
+  },
+  {
+    quote:
+      'Leon came into Hills to head up the visual design (UI) team. He performed exceptionally in hiring and managing the team, while delivering the high quality of work the business needed. At the same time he built strong relationships across the business and worked effectively with a wide range of stakeholders and peers. He would be an asset to any digital business.',
+    name: 'Greg Jarrett',
+    role: 'Head of Design & Super IC',
+    company: 'William Hill',
+  },
+  {
+    quote:
+      "Leon provides me with nothing but support and guidance when I need it. He passes down his wealth of User Experience and Design knowledge for which I will be grateful. His management skills are very good and has built a culture where my colleagues and I can thrive. I wouldn't hesitate giving Leon my full recommendation to anyone.",
+    name: 'Myles Carey',
+    role: 'Senior Product Designer',
+  },
+  {
+    quote:
+      "I have worked with Leon directly, he supported me on product launches; he has essentially dressed the shop window for the company. To this end, Leon has been spectacular, I quickly learned to be less prescriptive and let Leon's experience and creative flair provide relevant, current and workable solutions. Leon has always provided forward looking solutions which extend beyond the current project.",
+    name: 'Jonathan Manton',
+    role: 'Head of Proposition Development',
+    company: 'Pepper Money UK',
+  },
+  {
+    quote:
+      'Leon was instrumental to our ability to deliver a high quality product to the market. He first identified gaps in existing UX processes, then provided an end-to-end solution to improve understanding of business requirements and communicating final designs to development teams. His expertise in UI/UX is self-evident, and on top of this he is an excellent collaborator, communicator, organised, and does what he says.',
+    name: 'Kristina Gennow',
+    role: 'Digital Leadership / Product Management',
+    company: 'CWT',
+  },
+  {
+    quote:
+      "I had the pleasure of working with Leon at CWT, where he significantly improved our UX-to-development handoff. By implementing a Material UI design system and driving full adoption across design and engineering, he brought consistency, clarity, and scalability to our workflow. This streamlined delivery, reduced rework, and improved collaboration between teams. Leon's ability to align design with real-world implementation had a clear and lasting impact on how we build products.",
+    name: 'Laura Graham',
+    role: 'Lead UX Designer',
+    company: 'CWT',
+  },
+  {
+    quote:
+      "Leon is a great addition to any team and I couldn't recommend him enough. During a short-term contract, he successfully designed and delivered a high-quality customer portal that put our customer's needs at the forefront, he also improved our design to developer handoff process. Leon brings with him a wealth of UX and UI experience which he is always happy to share.",
+    name: 'Emma Galvin',
+    role: 'Design Lead',
+    company: 'CoinCover',
+  },
+];
+
+const navLinks = [
+  { href: '#top', label: 'Home' },
+  { href: '#case-studies', label: 'Case studies' },
+  { href: '#process', label: 'Process' },
+  { href: '#tools', label: 'Tools' },
+  { href: '#timeline', label: 'Timeline' },
+  { href: '#gallery', label: 'Gallery' },
+  { href: '#feedback', label: 'Feedback' },
+];
+
+const arrowSvg =
+  '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+const title = 'Leon Govier — Product Designer & Builder';
+const description =
+  'Leon Govier — an AI-native Product Designer & Builder shipping digital products at speed. Selected work, process, and tools.';
+const canonical = 'https://portfolio.leongovier.com/';
+const ogImage = 'https://portfolio.leongovier.com/og.png';
 ---
 
-<BaseLayout
-  title="Leon Govier — Product Design & Builder"
-  description="Leon Govier — Product Designer & Builder. Selected work, process, and contact."
->
-  <div class="cursor-glow" id="cursorGlow"></div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Leon Govier" />
 
-  <div class="wrap">
-    <Nav variant="home" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
 
-    <!-- HERO -->
-    <section class="hero" id="home">
-      <h1 class="reveal">
-        An <span class="accent">AI-native</span> designer shipping digital products at
-        <span class="accent">speed</span>.
-      </h1>
-      <p class="lede reveal d1">
-        Currently Product Designer &amp; Builder working with teams that need to move quickly.
-        Design<span class="accent">.</span> Prompt<span class="accent">.</span> Prototype<span class="accent">.</span> Ship<span class="accent">.</span>
-      </p>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Leon Govier" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
 
-      <div class="hero-foot reveal d2">
-        <span class="accent-rule"></span>
-        <div class="socials">
-          <a
-            class="social"
-            href="https://www.linkedin.com/in/leongovier/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"
-              ><path
-                d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.11 1 2.5 1 4.98 2.12 4.98 3.5zM.22 8h4.56v15H.22V8zm7.5 0h4.37v2.05h.06c.61-1.15 2.1-2.36 4.32-2.36 4.62 0 5.47 3.04 5.47 6.99V23h-4.56v-6.86c0-1.64-.03-3.75-2.28-3.75-2.29 0-2.64 1.79-2.64 3.63V23H7.72V8z"
-              ></path></svg
-            >
-          </a>
-          <a class="social" href="#contact" aria-label="Contact">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"
-              ><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg
-            >
-          </a>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <title>{title}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Fixed background shape layer — animates with page scroll -->
+    <div class="shape-layer" aria-hidden="true">
+      <div class="shape hero-bg-shape-1"></div>
+      <div class="shape hero-bg-shape-2"></div>
+      <div class="shape hero-bg-shape-3"></div>
+      <div class="shape hero-bg-shape-4"></div>
+      <div class="shape hero-bg-shape-5"></div>
+      <div class="shape hero-bg-shape-6"></div>
+    </div>
+
+    <!-- ============================== NAV ============================== -->
+    <nav class="nav" aria-label="Primary">
+      <a href="#top" class="brand" aria-label="lpg — Leon Govier">lpg<span class="dot"></span></a>
+      <ul>
+        {
+          navLinks.map((l) => (
+            <li>
+              <a class={l.href === '#top' ? 'link active' : 'link'} href={l.href}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="cta" href="#contact">
+        Contact
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+    </nav>
+
+    <!-- ============================== HERO ============================== -->
+    <section id="top" class="hero">
+      <div class="wrap">
+        <div>
+          <h1>
+            An <span class="accent">AI-native</span> designer shipping<br />
+            digital products at <span class="accent">speed</span>.
+          </h1>
+          <p class="lede" style="margin-top:28px;">
+            Currently Product Designer &amp; Builder working with teams that need
+            to move quickly. Design. Prompt. Prototype. Ship.
+          </p>
+          <div class="meta">
+            <span class="rule"></span>
+            <a class="social" href="https://www.linkedin.com/in/leongovier/" aria-label="LinkedIn" target="_blank" rel="noopener">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.06c.53-1 1.83-2.05 3.77-2.05C21.6 8.65 22 11.05 22 14.1V21h-4v-6.1c0-1.45-.03-3.3-2.02-3.3-2.03 0-2.34 1.58-2.34 3.2V21h-4V9Z"></path></svg>
+            </a>
+            <a class="social" href="mailto:hello@leongovier.com" aria-label="Email">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- WORK -->
-    <section class="work" id="work">
-      <div class="work-head">
-        <div>
-          <div class="eyebrow">Selected Work — 2018 / 26</div>
-          <h2>Things I've shipped</h2>
+    <!-- ============================== CASE STUDIES ============================== -->
+    <section id="case-studies" class="shipped section-pad" style="padding:12px 0 120px;">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow dot">Selected work over the last 5 years</span>
+            <h2>Things I've <span class="accent">shipped</span>.</h2>
+          </div>
+          <div class="tail">
+            Nine projects, one through-line — <b>complex products shipped under
+            real constraints.</b> The variable is scale. Some are AI-native MVPs designed,
+            prompted and built solo in a month — Cubik's lending platform, a
+            reverse-matching CRM for a car dealer. Others are design systems
+            absorbed into enterprise platforms already serving thousands — Jamf,
+            CWT, Coincover. Fintech and specialist lending run through most of it;
+            conversational quote engines, mortgage affordability, pricing
+            calculators. Different domains, same job: make the complex usable.
+          </div>
         </div>
-        <div class="eyebrow">{String(work.length).padStart(2, '0')} projects</div>
-      </div>
 
-      <div class="cs-controls">
-        <div class="cs-tabs" role="tablist" aria-label="Jump to case study">
+        <div class="case-grid">
+          <!-- Feature card -->
+          <article class="case feature">
+            <div class="case-body">
+              <div class="shot">
+                <img src={featureCase.img} alt={featureCase.alt} loading="lazy" />
+              </div>
+              <div class="case-text">
+                <div class="tag-row">
+                  {
+                    featureCase.tags.map((t, i) => (
+                      <Fragment>
+                        {i > 0 && <span class="dot">·</span>}
+                        {t}
+                      </Fragment>
+                    ))
+                  }
+                </div>
+                <h3>{featureCase.title}</h3>
+                <p>{featureCase.body}</p>
+                <a class="view" href={featureCase.href}>
+                  View Case Study
+                  <Fragment set:html={arrowSvg} />
+                </a>
+              </div>
+            </div>
+          </article>
+
           {
-            work.map((entry, i) => {
-              const eb = (entry.data.eyebrow ?? '').split(' — ');
-              const label = eb.length > 1 ? eb.slice(1).join(' — ') : entry.data.title;
-              return (
-                <button
-                  type="button"
-                  class={`cs-tab ${i === 0 ? 'active' : ''}`}
-                  data-tab-index={i}
-                  data-tab-controls="csTrack"
-                  role="tab"
-                  aria-selected={i === 0 ? 'true' : 'false'}
-                >
-                  {label}
-                </button>
-              );
-            })
+            gridCases.map((c) => (
+              <article class="case">
+                <div class="shot">
+                  <img src={c.img} alt={c.alt} loading="lazy" />
+                </div>
+                <div class="tag-row">
+                  {c.tags.map((t, i) => (
+                    <Fragment>
+                      {i > 0 && <span class="dot">·</span>}
+                      {t}
+                    </Fragment>
+                  ))}
+                </div>
+                <h3>{c.title}</h3>
+                <p>{c.body}</p>
+                <a class="view" href={c.href}>
+                  View Case Study
+                  <Fragment set:html={arrowSvg} />
+                </a>
+              </article>
+            ))
           }
         </div>
-        <div class="tests-controls" aria-hidden="false">
-          <button
-            class="slider-btn"
-            type="button"
-            data-dir="prev"
-            aria-label="Previous case study"
-            aria-controls="csTrack"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M19 12H5M11 18l-6-6 6-6"></path></svg
-            >
-          </button>
-          <button
-            class="slider-btn"
-            type="button"
-            data-dir="next"
-            aria-label="Next case study"
-            aria-controls="csTrack"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M5 12h14M13 6l6 6-6 6"></path></svg
-            >
-          </button>
+      </div>
+    </section>
+
+    <!-- ============================== WORKFLOW ============================== -->
+    <section id="process" class="workflow section-pad">
+      <div class="wrap">
+        <span class="eyebrow dot">How I work</span>
+        <h2 style="margin-top:16px;">
+          Two diamonds. <span class="accent">One AI-powered</span> workflow.
+        </h2>
+        <p class="lede">
+          The methodology stays constant — Double Diamond, always. What changes
+          project-to-project is the phase weighting. Domain expertise lets me
+          compress discovery. MCP and Claude Code accelerate build. Senior
+          judgement is knowing where to speed up and where to slow down. I design
+          in Figma, Claude reads it via MCP and generates production code, the
+          fidelity gap collapses.
+          <b>AI as co-pilot, not autopilot — I choose when to use it, and where deterministic logic beats LLM guesswork.</b>
+        </p>
+
+        <div class="steps">
+          {
+            steps.map((s) => (
+              <div class="step">
+                <div class="num">{s.num}</div>
+                <h3>
+                  <span class="accent">{s.chevron}</span>
+                  <span class="step-title">{s.title}</span>
+                </h3>
+                <div class="step-row">
+                  <p>{s.body}</p>
+                  <svg class="gauge" viewBox="0 0 36 36">
+                    <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(14,18,25,0.15)" stroke-width="3" />
+                    <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--ember)" stroke-width="3" stroke-dasharray={s.dash} stroke-linecap="round" transform="rotate(-90 18 18)" />
+                    <text x="18" y="20" text-anchor="middle" font-family="Inter Tight" font-size="6.5" fill="var(--ink)">
+                      {s.pct}
+                    </text>
+                  </svg>
+                </div>
+              </div>
+            ))
+          }
         </div>
       </div>
+    </section>
 
-      <div
-        class="cs-list"
-        id="csTrack"
-        data-slider-track
-        data-auto-slide
-        tabindex="0"
-        role="region"
-        aria-label="Case studies"
-      >
-        {
-          work.map((entry, i) => {
-            const num = String(i + 1).padStart(2, '0');
-            const titleHtml = highlightTitle(entry.data.title, entry.data.titleAccents);
-            const tags = entry.data.tags ?? [];
-            const eyebrowText = entry.data.eyebrow ?? `Case study — ${entry.data.title}`;
-            const ebSplit = eyebrowText.split(' — ');
-            const eyebrowPrefix = ebSplit[0];
-            const eyebrowBrand = ebSplit.length > 1 ? ebSplit.slice(1).join(' — ') : null;
-            const ledeHtml = (() => {
-              const safe = escapeHtml(entry.data.lede);
-              if (!eyebrowBrand) return safe;
-              const safeBrand = escapeHtml(eyebrowBrand);
-              return safe.split(safeBrand).join(`<span class="accent">${safeBrand}</span>`);
-            })();
-            return (
-              <article class="cs-item reveal">
-                <div class="cs-item-col cs-item-col-left">
-                  {entry.data.heroImage && (
-                    <div class="cs-item-frame has-image">
-                      <img
-                        src={entry.data.heroImage}
-                        alt={entry.data.heroAlt ?? `${entry.data.title} — hero`}
-                        loading={i < 2 ? 'eager' : 'lazy'}
-                        data-lightbox="cases"
-                      />
-                    </div>
-                  )}
-                  {tags.length > 0 && (
-                    <div class="cs-item-tags">
-                      {tags.map((t) => (
-                        <span class="cs-item-tag">{t}</span>
-                      ))}
-                    </div>
-                  )}
+    <!-- ============================== TOOLS ============================== -->
+    <section id="tools" class="tools section-pad">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow dot">Tools &amp; Stack</span>
+            <h2>The tools I reach for.</h2>
+          </div>
+          <div class="tail">
+            The stack has shifted hard toward AI. Claude, Claude Code and Claude
+            Design now sit at the centre of how I work — design, prompt, build,
+            test. Figma stays the design surface; MCP bridges it to production
+            code. The rest is what holds up under delivery — TypeScript, Astro,
+            Tailwind, a Double Diamond process. Chosen for speed, quality, and how
+            well they play together.
+          </div>
+        </div>
+
+        <div class="tools-grid">
+          {
+            toolCategories.map((cat) => (
+              <div class="tool-cat">
+                <span class="eyebrow">{cat.name}</span>
+                <div class="chips">
+                  {cat.chips.map((chip) => (
+                    <span class="chip">{chip.label}</span>
+                  ))}
                 </div>
-                <div class="cs-item-col cs-item-col-right">
-                  <div class="cs-item-eyebrow">
-                    <span class="accent">↗</span>
-                    &nbsp;{eyebrowPrefix}
-                    {eyebrowBrand && (
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== TIMELINE ============================== -->
+    <section id="timeline" class="timeline section-pad">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow dot">Career</span>
+            <h2>Years of <span class="accent">shipping</span>, in roughly the right order.</h2>
+          </div>
+          <div class="tail">
+            Twelve years on this timeline, more behind it. The shape repeats —
+            join a business, build the UX function or design system it's missing,
+            raise the bar, move on. In-house leadership at William Hill and Pepper
+            Money. Contract transformations at TrakCel, CWT and Coincover. A
+            platform redesign at Jamf. Lately, AI-native product work at Cubik and
+            beyond. Different industries, same job: make complex platforms work
+            for the people using them.
+          </div>
+        </div>
+
+        <div class="tl-track">
+          <div class="tl-line"></div>
+          <div class="tl-stops">
+            {
+              timeline.map((stop) => (
+                <button
+                  type="button"
+                  class={stop.current ? 'tl-stop active' : 'tl-stop'}
+                  aria-pressed={stop.current ? 'true' : 'false'}
+                >
+                  <span class="node"></span>
+                  <div class="tl-content">
+                    <div class="label">{stop.label}</div>
+                    <div class="range">{stop.range}</div>
+                  </div>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== GALLERY ============================== -->
+    <section id="gallery" class="gallery section-pad">
+      <div class="wrap">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow dot">Selected work</span>
+            <h2>Not everything is a <span class="accent">complex data</span> dashboard.</h2>
+          </div>
+          <div class="tail">
+            Not every project is an enterprise platform. This is the lighter side
+            of the work — consumer apps, mobile products and branding for smaller
+            clients. A property finder, a fractional-investment app, a vegetarian
+            food guide, an Apple Watch companion for horseracing, an airline
+            onboarding flow. Different scale, different briefs — but the same
+            instinct: find the simple shape inside the problem.
+          </div>
+        </div>
+
+        <div class="g-grid">
+          {
+            gallery.map((g) => (
+              <div class="g-card">
+                <div class="shot">
+                  {g.img && <img src={g.img} alt={g.label} loading="lazy" />}
+                </div>
+                <div class="label">
+                  <span class="arrow">↗</span> {g.label}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== FEEDBACK ============================== -->
+    <section id="feedback" class="feedback section-pad">
+      <div class="wrap">
+        <div class="fb-head">
+          <div>
+            <span class="eyebrow dot">Feedback received</span>
+            <p class="section-desc">
+              Twelve recommendations gathered over the years from the people on
+              the other side of the work — chief officers, product directors,
+              design leads and engineers. Different companies, different briefs,
+              but the themes recur: clarity under pressure, design that holds up
+              after launch, and someone equally at home in a stakeholder room or
+              deep in the detail. Their words, not mine.
+            </p>
+          </div>
+          <div class="fb-controls">
+            <button class="fb-btn" data-dir="prev" aria-label="Previous">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"></path></svg>
+            </button>
+            <button class="fb-btn active" data-dir="next" aria-label="Next">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="fb-rail-wrap">
+          <div class="fb-rail" id="fbRail">
+            {
+              feedback.map((f) => (
+                <div class="fb-card">
+                  <div class="quote-mark">"</div>
+                  <p>{f.quote}</p>
+                  <div class="who">
+                    <b>{f.name}</b>
+                    {f.role}
+                    {f.company && (
                       <Fragment>
-                        {' — '}
-                        <span class="accent">{eyebrowBrand}</span>
+                        {' · '}
+                        <a href="#">{f.company}</a>
                       </Fragment>
                     )}
                   </div>
-                  <h3 class="cs-item-title" set:html={titleHtml} />
-                  {entry.data.phases && (
-                    <div class="cs-item-phase-row">
-                      {entry.data.phases.map((p) => (
-                        <div class="cs-item-phase">
-                          <span class={`cs-item-phase-pct ${p.accent ? 'accent' : ''}`}>
-                            {p.pct}%
-                          </span>
-                          <span class="cs-item-phase-name">{p.name}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <p class="cs-item-lede" set:html={ledeHtml} />
-                  <a class="cs-item-cta" href="#contact">Full case study available on request.</a>
                 </div>
-              </article>
-            );
-          })
-        }
-      </div>
-    </section>
-
-    <!-- PROCESS -->
-    <section class="process" id="process">
-      <div class="process-head">
-        <div class="eyebrow">How I work</div>
-        <h2 class="reveal">Two diamonds. <span class="accent">One AI-powered</span> workflow.</h2>
-        <p class="process-intro reveal">
-          The methodology stays constant — Double Diamond, always. What changes project-to-project is
-          the phase weighting. Domain expertise lets me compress discovery. MCP and Claude Code
-          accelerate build. Senior judgement is knowing where to speed up and where to slow down. I
-          design in Figma, Claude reads it via MCP and generates production code, the fidelity gap
-          collapses. AI as co-pilot, not autopilot — I choose when to use it, and where deterministic
-          logic beats LLM guesswork.
-        </p>
-        <div class="process-phase-row reveal">
-          <div class="process-phase">
-            <span class="process-phase-pct">20%</span>
-            <span class="process-phase-name">Discover</span>
-          </div>
-          <div class="process-phase">
-            <span class="process-phase-pct">20%</span>
-            <span class="process-phase-name">Define</span>
-          </div>
-          <div class="process-phase">
-            <span class="process-phase-pct accent">35%</span>
-            <span class="process-phase-name">Develop</span>
-          </div>
-          <div class="process-phase">
-            <span class="process-phase-pct">25%</span>
-            <span class="process-phase-name">Deliver</span>
-          </div>
-        </div>
-      </div>
-      <div class="process-grid">
-        <div class="step reveal">
-          <div class="step-num">01 / Discover</div>
-          <h3>Understand the problem space</h3>
-          <p>
-            Sit with the team and the users. Map constraints, workflows, the messy reality. This
-            phase doesn't accelerate — understanding the problem space takes the time it takes. AI can
-            summarize transcripts and pull patterns from research notes, but the conversations
-            themselves happen at human speed.
-          </p>
-        </div>
-        <div class="step reveal d1">
-          <div class="step-num">02 / Define</div>
-          <h3>Frame the right problem</h3>
-          <p>
-            Synthesise what research actually says, not what everyone assumed it would say. Kill
-            scope that doesn't serve the core job. Sometimes this is a three-week reframe (Admiral
-            Money's pivot from form-conversion to quick-quote). Sometimes the brief is already sharp
-            and Define compresses to a week. Knowing which is senior judgement.
-          </p>
-        </div>
-        <div class="step reveal d2">
-          <div class="step-num">03 / Develop</div>
-          <h3>Figma to production, via MCP</h3>
-          <p>
-            I design in Figma — components, tokens, layouts, flows. Claude reads the Figma file via
-            MCP (Model Context Protocol) and generates production-ready React code. No screenshots,
-            no manual handoff, no fidelity loss. The design file becomes the source of truth.
-            Engineers refine working components, not translating mockups. Develop is where AI
-            compounds hardest.
-          </p>
-        </div>
-        <div class="step reveal d3">
-          <div class="step-num">04 / Deliver</div>
-          <h3>Stay close to launch</h3>
-          <p>
-            Pair with engineers through QA, polish the details that Claude missed, then watch it in
-            the wild. AI doesn't ship products. People do. The handoff still requires judgement calls
-            — what's MVP, what's polish, what breaks if we cut it. The gap between design file and
-            shipped product is smaller, but the last 10% still needs a human.
-          </p>
-        </div>
-      </div>
-
-      <div class="process-principle reveal">
-        <h3>AI as co-pilot, not autopilot</h3>
-        <p>
-          Conversational AI, vision extraction, structured data generation — these are tools, not
-          replacements. I choose when to use them (Admiral Money's quote calculator: deterministic
-          math, not LLM guesswork). Senior judgement is knowing where AI accelerates and where it
-          introduces risk.
-        </p>
-      </div>
-    </section>
-
-    <!-- TOOLS -->
-    <section class="tools" id="tools">
-      <div class="tools-head">
-        <div class="eyebrow">Tools &amp; stack</div>
-        <p class="tools-intro reveal">
-          The tools I reach for. Chosen for speed, quality, and how well they play together.
-        </p>
-      </div>
-      <div class="tools-grid">
-        <div class="tool-col reveal">
-          <div class="tool-cat">AI &amp; Workflow</div>
-          <div class="tool-chips">
-            <span class="tool-chip">Claude</span>
-            <span class="tool-chip">Claude Code</span>
-            <span class="tool-chip">Claude Design</span>
-            <span class="tool-chip">Claude Co-work</span>
-            <span class="tool-chip">ChatGPT</span>
-            <span class="tool-chip">MCP</span>
-            <span class="tool-chip">VS Code</span>
-          </div>
-        </div>
-        <div class="tool-col reveal">
-          <div class="tool-cat">Design</div>
-          <div class="tool-chips">
-            <span class="tool-chip">Figma</span>
-            <span class="tool-chip">FigJam</span>
-            <span class="tool-chip">Claude Design</span>
-            <span class="tool-chip">Adobe Suite</span>
-          </div>
-        </div>
-        <div class="tool-col reveal">
-          <div class="tool-cat">Build &amp; Code</div>
-          <div class="tool-chips">
-            <span class="tool-chip">HTML</span>
-            <span class="tool-chip">CSS</span>
-            <span class="tool-chip">JavaScript</span>
-            <span class="tool-chip">TypeScript</span>
-            <span class="tool-chip">Tailwind</span>
-            <span class="tool-chip">Astro</span>
-            <span class="tool-chip">WordPress</span>
-            <span class="tool-chip">Vercel</span>
-          </div>
-        </div>
-        <div class="tool-col reveal">
-          <div class="tool-cat">Collaboration</div>
-          <div class="tool-chips">
-            <span class="tool-chip">Figma</span>
-            <span class="tool-chip">Zeplin</span>
-            <span class="tool-chip">GitHub</span>
-            <span class="tool-chip">Storybook</span>
-            <span class="tool-chip">MS Azure</span>
-            <span class="tool-chip">Jira</span>
-            <span class="tool-chip">Notion</span>
-            <span class="tool-chip">Slack</span>
-          </div>
-        </div>
-        <div class="tool-col reveal">
-          <div class="tool-cat">Research</div>
-          <div class="tool-chips">
-            <span class="tool-chip">Maze</span>
-            <span class="tool-chip">LucidChart</span>
-            <span class="tool-chip">UserTesting</span>
-            <span class="tool-chip">Arcade</span>
-          </div>
-        </div>
-        <div class="tool-col reveal">
-          <div class="tool-cat">Methodologies</div>
-          <div class="tool-chips">
-            <span class="tool-chip">Double Diamond</span>
-            <span class="tool-chip">Agile</span>
-            <span class="tool-chip">SAFe</span>
-            <span class="tool-chip">Lean</span>
+              ))
+            }
           </div>
         </div>
       </div>
     </section>
 
-    <!-- TESTIMONIALS — slider, 8 cards, content TBD -->
-    <section class="tests" id="feedback">
-      <div class="tests-head">
-        <div class="eyebrow">Feedback received</div>
-        <div class="tests-controls" aria-hidden="false">
-          <button
-            class="slider-btn"
-            type="button"
-            data-dir="prev"
-            aria-label="Previous testimonial"
-            aria-controls="testsTrack"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M19 12H5M11 18l-6-6 6-6"></path></svg
-            >
-          </button>
-          <button
-            class="slider-btn"
-            type="button"
-            data-dir="next"
-            aria-label="Next testimonial"
-            aria-controls="testsTrack"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M5 12h14M13 6l6 6-6 6"></path></svg
-            >
-          </button>
-        </div>
-      </div>
-
-      <div
-        class="tests-track"
-        id="testsTrack"
-        data-slider-track
-        tabindex="0"
-        role="region"
-        aria-label="Testimonials"
-      >
-        {
-          testimonials.map((t) => {
-            const [roleText, ...companyParts] = t.role.split(', ');
-            const company = companyParts.join(', ');
-            return (
-              <div class="test">
-                <q>{t.quote}</q>
-                <div class="who">
-                  <div>
-                    <div class="name">{t.name}</div>
-                    <div class="role-text">
-                      {roleText}
-                      {company && (
-                        <Fragment>
-                          , <span class="role-company">{company}</span>
-                        </Fragment>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })
-        }
-      </div>
-    </section>
-
-    <!-- GALLERY — masonry, all tiles visible -->
-    <section class="home-gallery" id="gallery">
-      <div class="gallery-head">
-        <div class="eyebrow">Selected work</div>
-        <h2 class="reveal">Not everything is a <span class="accent">complex data</span> dashboard</h2>
-        <p class="gallery-intro reveal">
-          Other engagements I've shipped. Different clients, same principles.
-        </p>
-      </div>
-
-      <div class="gallery-masonry">
-        {
-          [
-            {
-              num: '01',
-              label: 'Plots — property finder app & branding',
-              image: '/gallery/plots.webp',
-              alt: 'Plots — property finder app and branding, twin-phone mockup',
-            },
-            {
-              num: '02',
-              label: 'William Hill — in-app platform',
-              image: '/gallery/william-hill.webp',
-              alt: 'William Hill — in-app platform, twin-phone mockup',
-            },
-            {
-              num: '03',
-              label: 'Vejji — vegetarian food finder app & branding',
-              image: '/gallery/discover.webp',
-              alt: 'Vejji — vegetarian food finder app and branding',
-            },
-            {
-              num: '04',
-              label: 'UXD — app design & branding',
-              image: '/gallery/uxd.webp',
-              alt: 'UXD — app design and branding, twin-phone mockup',
-            },
-            {
-              num: '05',
-              label: 'Apple Watch — companion app for horseracing',
-              image: '/gallery/apple-watch.png',
-              alt: 'Apple Watch — companion app for horseracing',
-            },
-            {
-              num: '06',
-              label: 'Creadigol — recruitment app & branding',
-              image: '/gallery/creadigol.png',
-              alt: 'Creadigol — recruitment app and brand identity',
-            },
-            {
-              num: '07',
-              label: 'Crestr — commercial fractional investment app & branding',
-              image: '/gallery/crestr.png',
-              alt: 'Crestr — commercial fractional investment app and branding',
-            },
-            {
-              num: '08',
-              label: 'Optimum Credit — savings app',
-              image: '/gallery/oc-savings.png',
-              alt: 'Optimum Credit — savings app, twin-phone mockup',
-            },
-            {
-              num: '09',
-              label: 'RoyalJet — Qatar Airlines onboarding app design',
-              image: '/gallery/royaljet.png',
-              alt: 'RoyalJet — Qatar Airlines onboarding app design',
-            },
-          ].map((tile) => (
-            <figure class="gallery-tile">
-              <div class={`gallery-frame ${tile.image ? 'has-image' : ''}`}>
-                {tile.image ? (
-                  <img
-                    src={tile.image}
-                    alt={tile.alt}
-                    loading="lazy"
-                    width="1691"
-                    height="2048"
-                    data-lightbox="gallery"
-                  />
-                ) : (
-                  <span class="gallery-num">{tile.num}</span>
-                )}
-              </div>
-              <figcaption>↗ {tile.label}</figcaption>
-            </figure>
-          ))
-        }
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="cta" id="contact">
-      <div class="cta-inner">
-        <div class="eyebrow reveal">Say hello</div>
-        <h2 class="reveal d1">
+    <!-- ============================== CTA ============================== -->
+    <section id="contact" class="cta">
+      <div class="wrap">
+        <span class="eyebrow dot">Say hello</span>
+        <h2 style="margin-top:24px;">
           Got something <span class="accent">interesting</span><br />to build?
         </h2>
-        <div class="cta-row reveal d2">
-          <a href="mailto:hello@leongovier.com" class="btn btn-primary">
+        <p class="section-desc">
+          Open to product design and build work — whole projects, fractional
+          engagements, or just a conversation to start.
+        </p>
+
+        <div class="cta-row">
+          <a class="cta-btn" href="mailto:hello@leongovier.com">
             hello@leongovier.com
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-              ><path d="M5 12h14M13 6l6 6-6 6"></path></svg
-            >
+            <span class="arrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </span>
+          </a>
+          <a class="cta-link" href="https://www.linkedin.com/in/leongovier/" target="_blank" rel="noopener">
+            Connect on LinkedIn →
           </a>
         </div>
       </div>
     </section>
 
-    <Footer />
-  </div>
+    <footer class="foot">
+      <div class="wrap">
+        <span>© 2026 Leon Govier — built &amp; designed in-house with <span class="accent">Claude AI</span></span>
+        <span>Last updated <span class="accent">May 2026</span></span>
+      </div>
+    </footer>
 
-  <script>
-    import '../scripts/home.ts';
-    import '../scripts/lightbox.ts';
-  </script>
-</BaseLayout>
+    <script>
+      import '../scripts/home.ts';
+    </script>
+  </body>
+</html>
