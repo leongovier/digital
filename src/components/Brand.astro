@@ -1,0 +1,149 @@
+---
+// Brand wordmark — Quicksand, with a typewriter hover/focus swap:
+//   lpg.  ⇄  leon.govier
+// The "." in either state renders as a small round orange dot, not a glyph.
+// Shared by the home nav and the case-study detail nav.
+interface Props {
+  /** Where the logo links to — "#top" on the home page, "/" elsewhere. */
+  href?: string;
+}
+const { href = '/' } = Astro.props;
+---
+
+<a href={href} class="brand" aria-label="leon govier — home">
+  <span class="brand-wm" aria-hidden="true">lpg<span class="brand-dot"></span></span>
+</a>
+
+<style is:global>
+  /* Global (not scoped): the wordmark's characters and dots are rebuilt by
+     JS at runtime, so JS-created nodes must pick these rules up. */
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: #0a0a0a;
+  }
+  .brand-wm {
+    display: inline-flex;
+    align-items: baseline;
+    font-family: 'Quicksand', 'Inter Tight', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .brand-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    margin: 0 1px;
+    background: #f5a623;
+    border-radius: 99px;
+    transform: translateY(-1px);
+  }
+</style>
+
+<script>
+  // brand hover: typewriter swap — ported from Portfolio v2.html
+  const IDLE = 'lpg.';
+  const FULL = 'leon.govier';
+  const DELETE_MS = 35;
+  const TYPE_MS = 55;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /** Length of the longest shared leading substring of a and b. */
+  function sharedPrefixLen(a: string, b: string): number {
+    let i = 0;
+    while (i < a.length && i < b.length && a[i] === b[i]) i += 1;
+    return i;
+  }
+
+  /** Rebuild `el`'s contents from `str` — letters as text, "." as a dot span. */
+  function buildInto(el: HTMLElement, str: string): void {
+    el.textContent = '';
+    for (const ch of str) {
+      if (ch === '.') {
+        const dot = document.createElement('span');
+        dot.className = 'brand-dot';
+        el.appendChild(dot);
+      } else {
+        el.appendChild(document.createTextNode(ch));
+      }
+    }
+  }
+
+  document.querySelectorAll<HTMLAnchorElement>('.brand').forEach((brand) => {
+    const wm = brand.querySelector<HTMLElement>('.brand-wm');
+    if (!wm) return;
+
+    let current = IDLE;
+    let target = IDLE;
+    let timer: number | null = null;
+
+    buildInto(wm, current);
+
+    // Lock the wordmark width to the wider of the two states so neighbouring
+    // nav items never shift while characters type. Re-measured once fonts are
+    // ready (Quicksand metrics differ from the fallback) and on resize.
+    const lockWidth = (): void => {
+      const probe = wm.cloneNode(false) as HTMLElement;
+      probe.style.cssText =
+        'position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;width:auto;min-width:0;';
+      document.body.appendChild(probe);
+      buildInto(probe, IDLE);
+      const idleW = probe.getBoundingClientRect().width;
+      buildInto(probe, FULL);
+      const fullW = probe.getBoundingClientRect().width;
+      probe.remove();
+      wm.style.minWidth = `${Math.ceil(Math.max(idleW, fullW))}px`;
+    };
+
+    // One frame of the animation: delete back to the shared prefix, then type
+    // forward to the target. Recomputed each step so an interrupting hover
+    // simply changes `target` and the next step redirects cleanly.
+    const step = (): void => {
+      if (current === target) {
+        timer = null;
+        return;
+      }
+      const prefix = sharedPrefixLen(current, target);
+      let delay: number;
+      if (current.length > prefix) {
+        current = current.slice(0, -1);
+        delay = DELETE_MS;
+      } else {
+        current = target.slice(0, current.length + 1);
+        delay = TYPE_MS;
+      }
+      buildInto(wm, current);
+      timer = window.setTimeout(step, delay);
+    };
+
+    const animateTo = (next: string): void => {
+      target = next;
+      if (timer !== null) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      if (reduceMotion) {
+        current = next;
+        buildInto(wm, current);
+        return;
+      }
+      step();
+    };
+
+    brand.addEventListener('mouseenter', () => animateTo(FULL));
+    brand.addEventListener('mouseleave', () => animateTo(IDLE));
+    brand.addEventListener('focus', () => animateTo(FULL));
+    brand.addEventListener('blur', () => animateTo(IDLE));
+
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(lockWidth);
+    } else {
+      lockWidth();
+    }
+    window.addEventListener('resize', lockWidth);
+  });
+</script>

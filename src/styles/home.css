@@ -183,22 +183,6 @@ section > .wrap { position: relative; z-index: 1; }
   border: 1px solid var(--glass-bd);
   box-shadow: 0 8px 32px -16px rgba(14, 18, 25, 0.18);
 }
-.nav .brand {
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  font-size: 22px;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 2px;
-  color: var(--ink);
-}
-.nav .brand .dot {
-  display: inline-block;
-  width: 4px; height: 4px;
-  background: var(--ember);
-  border-radius: 999px;
-  margin-left: -2px;
-}
 .nav ul { display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .nav a.link {
   position: relative;
