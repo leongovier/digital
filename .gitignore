@@ -29,3 +29,6 @@ pnpm-debug.log*
 .vercel/
 .netlify/
 .vercel
+
+# claude code local state
+.claude/
