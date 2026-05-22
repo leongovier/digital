@@ -1,132 +1,144 @@
-# Portfolio 26 — Project Instructions
+# Portfolio v2 — Project Instructions
 
-This is **Leon Govier's personal portfolio**. A two-page editorial site — Home + per-project case study detail pages. Built with **Astro**; deploys via Vercel (`npm run build` → `dist/`).
+**Leon Govier's personal portfolio.** A single-page home plus per-project
+case-study detail pages. Built with **Astro**, output `static`.
 
-**Source of truth:**
-- Home: `src/pages/index.astro` + `src/styles/home.css` + `src/scripts/home.ts`
-- Case study template: `src/layouts/CaseStudy.astro` + `src/styles/case-study.css`, rendered for each entry under `src/content/work/*.mdx` via `src/pages/work/[slug].astro`
-- Shared shell: `src/layouts/BaseLayout.astro`, `src/components/Nav.astro`, `src/components/Footer.astro`
-- Design tokens: `src/styles/tokens.css` + `src/styles/global.css`
+## Build & deploy
 
-**Scratch HTML at root** (`index.html`, `project-adaptivecrm.html`, `project-checkrr.html`) is a prototyping sandbox — fast-iteration designs that get ported back into the Astro components/MDX. It is NOT deployed. If you change visual direction in scratch HTML, mirror it into the Astro source before treating the change as real.
+- `npm run dev` — local dev server (port 4321)
+- `npm run build` — static build → `dist/`
+- `npm run typecheck` — `astro check`
+- **Deploy:** Vercel is **not** connected to git auto-deploy. Pushing to
+  GitHub saves the work but does **not** deploy. Ship with `vercel --prod`
+  (production domain: `https://portfolio.leongovier.com`).
 
-Always read the Astro source above before suggesting changes.
+## Architecture
 
-## Direction (locked)
+Two distinct surfaces, each self-contained:
 
-- **Tone:** restrained, editorial, lots of whitespace. Confident without shouting. Product Designer & Builder positioning.
-- **Structure:** two-page. Home → dedicated detail pages (one per project). NOT a single-page modal layout.
-- **Audience:** hiring managers, founders, collaborators. Not a contractor lead-gen funnel.
+**Home** — `src/pages/index.astro`
+- A **standalone Astro page** — its own `<!doctype>`/`<head>`, does **not**
+  use `BaseLayout`. All content lives in typed arrays in the frontmatter.
+- Styles: `src/styles/home.css` · Behaviour: `src/scripts/home.ts`
 
-## Design tokens (do not drift)
+**Case-study detail pages** — `src/pages/work/<slug>.astro` (9 pages)
+- Slugs: `adaptive-crm`, `astra`, `checkrr`, `coincover`, `cubik-ai`,
+  `cubik-crm`, `cwt`, `jamf-etp`, `polaris-calculator-suite`.
+- Each is a standalone `.astro` page using `BaseLayout`. They are one
+  template — shared `tpl-` classes.
+- **Shared styles: `src/styles/work-detail.css`** — every detail page imports
+  it. Edit detail-page CSS here once, not in nine files. (`cubik-ai.astro`
+  keeps a tiny inline `<style>` override for contained figures.)
+- Layout/tokens: `src/layouts/BaseLayout.astro`, `src/styles/global.css`,
+  `src/styles/tokens.css`. Lightbox: `src/scripts/lightbox.ts` + `lightbox.css`.
+
+**Shared components** — `src/components/`
+- `Nav.astro` — the glass-pill nav (detail pages; the home page has its own
+  inline nav with the same markup).
+- `Footer.astro`
+- `Brand.astro` — the `lpg.` wordmark with the typewriter hover swap. Used by
+  both navs.
+
+> Two token layers exist: `home.css :root` (`--ember`, `--fg`, …) drives the
+> home page; `tokens.css :root` (`--accent`, `--text-primary`, …) drives the
+> detail pages. **The values are the v2 palette in both** — only the names
+> differ. Don't unify them casually.
+
+## Direction
+
+- **Tone:** restrained, editorial, generous whitespace. Product Designer &
+  Builder positioning. Audience: hiring managers, founders, collaborators.
+- **Structure:** single-page home → dedicated detail page per project.
+- **Surface:** all-white canvas. Glass-morphism cards. A fixed layer of
+  animated pastel "squircle" shapes drifts behind the home page.
+
+## Design tokens (v2 — `src/styles/home.css :root`)
 
 ```css
 /* Surfaces */
---bg:      #FFFFFF;   /* white, NOT dark */
---bg-2:    #F4F4F2;
---rule:    #E6E6E3;
+--bone:   #ffffff;   --bone-2: #f6f6f6;
+--ink:    #0a0a0a;   --ink-2:  #141414;
 
-/* Type */
---ink:     #3A3A3A;   /* soft dark grey, NOT pure black */
---ink-2:   #707070;
---ink-3:   #A0A0A0;
+/* Text */
+--fg:      #1a1d26;  --fg-soft: #4b525e;  --fg-mute: #828892;
+--hairline: rgba(14,18,25,0.08);  --hairline-strong: rgba(14,18,25,0.16);
 
-/* Accent — orange */
---accent:      #FF6B1A;
---accent-soft: #FF6B1A1A;
+/* Accent — ember orange (the ONLY accent) */
+--ember:      #f5a623;
+--ember-soft: #ffb84f;
+
+/* Pastels — used only by the background shape layer */
+--mint: #b6ecd5;  --p-sky: #c8ecfb;  --lilac: #e2d3fb;  --peach: #fbd9cf;
+
+/* Glass */
+--glass-bg: rgba(255,255,255,0.55);  --glass-bd: rgba(255,255,255,0.7);
 
 /* Layout */
---max:    1240px;
---narrow:  760px;
-
-/* Breakpoints (use these literal values in @media — CSS vars don't work in queries) */
---bp-sm:  520px;   /* phones */
---bp-md:  720px;   /* large phones / portrait tablets */
---bp-lg: 1024px;   /* landscape tablets / small laptops */
+--maxw: 1240px;  --rad-lg: 22px;  --rad-md: 14px;  --rad-sm: 10px;
 ```
 
-## Responsive scale
-
-Three breakpoints, used desktop-first via `max-width`:
-
-- **`@media (max-width: 1023px)`** — landscape tablets / small laptops. Relax dense desktop grids (5-col → 3-col, 7-col press → 4-col, etc).
-- **`@media (max-width: 719px)`** — large phones / portrait tablets. Multi-col → 2-col. Section padding tightens.
-- **`@media (max-width: 519px)`** — phones. Single-column where it still reads well. Wrap padding 20px.
-
-Page wrap padding: 48px (desktop) → 32px (lg) → 24px (md) → 20px (sm).
-Don't introduce ad-hoc breakpoints. If a section needs different behaviour, add it inside the existing scale.
+`tokens.css` mirrors these for the detail pages under the older names
+(`--accent` = `#f5a623`, `--text-primary` = `#1a1d26`, etc.).
 
 ## Typography
 
-- **Quicksand** (300/400/500/600/700) — body + display.
-- **JetBrains Mono** (400/500) — labels, eyebrows, nav, metadata.
-- Body letter-spacing: `-0.01em` global.
-- Display headlines: `-0.025em` to `-0.04em`.
-- `text-wrap: balance` on hero h1 + display h2s.
-- Headlines weight 300–400 (light/regular). Body 400. Mono labels uppercase with 0.08em tracking.
+- **Quicksand** — all headings (`h1`–`h3`) and the brand wordmark.
+- **Inter Tight** — body copy, and the "mono-label" slots (eyebrows, tags,
+  step numbers, footer) — differentiated by uppercase + letter-spacing, not by
+  a monospace face. There is **no** monospace font (JetBrains Mono was removed).
+- Headings weight 700; body 400. Section descriptions: 15px / 22px line-height.
+- Section eyebrows: orange dot prefix + sentence case + ember colour, 14px.
 
-Do not introduce a third typeface without asking.
+Don't introduce a third typeface or a monospace font without asking.
 
 ## Accent rules
 
-- Orange (`#FF6B1A`) is the only accent. No secondary colors.
-- Use it for: highlighted words in headlines, active nav state + underline, eyebrow numerals, hover states, CTA fill, the reading progress bar, focus rings.
-- Don't use it for body copy, large surfaces, or as a background gradient.
-- Underline on hover/active is animated (`scaleX` from left, 350ms `cubic-bezier(.2,.8,.2,1)`).
+- Ember orange `#f5a623` is the only accent (pastels are decoration-layer only).
+- Use it for: highlighted words in headings, eyebrows, active states, hover
+  states, CTA fill, focus rings, the brand dot.
+- Hover on nav links: an ember-20% pill slides in from the left.
 
-## Page structure
+## Home page structure (`src/pages/index.astro`)
 
-### Home (`src/pages/index.astro`)
-1. Top nav (logo left, mono links right with animated underline + scroll-spy)
-2. Hero — display h1 with two orange-highlighted words, lede, accent rule + socials row
-3. Press strip (7 client marks, currently placeholders)
-4. Selected work — grid of case study cards. Hover: frame lifts, art scales, arrow translates + turns accent. Each card links to its detail page at `/work/<slug>`.
-5. Process — 4-step grid with mono numerals
-6. Testimonials — 2 cards with mono initial avatars
-7. CTA — large display "Got something interesting to build?" with primary pill (mailto) + ghost button
-8. Footer — mono, with accent date stamp
+1. Fixed background shape layer (6 animated squircles)
+2. Nav — glass pill, `lpg.` brand, anchor links + Contact CTA
+3. Hero — h1 with two ember-highlighted words, lede, social row
+4. Case studies — `#case-studies`, 6-col grid; checkRR is the wide feature card
+5. Process — `#process`, 4 steps with SVG gauges
+6. Tools — `#tools`, 6 category cards of chips
+7. Timeline — `#timeline`, interactive horizontal track (click a stop)
+8. Gallery — `#gallery`, CSS-columns masonry
+9. Feedback — `#feedback`, testimonial carousel (12 cards)
+10. CTA — `#contact` · 11. Footer
 
-### Case study detail (`src/layouts/CaseStudy.astro` + `src/content/work/<slug>.mdx`)
-Editorial long-scroll. Reusable template — all case study MDX entries follow this structure with swapped content. Current slugs: `adaptivecrm`, `admiral-money`, `aqa`, `checkrr`, `coincover`, `cubik-ai`, `cwt`, `jamf`, `mfs`, `pepper-money`.
-1. Reading progress bar (orange, 2px, fixed top)
-2. Top nav + "← All work" back link in narrow track
-3. Hero — eyebrow with accent dot, display h1 (orange-highlighted words), lede, 4-col meta strip (role/year/team/scope), full-bleed hero image with device mock
-4. Problem (narrow body)
-5. Research — narrow intro + full-width 3-card insight grid
-6. Process — narrow intro + full-width 2-col artifacts (sketches + flow diagram)
-7. Solution — narrow intro + full-width gallery (1 wide + 2 half shots)
-8. Outcomes — narrow track, qualitative tone, **no big stat numbers** (one subtle paragraph with accent highlights)
-9. Prev/Next project nav (full-width, 2-col)
-10. Footer
+Each section: orange-dot eyebrow + Quicksand h2 + a full-width 15px description.
 
-## Behaviors
+## Behaviours (`src/scripts/home.ts`)
 
-- **Scroll reveals**: `.reveal` class fades + rises 24px on intersect. **Anything within 92% viewport on load reveals immediately** to avoid hero blank-flash.
-- **Cursor glow**: 480px radial-gradient orange-soft div follows cursor with `mix-blend-mode: multiply`. Behind a `prefers-reduced-motion` guard if added.
-- **Smooth anchors**: `scrollTo({top: target.offsetTop - 24, behavior: 'smooth'})`.
-- **Scroll-spy**: home nav active state tracks the section whose `offsetTop` is most recently passed (with 120px buffer).
-- **Reading progress**: detail page only, linear width animation 80ms based on scroll ratio.
+- **Shape layer:** rAF scroll engine — squircles drift/rotate/scale via CSS
+  custom props. Staggered entry. Skipped under `prefers-reduced-motion`.
+- **Nav scroll-spy:** active link tracks the section in view.
+- **Feedback carousel:** prev/next pages the rail.
+- **Timeline:** clicking a stop activates it (orange node + glow, label flips
+  above the line).
+- **Brand typewriter** (`Brand.astro`): `lpg.` ⇄ `leon.govier` on hover/focus.
+- All motion respects `prefers-reduced-motion: reduce`.
 
 ## When making changes
 
-- **Read `src/pages/index.astro` and `src/layouts/CaseStudy.astro` first.** They are the spec.
-- **New case studies** = add an MDX file to `src/content/work/` following the schema in `src/content/config.ts`. Don't reinvent the layout.
-- **Don't** introduce dark mode, a second accent, Inter (regular), pure black text, or modal-based case studies. If asked for these, confirm explicitly first — they would change the direction of the project.
-- **Use the existing token names** (`--ink`, `--accent`, etc.). Don't hardcode new hex values.
-- **Spacing scale**: 56 / 64 / 72 / 88 / 96 / 120 px for vertical sections. Grid gaps: 16 / 24 / 36 / 40 px.
-- **Radius**: 4px cards, 6px hero image, 999px buttons/pills.
-- **Easing**: `cubic-bezier(.2, .8, .2, 1)` for hover transforms; `cubic-bezier(.2, .7, .2, 1)` for reveals.
-
-## Placeholder content to swap
-
-- All seven press marks on the home page (replace with real client SVG logos)
-- All four card visuals on home (replace with real screenshots, ideally inside browser/device frames matching the existing chassis style)
-- Every "shot" referenced by case study MDX files (real screenshots — live under `public/case-studies/<slug>/`)
-- Testimonial quotes/names and case study copy are draft — confirm before treating as final
-- Email `hello@leongovier.com` — confirm correct address
+- **Read `src/pages/index.astro` + `src/styles/home.css` first** for the home
+  page; **`src/styles/work-detail.css`** for anything across the detail pages.
+- Detail-page CSS is shared — change `work-detail.css` once, never edit the
+  nine pages individually.
+- Use existing token names; don't hardcode new hex values.
+- **Don't** introduce dark mode, a second accent, a monospace face, or
+  modal-based case studies without confirming first.
+- Radius: 22px cards, 14px image slots, 999px pills. Easing:
+  `cubic-bezier(.2,.8,.2,1)`.
 
 ## Identity
 
-- Name: Leon Govier
-- Logo wordmark: `Leon Govier` (mono)
-- Role: Product Designer & Builder
+- Name: Leon Govier · Role: Product Designer & Builder
+- Brand wordmark: `lpg.` (the `.` is a small round ember dot, not a glyph) —
+  typewriter-swaps to `leon.govier` on hover.
+- Email: `hello@leongovier.com`
