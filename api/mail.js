@@ -64,8 +64,8 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Leon Govier <hello@leongovier.com>',
-        to: 'hello@leongovier.com',
+        from: 'Leon Govier <hello@leongovier.digital>',
+        to: 'hello@leongovier.digital',
         reply_to: contact_email,
         subject: `New enquiry — ${contact_name} (${project_type})`,
         text: body,
