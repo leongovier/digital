@@ -498,3 +498,57 @@ if (contactForm) {
     }
   });
 }
+
+/* ===== POLICY MODALS ===== */
+(function () {
+  var modal = document.getElementById('policyModal');
+  if (!modal) return;
+  var titleEl = document.getElementById('policyTitle');
+  var bodyEl  = document.getElementById('policyBody');
+
+  var content = {
+    privacy:
+      '<h3>Who we are</h3><p>This website is operated by LG Digital Ltd. Registered in Cardiff, Wales, United Kingdom. Contact us at <a href="mailto:hello@leongovier.digital">hello@leongovier.digital</a>.</p>' +
+      '<h3>What data we collect</h3><p>When you use the contact form on this website, we collect:</p><ul><li>Your name</li><li>Your email address</li><li>Your phone number (optional)</li><li>Your business name (optional)</li><li>The nature of your enquiry</li><li>Any additional information you choose to provide</li></ul><p>We do not collect data through cookies or tracking technologies beyond what is described in our Cookie Policy.</p>' +
+      '<h3>How we use your data</h3><p>We use the information you submit solely to respond to your enquiry and communicate about potential or ongoing work. We do not use your data for marketing without your explicit consent.</p>' +
+      '<h3>Legal basis for processing</h3><p>We process your data on the basis of legitimate interest — specifically, to respond to a business enquiry you have initiated.</p>' +
+      '<h3>Who we share your data with</h3><p>Your data is transmitted via <strong>Resend</strong> (our email delivery provider). We do not sell, rent or share your personal data with any third party. Review Resend privacy policy at <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener">resend.com</a>.</p>' +
+      '<h3>How long we keep your data</h3><p>We retain enquiry data for up to 2 years, or for the duration of any client relationship, whichever is longer.</p>' +
+      '<h3>Your rights</h3><p>Under UK GDPR you have the right to access, correct, delete or restrict your data, and to lodge a complaint with the ICO at <a href="https://ico.org.uk" target="_blank" rel="noopener">ico.org.uk</a>.</p><p>To exercise any of these rights, email <a href="mailto:hello@leongovier.digital">hello@leongovier.digital</a>.</p>' +
+      '<h3>Data security</h3><p>All data submitted is transmitted over HTTPS. We take reasonable measures to protect your data from unauthorised access.</p>' +
+      '<h3>Changes to this policy</h3><p>We may update this policy from time to time. Last updated: June 2026.</p>',
+    cookies:
+      '<h3>What are cookies</h3><p>Cookies are small text files placed on your device when you visit a website.</p>' +
+      '<h3>What cookies this site uses</h3><p>This website does not use first-party cookies for tracking, advertising or analytics.</p><p>The only cookies that may be set are <strong>strictly necessary</strong> technical cookies set by our hosting provider (Vercel). These do not identify you personally.</p>' +
+      '<h3>Third-party services</h3><p>We do not currently run any third-party analytics, advertising or social media scripts. If this changes, this policy will be updated first.</p>' +
+      '<h3>Google Fonts</h3><p>This site loads fonts from Google Fonts. Google may log your IP address as part of this request. Review their policy at <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com</a>.</p>' +
+      '<h3>Managing cookies</h3><p>You can control and delete cookies through your browser settings. This site will continue to function normally without them. For guidance visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener">aboutcookies.org</a>.</p>' +
+      '<h3>Changes to this policy</h3><p>We may update this policy if we introduce new services or scripts. Last updated: June 2026.</p>'
+  };
+
+  var titles = { privacy: 'Privacy Policy', cookies: 'Cookie Policy' };
+
+  function openModal(key) {
+    titleEl.textContent = titles[key] || '';
+    bodyEl.innerHTML = content[key] || '';
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.footer-policy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () { openModal(btn.getAttribute('data-policy')); });
+  });
+
+  document.getElementById('policyClose').addEventListener('click', closeModal);
+  modal.querySelector('.policy-modal-backdrop').addEventListener('click', closeModal);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+})();
