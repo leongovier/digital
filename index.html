@@ -516,9 +516,14 @@
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        touch-action: pan-x;
       }
       .process-toggle::-webkit-scrollbar { display: none; }
-      .process-toggle .process-toggle-btn { white-space: nowrap; }
+      .process-toggle .process-toggle-btn {
+        white-space: nowrap;
+        touch-action: manipulation;
+        cursor: pointer;
+      }
     }
 
     /* ── Bespoke / Why section ───────────────────────── */
