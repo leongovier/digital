@@ -34,7 +34,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/jkiticon.css">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=2">
 
   <style>
     /* ── Policy Modal ───────────────────────────────── */
@@ -570,6 +570,78 @@
       margin: 2.5rem 0 1.5rem;
       text-align: center;
     }
+    /* About Me section */
+    .about-intro {
+      max-width: 760px;
+      font-style: normal;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 24px;
+      color: rgb(168, 168, 189);
+      margin: 0 0 0.5rem;
+    }
+    .about-me-body { max-width: 760px; }
+    .about-me-body p {
+      font-size: 13px;
+      line-height: 1.8;
+      color: #fff;
+      margin: 0 0 1.1rem;
+      text-align: justify;
+    }
+    .about-me-body p:last-child { margin-bottom: 0; }
+    /* About: full-width two-column body */
+    .about-me-body.two-col {
+      max-width: 100%;
+      column-count: 2;
+      column-gap: 68px;
+    }
+    @media (max-width: 768px) {
+      .about-me-body.two-col { column-count: 1; }
+    }
+    .about-pillars { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 768px) {
+      .about-pillars { grid-template-columns: 1fr; }
+    }
+    /* About: journey-style stepper cards */
+    .journey-wrap { padding: 2rem 0; }
+    .journey-track { display: flex; align-items: stretch; justify-content: space-between; gap: 0; }
+    .journey-step {
+      position: relative;
+      display: flex; flex-direction: column; align-items: flex-start; text-align: left;
+      flex: 1; min-width: 0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.75rem 1rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      cursor: default; overflow: hidden;
+    }
+    .journey-step:hover { border-color: rgba(255,153,0,0.5); background: rgba(255,153,0,0.06); transform: translateY(-3px); }
+    .journey-step:hover .journey-icon { color: #FF9900; }
+    .journey-step:hover .journey-outcome { color: rgba(255,255,255,0.8); }
+    .journey-watermark {
+      position: absolute; bottom: -10px; right: -5px;
+      font-size: 90px; color: rgba(255,153,0,0.15);
+      opacity: 0; transition: opacity 0.3s ease; pointer-events: none; line-height: 1;
+    }
+    .journey-step:hover .journey-watermark { opacity: 1; }
+    .journey-top-row { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 0.75rem; }
+    .journey-num {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: #FF9900; color: #fff; font-size: 0.95rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 24px rgba(255,153,0,0.35); flex-shrink: 0; margin-bottom: 0.75rem;
+    }
+    .journey-icon { font-size: 1.4rem; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem; }
+    .journey-label { font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+    .journey-sub { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #FF9900; margin-bottom: 0.5rem; }
+    .journey-outcome { font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.4; padding: 0 0.25rem; margin: 0; }
+    .journey-line { flex: 0 0 auto; width: 32px; display: flex; align-items: center; justify-content: center; align-self: center; color: #FF9900; font-size: 1.4rem; font-weight: 300; }
+    .journey-line::after { content: '›'; }
+    @media (max-width: 768px) {
+      .journey-track { flex-direction: column; align-items: stretch; gap: 0; }
+      .journey-line { width: auto; height: 32px; font-size: 1.4rem; transform: rotate(90deg); }
+    }
     /* About cards using pillars-grid */
     @media (max-width: 600px) {
       .pricing-grid, .pricing-grid-2 {
@@ -1079,9 +1151,6 @@
         </ul>
       </nav>
       <div class="header-actions">
-        <a href="https://www.linkedin.com/in/leongovier/" target="_blank" class="social-link" aria-label="LinkedIn">
-          <i class="fab fa-linkedin"></i>
-        </a>
         <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Open menu">
@@ -1143,6 +1212,93 @@
           <span class="watermark-icon"><i class="jki jki-tools-light"></i></span>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ABOUT ME -->
+  <section id="about" class="about-section">
+    <div class="section-overlay"></div>
+    <div class="container">
+      <p class="section-label gradient-text">About</p>
+      <h2 class="section-title">Thirty years in. Still building.</h2>
+      <p class="about-intro">I'm Leon Govier — a Lead Product Designer and UX leader with thirty years in digital, the last decade focused on fintech, specialist lending and B2B SaaS.</p>
+
+      <!-- Journey stepper — content to be added -->
+      <div class="journey-wrap">
+        <div class="journey-track">
+
+          <div class="journey-step">
+            <div class="journey-top-row">
+              <div class="journey-num">1</div>
+              <i class="jki jki-brush-light journey-icon"></i>
+            </div>
+            <p class="journey-label">Print &amp; Brand</p>
+            <p class="journey-sub">Where it started</p>
+            <p class="journey-outcome">Press-ready artwork, brand identity, the discipline of getting it right before it ships</p>
+            <span class="journey-watermark"><i class="jki jki-brush-light"></i></span>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-step">
+            <div class="journey-top-row">
+              <div class="journey-num">2</div>
+              <i class="jki jki-code-light journey-icon"></i>
+            </div>
+            <p class="journey-label">Web &amp; Development</p>
+            <p class="journey-sub">Learning to build</p>
+            <p class="journey-outcome">HTML, CSS, Flash — designing and building in the same breath for the first time</p>
+            <span class="journey-watermark"><i class="jki jki-code-light"></i></span>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-step">
+            <div class="journey-top-row">
+              <div class="journey-num">3</div>
+              <i class="jki jki-search-light journey-icon"></i>
+            </div>
+            <p class="journey-label">UX &amp; Interaction</p>
+            <p class="journey-sub">Following the user</p>
+            <p class="journey-outcome">Research, wireframes, usability — design stopped being about how it looks</p>
+            <span class="journey-watermark"><i class="jki jki-search-light"></i></span>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-step">
+            <div class="journey-top-row">
+              <div class="journey-num">4</div>
+              <i class="jki jki-crown-solid journey-icon"></i>
+            </div>
+            <p class="journey-label">Product Leadership</p>
+            <p class="journey-sub">Leading the room</p>
+            <p class="journey-outcome">Design systems, squads, strategy — owning outcomes not just deliverables</p>
+            <span class="journey-watermark"><i class="jki jki-crown-solid"></i></span>
+          </div>
+
+          <div class="journey-line"></div>
+
+          <div class="journey-step">
+            <div class="journey-top-row">
+              <div class="journey-num">5</div>
+              <i class="jki jki-cpu-line journey-icon"></i>
+            </div>
+            <p class="journey-label">AI-Native Design</p>
+            <p class="journey-sub">Where I am now</p>
+            <p class="journey-outcome">Claude, MCP, code-first — thirty years of judgement, modern tooling</p>
+            <span class="journey-watermark"><i class="jki jki-cpu-line"></i></span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="about-me-body two-col">
+        <p>I work contract-based across the UK, embedded with product and engineering teams at Lead, Head of Product Design, and Technical Product Manager level. I've built UX functions from zero, led design systems adopted across enterprise platforms, and shipped AI-native products solo in four weeks. The range is deliberate — I move between strategy and execution because the best design leaders do both.</p>
+        <p>My workflow has shifted. I design in Figma, prototype in code, and use Claude and MCP to take layouts directly to production React components without fidelity loss. What used to take months takes weeks. That's not a shortcut — it's thirty years of judgement applied to better tools.</p>
+        <p>The work runs through fintech and regulated environments — mortgage calculators, broker CRMs, conversational quote engines, income verification platforms, design systems spanning four audience platforms at once. Complex products with real constraints, where design decisions have commercial consequences. That's where I'm most useful.</p>
+      </div>
+
     </div>
   </section>
 
