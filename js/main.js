@@ -657,8 +657,9 @@ if (contactForm) {
   }
 
   function buildDots() {
-    dotsWrap.innerHTML = '';
     visible = getVisible();
+    if (!dotsWrap) { maxIndex = total - visible; return; }
+    dotsWrap.innerHTML = '';
     maxIndex = total - visible;
     for (var i = 0; i <= maxIndex; i++) {
       var dot = document.createElement('button');
@@ -677,9 +678,11 @@ if (contactForm) {
     var cardWidth = cards[0].offsetWidth;
     var gap = 24;
     track.style.transform = 'translateX(-' + (current * (cardWidth + gap)) + 'px)';
-    dotsWrap.querySelectorAll('.feedback-dot').forEach(function (d, i) {
-      d.classList.toggle('active', i === current);
-    });
+    if (dotsWrap) {
+      dotsWrap.querySelectorAll('.feedback-dot').forEach(function (d, i) {
+        d.classList.toggle('active', i === current);
+      });
+    }
     prevBtn.disabled = current === 0;
     nextBtn.disabled = current === maxIndex;
   }
@@ -697,4 +700,31 @@ if (contactForm) {
 
   buildDots();
   goTo(0);
+})();
+
+/* ===== RANDOM CTA BACKGROUNDS ===== */
+(function () {
+  var CTA_IMAGES = [
+    's1-split-circles.png', 's2-bauhaus.png', 's3-arcs.png', 's4-blocks.png',
+    's5-stripes.png', 's6-intersect.png', 's7-quadrants.png', 's9-bands.png',
+    's10-triangle.png', 's11-rings.png', 's12-arch.png'
+  ];
+  var OVERLAY = 'linear-gradient(rgba(10,8,20,0.82), rgba(10,8,20,0.82))';
+  var ctas = document.querySelectorAll('.section-cta');
+  if (!ctas.length) return;
+
+  // Shuffle a copy so each CTA on the page gets a distinct image where possible
+  var pool = CTA_IMAGES.slice();
+  for (var i = pool.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = pool[i]; pool[i] = pool[j]; pool[j] = t;
+  }
+
+  ctas.forEach(function (el, idx) {
+    var img = pool[idx % pool.length];
+    el.style.backgroundImage = OVERLAY + ", url('images/cta/" + img + "')";
+    el.style.backgroundSize = 'cover';
+    el.style.backgroundPosition = 'center';
+    el.style.backgroundRepeat = 'no-repeat';
+  });
 })();
