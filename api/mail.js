@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ success: false, message: 'Too many requests. Please try again shortly.' });
   }
 
-  const { contact_name, contact_email, contact_number, location, project_type, start_date, budget, referral_source, information, website } = req.body;
+  const { contact_name, contact_email, contact_number, contact_url, location, project_type, start_date, budget, referral_source, information, website } = req.body;
 
   // Honeypot
   if (website) {
@@ -46,6 +46,7 @@ export default async function handler(req, res) {
     `Name:         ${contact_name}`,
     `Email:        ${contact_email}`,
     `Phone:        ${contact_number || '—'}`,
+    `LinkedIn/URL: ${contact_url || '—'}`,
     `Location:     ${location || '—'}`,
     `Project type: ${project_type}`,
     `Start date:   ${start_date || '—'}`,

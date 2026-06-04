@@ -9,16 +9,31 @@ window.addEventListener('scroll', () => {
 const hamburger = document.getElementById('hamburger');
 const mainNav = document.getElementById('main-nav');
 
+// Create backdrop
+const navBackdrop = document.createElement('div');
+navBackdrop.className = 'mobile-nav-backdrop';
+document.body.appendChild(navBackdrop);
+
+function closeNav() {
+  hamburger.classList.remove('open');
+  mainNav.classList.remove('open');
+  navBackdrop.classList.remove('open');
+}
+
 hamburger.addEventListener('click', () => {
+  const isOpen = mainNav.classList.toggle('open');
   hamburger.classList.toggle('open');
-  mainNav.classList.toggle('open');
+  navBackdrop.classList.toggle('open', isOpen);
 });
 
+navBackdrop.addEventListener('click', closeNav);
+
 mainNav.querySelectorAll('a').forEach(link => {
-  link.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    mainNav.classList.remove('open');
-  });
+  link.addEventListener('click', closeNav);
+});
+
+mainNav.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', closeNav);
 });
 
 /* ===== ACTIVE NAV ===== */
@@ -183,6 +198,31 @@ const galleries = {
     'public/case-studies/apps/uxd.webp',
     'public/case-studies/apps/william-hill.webp',
   ],
+  'anything-medical': [
+    'images/case-studies/anything-medical/slider/01.webp',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.01.30.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.01.45.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.03.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.09.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.19.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.26.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.32.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.44.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.52.png',
+    'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.03.00.png',
+  ],
+  'lookrr': [
+    'images/case-studies/lookrr/slider/01.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.56.37.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.56.48.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.56.54.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.57.27.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.57.45.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.58.09.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.58.27.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.58.49.png',
+    'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.59.09.png',
+  ],
   'websites': [
     'public/case-studies/websites/coliving.png',
     'public/case-studies/websites/cpb.png',
@@ -200,23 +240,27 @@ const galleries = {
 };
 
 (function () {
-  const lightbox   = document.getElementById('lightbox');
-  const mainImg    = document.getElementById('lightboxMainImg');
-  const thumbsWrap = document.getElementById('lightboxThumbs');
-  const counter    = document.getElementById('lightboxCounter');
-  const prevBtn    = document.getElementById('lightboxPrev');
-  const nextBtn    = document.getElementById('lightboxNext');
+  const lightbox    = document.getElementById('lightbox');
+  const mainImg     = document.getElementById('lightboxMainImg');
+  const thumbsWrap  = document.getElementById('lightboxThumbs');
+  const counter     = document.getElementById('lightboxCounter');
+  const prevBtn     = document.getElementById('lightboxPrev');
+  const nextBtn     = document.getElementById('lightboxNext');
+  const thumbPrev   = document.getElementById('lightboxThumbPrev');
+  const thumbNext   = document.getElementById('lightboxThumbNext');
   if (!lightbox) return;
 
+  const THUMB_STEP = 3; // thumbs to scroll per click
   let images = [];
   let idx = 0;
+  let thumbOffset = 0;
 
   function openLightbox(imgs, startIdx) {
-    images = imgs.filter(src => src); // remove empties
+    images = imgs.filter(src => src);
     if (!images.length) return;
     idx = startIdx || 0;
+    thumbOffset = 0;
 
-    // build thumbs
     thumbsWrap.innerHTML = '';
     images.forEach((src, i) => {
       const btn = document.createElement('button');
@@ -244,6 +288,31 @@ const galleries = {
     render();
   }
 
+  function scrollThumbs(dir) {
+    const thumbs = thumbsWrap.querySelectorAll('.lightbox-thumb');
+    if (!thumbs.length) return;
+    const thumbW = thumbs[0].offsetWidth + 8; // width + gap
+    const viewW  = thumbsWrap.parentElement.offsetWidth;
+    const maxOffset = Math.max(0, thumbs.length * thumbW - viewW);
+    thumbOffset = Math.max(0, Math.min(thumbOffset + dir * THUMB_STEP * thumbW, maxOffset));
+    thumbsWrap.style.transform = `translateX(-${thumbOffset}px)`;
+    if (thumbPrev) thumbPrev.disabled = thumbOffset === 0;
+    if (thumbNext) thumbNext.disabled = thumbOffset >= maxOffset;
+  }
+
+  function scrollThumbsToActive() {
+    const thumbs = thumbsWrap.querySelectorAll('.lightbox-thumb');
+    if (!thumbs.length) return;
+    const thumbW = thumbs[0].offsetWidth + 8;
+    const viewW  = thumbsWrap.parentElement ? thumbsWrap.parentElement.offsetWidth : 600;
+    const maxOffset = Math.max(0, thumbs.length * thumbW - viewW);
+    const targetOffset = Math.max(0, idx * thumbW - viewW / 2 + thumbW / 2);
+    thumbOffset = Math.min(targetOffset, maxOffset);
+    thumbsWrap.style.transform = `translateX(-${thumbOffset}px)`;
+    if (thumbPrev) thumbPrev.disabled = thumbOffset === 0;
+    if (thumbNext) thumbNext.disabled = thumbOffset >= maxOffset;
+  }
+
   function render() {
     mainImg.src = images[idx];
     mainImg.alt = `Gallery image ${idx + 1}`;
@@ -253,10 +322,13 @@ const galleries = {
     thumbsWrap.querySelectorAll('.lightbox-thumb').forEach((t, i) => {
       t.classList.toggle('active', i === idx);
     });
+    scrollThumbsToActive();
   }
 
   prevBtn.addEventListener('click', () => goTo(idx - 1));
   nextBtn.addEventListener('click', () => goTo(idx + 1));
+  if (thumbPrev) thumbPrev.addEventListener('click', () => scrollThumbs(-1));
+  if (thumbNext) thumbNext.addEventListener('click', () => scrollThumbs(1));
   document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
   lightbox.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
 
@@ -288,6 +360,17 @@ function closeDrawer(id) {
   drawer.setAttribute('aria-hidden', 'true');
   document.body.style.overflow = '';
 }
+
+document.querySelectorAll('[data-pricing-tab]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const tab = btn.getAttribute('data-pricing-tab');
+    document.querySelectorAll('[data-pricing-tab]').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.pricing-tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('ptab-' + tab);
+    if (panel) panel.classList.add('active');
+  });
+});
 
 document.querySelectorAll('.calc-tab').forEach(tab => {
   tab.addEventListener('click', () => {
@@ -551,4 +634,67 @@ if (contactForm) {
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
   });
+})();
+
+// FEEDBACK CAROUSEL
+(function () {
+  var track = document.getElementById('feedbackTrack');
+  var dotsWrap = document.getElementById('feedbackDots');
+  var prevBtn = document.getElementById('feedbackPrev');
+  var nextBtn = document.getElementById('feedbackNext');
+  if (!track) return;
+
+  var cards = track.querySelectorAll('.feedback-card');
+  var total = cards.length;
+  var visible = 3;
+  var current = 0;
+  var maxIndex = total - visible;
+
+  function getVisible() {
+    if (window.innerWidth <= 600) return 1;
+    if (window.innerWidth <= 900) return 2;
+    return 3;
+  }
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    visible = getVisible();
+    maxIndex = total - visible;
+    for (var i = 0; i <= maxIndex; i++) {
+      var dot = document.createElement('button');
+      dot.className = 'feedback-dot' + (i === current ? ' active' : '');
+      dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+      dot.dataset.index = i;
+      dot.addEventListener('click', function () { goTo(parseInt(this.dataset.index)); });
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function goTo(index) {
+    if (index < 0) index = 0;
+    if (index > maxIndex) index = maxIndex;
+    current = index;
+    var cardWidth = cards[0].offsetWidth;
+    var gap = 24;
+    track.style.transform = 'translateX(-' + (current * (cardWidth + gap)) + 'px)';
+    dotsWrap.querySelectorAll('.feedback-dot').forEach(function (d, i) {
+      d.classList.toggle('active', i === current);
+    });
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === maxIndex;
+  }
+
+  prevBtn.addEventListener('click', function () { goTo(current - 1); });
+  nextBtn.addEventListener('click', function () { goTo(current + 1); });
+
+  window.addEventListener('resize', function () {
+    visible = getVisible();
+    maxIndex = total - visible;
+    if (current > maxIndex) current = maxIndex;
+    buildDots();
+    goTo(current);
+  });
+
+  buildDots();
+  goTo(0);
 })();

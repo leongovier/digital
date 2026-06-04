@@ -915,6 +915,15 @@
       .quote-step-divider { width: 30px; }
       .step-label { display: none; }
     }
+    .btn-linkedin-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: transparent; color: rgba(255,255,255,0.7);
+      font-size: 1.1rem; cursor: pointer; transition: background 0.2s, border-color 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .btn-linkedin-icon:hover { background: #0A66C2; border-color: #0A66C2; color: #fff; }
   </style>
 </head>
 <body>
@@ -927,12 +936,15 @@
       </div>
       <nav class="main-nav" id="main-nav">
         <ul>
-          <li><a href="#home">Home</a></li>
           <li><a href="#calculators">What I build</a></li>
           <li><a href="#about">Built for you</a></li>
           <li><a href="#systems">Working together</a></li>
           <li><a href="#pricing">Pricing</a></li>
           <li><a href="#faqs">FAQs</a></li>
+          <li><a href="#feedback">Feedback</a></li>
+          <li class="mobile-nav-sep" aria-hidden="true"></li>
+          <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
+          <li class="mobile-nav-extra"><a href="product.html">leongovier.product &rarr;</a></li>
         </ul>
       </nav>
       <div class="header-actions">
@@ -961,8 +973,9 @@
         <h2 class="hero-welcome">Welcome</h2>
         <h1 class="hero-headline">Websites, Calculators, Quote and Decisioning Engines and bespoke CRM systems that work for your business.</h1>
         <div class="hero-buttons">
-          <a href="#about" class="btn btn-outline">Working together</a>
-          <button class="btn btn-accent drawer-open-btn" data-drawer="contact">Get in touch</button>
+          <a href="#calculators" class="btn btn-outline">Learn more</a>
+          <a href="product.html" class="btn btn-accent">leongovier.product &rarr;</a>
+          <a href="https://www.linkedin.com/in/leongovier/" target="_blank" class="btn-linkedin-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
       <div class="hero-features">
@@ -1772,6 +1785,162 @@
   </section>
 
 
+  <!-- FEEDBACK -->
+  <section id="feedback" class="feedback-section">
+    <div class="container">
+      <p class="section-label gradient-text">Feedback received</p>
+      <h2 class="section-title">Twelve years. Twelve voices.</h2>
+      <p class="section-desc">Recommendations gathered over the years from the people on the other side of the work — chief officers, product directors, design leads and engineers. Different companies, different briefs, but the themes recur: clarity under pressure, design that holds up after launch, and someone equally at home in a stakeholder room or deep in the detail. Their words, not mine.</p>
+
+      <div class="feedback-carousel-wrap">
+        <div class="feedback-track-outer">
+          <div class="feedback-track" id="feedbackTrack">
+
+            <!-- Card 1 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon has led a wide range of transformation initiatives across systems, process and governance. He combines genuine diligence with strong product judgement and a clear solution-orientated mindset. He is equally comfortable rolling up his sleeves to resolve detail-level issues as he is operating in senior forums, where he communicates with clarity and confidence.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Jack Warner</span>
+                <span class="feedback-role">Chief Operating Officer</span>
+                <span class="feedback-company">Market Financial Solutions</span>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon is a driving force for change with the ability to translate business requirements into best in class UX. A passion for excellence is abundantly clear which, when aligned to his collaborative approach, outputs always exceed expectations. Leon is comfortable working to tight deadlines within high change environments applying the principles of agile implementation.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Craig Collins</span>
+                <span class="feedback-role">Chief Commercial Officer</span>
+                <span class="feedback-company">Admiral Money</span>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">It pains me to say this because I want to keep Leon all to myself, but I cannot recommend him enough. A calm, composed influence within the team, bringing structure to the UX design process, and the end product — what can I say. There's no hipster, trendy stuff here; this is solid, well thought out design where everything serves a purpose.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Tom Cooksey</span>
+                <span class="feedback-role">Fractional CTO</span>
+                <span class="feedback-company">Logic Rooms</span>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon has a passion and dedication for his work which I have seldom seen or experienced in other colleagues. A track record for consistent high quality delivery against demanding timescales and always looking to innovate. A leader and role model for his team in the field of UX, always challenging them to learn new skills. Never afraid to speak his mind and challenge the status quo, but always focused on delivery.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Simon Martin</span>
+                <span class="feedback-role">Chief Commercial Officer</span>
+                <span class="feedback-company">Interbridge Mortgages</span>
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon worked on the design of a web-app which was being rearchitected to run as a Single Page Application. Leon's focus extended well past the pure UI into the user journeys, and overall UX, culminating in a much cleaner, much more user-friendly application. His approach of working directly with the end users to understand their pain points allowed us to focus on what was important to them, aiding adoption and resulting in a product that runs on over 90% of devices.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Paul Strinati</span>
+                <span class="feedback-role">Chief Technology Officer</span>
+                <span class="feedback-company">Interbridge Mortgages Ltd</span>
+              </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon brought a wide range of UX and UI Design experience to TrakCel and over the term of a short contract was able to quickly engage with the team and went beyond expectations in delivering benefit to the design of the product and influence to the future direction of UX, design and development in the organisation. The experience, team-orientation and urgency that Leon brings to his work would be a welcome addition in any product team.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Paul Howlett</span>
+                <span class="feedback-role">Product Director</span>
+                <span class="feedback-company">TrakCel</span>
+              </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon came into Hills to head up the visual design team. He performed exceptionally in hiring and managing the team, while delivering the high quality of work the business needed. At the same time he built strong relationships across the business and worked effectively with a wide range of stakeholders and peers. He would be an asset to any digital business.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Greg Jarrett</span>
+                <span class="feedback-role">Head of Design &amp; Super IC</span>
+                <span class="feedback-company">William Hill</span>
+              </div>
+            </div>
+
+            <!-- Card 8 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon provides me with nothing but support and guidance when I need it. He passes down his wealth of User Experience and Design knowledge for which I will be grateful. His management skills are very good and has built a culture where my colleagues and I can thrive. I wouldn't hesitate giving Leon my full recommendation to anyone.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Myles Carey</span>
+                <span class="feedback-role">Senior Product Designer</span>
+                <span class="feedback-company">&mdash;</span>
+              </div>
+            </div>
+
+            <!-- Card 9 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">I have worked with Leon directly, he supported me on product launches; he has essentially dressed the shop window for the company. To this end, Leon has been spectacular. I quickly learned to be less prescriptive and let Leon's experience and creative flair provide relevant, current and workable solutions. Leon has always provided forward looking solutions which extend beyond the current project.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Jonathan Manton</span>
+                <span class="feedback-role">Head of Proposition Development</span>
+                <span class="feedback-company">Pepper Money UK</span>
+              </div>
+            </div>
+
+            <!-- Card 10 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon was instrumental to our ability to deliver a high quality product to the market. He first identified gaps in existing UX processes, then provided an end-to-end solution to improve understanding of business requirements and communicating final designs to development teams. His expertise in UI/UX is self-evident, and on top of this he is an excellent collaborator, communicator, organised, and does what he says.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Kristina Gennow</span>
+                <span class="feedback-role">Digital Leadership / Product Management</span>
+                <span class="feedback-company">CWT</span>
+              </div>
+            </div>
+
+            <!-- Card 11 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">I had the pleasure of working with Leon at CWT, where he significantly improved our UX-to-development handoff. By implementing a Material UI design system and driving full adoption across design and engineering, he brought consistency, clarity, and scalability to our workflow. This streamlined delivery, reduced rework, and improved collaboration between teams. Leon's ability to align design with real-world implementation had a clear and lasting impact on how we build products.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Laura Graham</span>
+                <span class="feedback-role">Lead UX Designer</span>
+                <span class="feedback-company">CWT</span>
+              </div>
+            </div>
+
+            <!-- Card 12 -->
+            <div class="feedback-card">
+              <div class="feedback-quote-mark">&ldquo;</div>
+              <p class="feedback-quote">Leon is a great addition to any team and I couldn't recommend him enough. During a short-term contract, he successfully designed and delivered a high-quality customer portal that put our customer's needs at the forefront, and improved our design to developer handoff process. Leon brings with him a wealth of UX and UI experience which he is always happy to share.</p>
+              <div class="feedback-author">
+                <span class="feedback-name">Emma Galvin</span>
+                <span class="feedback-role">Design Lead</span>
+                <span class="feedback-company">CoinCover</span>
+              </div>
+            </div>
+
+          </div><!-- /feedback-track -->
+        </div><!-- /feedback-track-outer -->
+
+        <div class="feedback-controls">
+          <button class="feedback-btn feedback-prev" id="feedbackPrev" aria-label="Previous">&#8592;</button>
+          <div class="feedback-dots" id="feedbackDots"></div>
+          <button class="feedback-btn feedback-next" id="feedbackNext" aria-label="Next">&#8594;</button>
+        </div>
+
+      </div><!-- /feedback-carousel-wrap -->
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer id="footer" class="site-footer">
     <div class="footer-overlay"></div>
@@ -2095,6 +2264,6 @@
       document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
     })();
   </script>
-  <script src="js/main.js?v=14"></script>
+  <script src="js/main.js?v=15"></script>
 </body>
 </html>

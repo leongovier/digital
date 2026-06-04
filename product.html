@@ -1,0 +1,2338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leon Govier — Websites, Calculators & Bespoke Systems | leongovier.digital</title>
+  <meta name="description" content="I design and build websites, calculators and bespoke CRM/CMS systems for businesses. Plain English, no jargon, 30 years in digital. Based in Cardiff, working across the UK.">
+  <meta name="keywords" content="website design, website build, calculator builder, bespoke CRM, bespoke CMS, web design Cardiff, web design UK, business website, quote calculator, bespoke system, Leon Govier">
+  <meta name="author" content="Leon Govier">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://leongovier.digital/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leongovier.digital/">
+  <meta property="og:title" content="Leon Govier — Websites, Calculators & Bespoke Systems">
+  <meta property="og:description" content="I design and build websites, calculators and bespoke systems for businesses. Plain English, no jargon, nearly 30 years in digital.">
+  <meta property="og:image" content="https://leongovier.digital/images/favicon-192.png">
+  <meta property="og:site_name" content="leongovier.digital">
+  <meta property="og:locale" content="en_GB">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Leon Govier — Websites, Calculators & Bespoke Systems">
+  <meta name="twitter:description" content="I design and build websites, calculators and bespoke systems for businesses. Plain English, no jargon.">
+  <meta name="twitter:image" content="https://leongovier.digital/images/favicon-192.png">
+
+  <!-- Favicons -->
+  <link rel="icon" href="images/favicon-32.png" sizes="32x32">
+  <link rel="icon" href="images/favicon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="images/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/jkiticon.css">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* ── Policy Modal ───────────────────────────────── */
+    .policy-modal {
+      position: fixed; inset: 0; z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .policy-modal.open { opacity: 1; pointer-events: all; }
+    .policy-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+    }
+    .policy-modal-panel {
+      position: relative; z-index: 1;
+      background: #111; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; width: 100%; max-width: 680px;
+      max-height: 90vh; overflow-y: auto;
+      transform: translateY(20px); transition: transform 0.25s ease;
+      margin: 1rem;
+    }
+    .policy-modal.open .policy-modal-panel { transform: translateY(0); }
+    .policy-modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.75rem 2rem 1.25rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky; top: 0; background: #111; z-index: 1;
+    }
+    .policy-modal-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0; }
+    .policy-modal-close {
+      background: none; border: none; color: rgba(255,255,255,0.4);
+      font-size: 1.75rem; cursor: pointer; line-height: 1; padding: 0;
+      transition: color 0.2s;
+    }
+    .policy-modal-close:hover { color: #fff; }
+    .policy-modal-body {
+      padding: 1.75rem 2rem 2rem;
+      font-size: 0.875rem; color: rgba(255,255,255,0.65); line-height: 1.8;
+    }
+    .policy-modal-body h3 {
+      font-weight: 700; color: #FF9900; margin: 1.75rem 0 0.5rem;
+      text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.75rem;
+    }
+    .policy-modal-body h3:first-child { margin-top: 0; }
+    .policy-modal-body p { margin: 0 0 0.75rem; }
+    .policy-modal-body ul { padding-left: 1.25rem; margin: 0 0 0.75rem; }
+    .policy-modal-body ul li { margin-bottom: 0.35rem; }
+    .policy-modal-body a { color: #FF9900; text-decoration: none; }
+    .footer-policy-btn {
+      background: none; border: none; cursor: pointer;
+      color: rgba(255,255,255,0.5); font-size: inherit;
+      font-family: inherit; padding: 0; transition: color 0.2s;
+    }
+    .footer-policy-btn:hover { color: #fff; }
+    @media (max-width: 600px) {
+      .policy-modal-header { padding: 1.25rem; }
+      .policy-modal-body { padding: 1.25rem; }
+    }
+    /* ── Case Study Modal ────────────────────────────── */
+    .cs-modal {
+      position: fixed; inset: 0; z-index: 2000;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+    }
+    .cs-modal.open { opacity: 1; pointer-events: all; }
+    .cs-modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.85); backdrop-filter: blur(4px);
+    }
+    .cs-modal-panel {
+      position: relative; z-index: 1;
+      background: #111; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; width: 100%; max-width: 780px;
+      max-height: 90vh; overflow-y: auto;
+      transform: translateY(20px); transition: transform 0.25s ease;
+      margin: 1rem;
+    }
+    .cs-modal.open .cs-modal-panel { transform: translateY(0); }
+    .cs-modal-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 2rem 2rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.08);
+      position: sticky; top: 0; background: #111; z-index: 1;
+    }
+    .cs-tag {
+      display: inline-block; font-size: 0.7rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: #FF9900; margin-bottom: 0.4rem;
+    }
+    .cs-modal-title { font-size: 1.5rem; font-weight: 700; color: #fff; margin: 0; }
+    .cs-modal-close {
+      background: none; border: none; color: rgba(255,255,255,0.4);
+      font-size: 1.75rem; cursor: pointer; line-height: 1;
+      padding: 0; flex-shrink: 0; margin-left: 1rem; transition: color 0.2s;
+    }
+    .cs-modal-close:hover { color: #fff; }
+    .cs-modal-body { padding: 2rem; }
+    .cs-section { margin-bottom: 2rem; }
+    .cs-section-label {
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.12em; color: #FF9900; margin-bottom: 0.75rem;
+    }
+    .cs-section p { font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.7; margin: 0; }
+    .cs-built-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+    .cs-built-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.25rem 1.5rem;
+    }
+    .cs-built-card h4 { font-size: 0.85rem; font-weight: 700; color: #fff; margin: 0 0 0.75rem; }
+    .cs-built-card ul { list-style: none; margin: 0; padding: 0; }
+    .cs-built-card ul li {
+      font-size: 0.82rem; color: rgba(255,255,255,0.65);
+      padding: 0.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex; align-items: baseline; gap: 0.5rem;
+    }
+    .cs-built-card ul li:last-child { border-bottom: none; }
+    .cs-built-card ul li::before { content: '✓'; color: #FF9900; font-weight: 700; flex-shrink: 0; }
+    .cs-outcomes { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 0.75rem; }
+    .cs-outcome {
+      background: rgba(255,153,0,0.07); border: 1px solid rgba(255,153,0,0.2);
+      border-radius: 12px; padding: 1.1rem; text-align: center;
+    }
+    .cs-outcome strong { display: block; font-size: 1.3rem; font-weight: 700; color: #FF9900; margin-bottom: 0.25rem; }
+    .cs-outcome span { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
+    .cs-modal-footer {
+      margin: 0 2rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      background: linear-gradient(rgba(10,8,20,0.78), rgba(10,8,20,0.78)),
+                  url('images/vinyl-retro-minimal-art-design.jpg') center/cover no-repeat;
+      border-radius: 12px; padding: 1.5rem 1.75rem;
+      font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6;
+    }
+    .cs-modal-footer strong { color: #fff; }
+    .cs-modal-footer p { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin: 0; }
+    .cs-modal-footer .btn { flex-shrink: 0; white-space: nowrap; }
+    /* Carousel */
+    .cs-carousel { position: relative; margin-top: 1.5rem; border-radius: 12px; overflow: hidden; background: #000; }
+    .cs-carousel-track { display: flex; transition: transform 0.35s ease; }
+    .cs-carousel-track img {
+      width: 100%; flex-shrink: 0;
+      object-fit: contain; max-height: 340px;
+      display: block;
+    }
+    .cs-carousel-btn {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1rem; transition: background 0.2s;
+      z-index: 2;
+    }
+    .cs-carousel-btn:hover { background: rgba(255,153,0,0.7); }
+    .cs-carousel-prev { left: 10px; }
+    .cs-carousel-next { right: 10px; }
+    .cs-carousel-dots {
+      display: flex; justify-content: center; gap: 6px; padding: 0.6rem 0 0.25rem;
+    }
+    .cs-carousel-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); border: none; cursor: pointer; padding: 0;
+      transition: background 0.2s;
+    }
+    .cs-carousel-dot.active { background: #FF9900; }
+    @media (max-width: 600px) {
+      .cs-built-grid { grid-template-columns: 1fr; }
+      .cs-outcomes { grid-template-columns: 1fr; }
+      .cs-modal-header { padding: 1.25rem; }
+      .cs-modal-body { padding: 1.25rem; }
+      .cs-modal-footer { padding: 1.25rem; }
+      .cs-carousel-track img { max-height: 220px; }
+    }
+    /* Pricing section */
+    .pricing-group-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #FF9900;
+      margin: 3.5rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .pricing-group-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.1);
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .pricing-grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .pricing-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .pricing-card.featured {
+      border-color: #FF9900;
+      background: rgba(255,153,0,0.06);
+    }
+    .pricing-card-wide {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .pricing-tier {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 0.5rem;
+    }
+    .pricing-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      line-height: 1;
+    }
+    .pricing-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+    }
+    .pricing-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      margin: 0.75rem 0 1.25rem;
+      line-height: 1.5;
+    }
+    .pricing-includes {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+    }
+    .pricing-includes li {
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pricing-includes li::before {
+      content: '✓';
+      color: #FF9900;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .pricing-note {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+    }
+    .pricing-note strong {
+      color: #fff;
+    }
+    /* CTA — reusable inline call-to-action bar */
+    .section-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      background: linear-gradient(rgba(10,8,20,0.78), rgba(10,8,20,0.78)),
+                  url('images/vinyl-retro-minimal-art-design.jpg') center/cover no-repeat;
+      border: none;
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      overflow: hidden;
+    }
+    .section-cta strong { color: #fff; }
+    .section-cta .btn { flex-shrink: 0; white-space: nowrap; }
+    @media (max-width: 600px) {
+      .section-cta { flex-direction: column; align-items: stretch; }
+      .section-cta .btn { width: 100%; text-align: center; }
+    }
+    /* Calculators bullet list */
+    .calc-tabs { margin: 1.5rem 0 2rem; }
+    .calc-feature ul {
+      list-style: none;
+      margin: 0.75rem 0 0;
+      padding: 0;
+    }
+    .calc-feature ul li {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.8);
+      padding: 0.45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .calc-feature ul li::before {
+      content: '•';
+      color: #FF9900;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .calc-tab-panels {
+      padding: 1.75rem 0;
+    }
+    .calc-tab-panel { display: none; }
+    .calc-tab-panel.active { display: block; }
+    .calc-panel-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #FF9900;
+      margin-bottom: 0.5rem;
+      padding: 0 12px;
+      line-height: 1.4;
+    }
+    .calc-panel-desc {
+      font-style: normal;
+      font-weight: 600;
+      color: rgb(255, 255, 255);
+      font-size: 13px;
+      line-height: 20px;
+      margin-bottom: 1.75rem;
+      padding: 0 12px;
+    }
+    .calc-features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .cs-stack {
+      grid-template-columns: 1fr;
+    }
+    .cs-2x2 {
+      grid-template-columns: 1fr 1fr;
+    }
+    .tooling-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+    }
+    .tooling-col {
+      display: contents;
+    }
+    .tooling-card-span-rows {
+      grid-column: 1;
+      grid-row: 1 / 3;
+    }
+    .tooling-card-span-cols {
+      grid-column: 2 / 4;
+    }
+    .tooling-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.25rem 1.4rem;
+    }
+    .tooling-card h5 {
+      color: #FF9900;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 0.5rem;
+    }
+    .tooling-card p {
+      font-size: 12px;
+      color: var(--color-text);
+      line-height: 1.6;
+      margin: 0 0 0.75rem;
+    }
+    .tooling-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .tooling-card ul li {
+      font-size: 12px;
+      color: var(--color-text);
+      padding: 3px 0;
+    }
+    .tooling-card ul li::before {
+      content: '•';
+      color: #FF9900;
+      margin-right: 6px;
+    }
+    .tools-bullets {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0;
+    }
+    .tools-bullets li {
+      padding: 4px 0;
+      font-size: 12px;
+      color: var(--color-text);
+    }
+    .tools-bullets li::before {
+      content: '—';
+      color: #FF9900;
+      margin-right: 6px;
+    }
+    .calc-feature {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .calc-feature:hover {
+      background: rgba(255,153,0,0.07);
+      border-color: rgba(255,153,0,0.45);
+      transform: translateY(-2px);
+    }
+    .calc-feature-gallery {
+      background: none;
+      border: none;
+      padding: 12px 0 0;
+    }
+    .calc-feature-gallery:hover {
+      background: none;
+      border-color: transparent;
+      transform: none;
+    }
+    .calc-feature h5 {
+      color: #FF9900;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+    .calc-feature p {
+      font-size: 0.8rem;
+      color: rgb(168, 168, 189);
+      line-height: 1.6;
+      margin: 0;
+      text-align: justify;
+    }
+    .proof-line {
+      font-style: italic;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.95rem;
+      margin: 0 0 2rem;
+      border-left: 3px solid #FF9900;
+      padding-left: 1rem;
+    }
+    /* CTA section */
+    .cta-section {
+      position: relative;
+      padding: 100px 0;
+      background: url('images/s3-arcs.png') center/cover no-repeat;
+      text-align: center;
+    }
+    .cta-section .section-overlay {
+      opacity: 0.7;
+    }
+    .cta-section .container {
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+    }
+    .cta-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+    /* System cards layout fix */
+    .systems-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+    .system-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(135,115,203,0.2);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+    }
+    .system-card:hover {
+      background: rgba(255,153,0,0.07);
+      border-color: rgba(255,153,0,0.45);
+      transform: translateY(-2px);
+    }
+    .system-card h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #FF9900;
+      margin: 0 0 0.35rem;
+    }
+    .system-card p {
+      font-size: 0.8rem;
+      color: rgb(255, 255, 255);
+      line-height: 1.6;
+      margin: 0;
+      text-align: justify;
+    }
+    .section-pullquote {
+      font-style: italic;
+      color: rgba(255,255,255,0.6);
+      font-size: 1rem;
+      margin: 2.5rem 0 1.5rem;
+      text-align: center;
+    }
+    /* About cards using pillars-grid */
+    @media (max-width: 600px) {
+      .pricing-grid, .pricing-grid-2 {
+        grid-template-columns: 1fr;
+      }
+      .calc-list {
+        grid-template-columns: 1fr;
+      }
+      .systems-grid {
+        grid-template-columns: 1fr;
+      }
+      .calc-features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 768px) {
+      .toggle-scroll-wrap {
+        position: relative;
+      }
+      .toggle-scroll-wrap::after {
+        content: '›';
+        position: absolute;
+        right: 0; top: 0; bottom: 0;
+        width: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 10px;
+        background: linear-gradient(to right, transparent, #000 80%);
+        color: rgba(255,255,255,0.5);
+        font-size: 1.4rem;
+        pointer-events: none;
+      }
+      .process-toggle {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        touch-action: pan-x;
+      }
+      .process-toggle::-webkit-scrollbar { display: none; }
+      .process-toggle .process-toggle-btn {
+        white-space: nowrap;
+        touch-action: manipulation;
+        cursor: pointer;
+      }
+    }
+
+    /* ── Bespoke / Why section ───────────────────────── */
+    .bespoke-three-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin: 2.5rem 0 1rem;
+    }
+    .bespoke-col {
+      padding: 1.75rem 1.75rem 1.75rem 0;
+    }
+    .bespoke-word {
+      font-style: normal;
+      font-weight: 600;
+      color: rgb(255, 153, 0);
+      font-size: 14px;
+      line-height: 23px;
+      margin: 0 0 0.4rem;
+    }
+.bespoke-col h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgb(255, 153, 0);
+      margin-bottom: 0.85rem;
+      line-height: 1.4;
+    }
+    .bespoke-col p {
+      font-size: 0.875rem;
+      color: #fff;
+      line-height: 1.7;
+      margin: 0;
+      text-align: justify;
+    }
+    @media (max-width: 768px) {
+      .bespoke-three-cols { grid-template-columns: 1fr; }
+    }
+    .bespoke-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .bespoke-list li {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.8);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+    .bespoke-list li::before {
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      content: '\f058';
+      color: #FF9900;
+      flex-shrink: 0;
+    }
+    .bespoke-list li {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    /* Journey graphic */
+    .journey-wrap {
+      padding: 2rem 0;
+    }
+    .journey-track {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: 0;
+    }
+    .journey-step {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      flex: 1;
+      min-width: 0;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.75rem 1rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .journey-step {
+      overflow: hidden;
+    }
+    .journey-step:hover {
+      border-color: rgba(255,153,0,0.5);
+      background: rgba(255,153,0,0.06);
+      transform: translateY(-3px);
+    }
+    .journey-step:hover .journey-icon {
+      color: #FF9900;
+    }
+    .journey-step:hover .journey-outcome {
+      color: rgba(255,255,255,0.8);
+    }
+    .journey-watermark {
+      position: absolute;
+      bottom: -10px;
+      right: -5px;
+      font-size: 90px;
+      color: rgba(255,153,0,0.15);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .journey-step:hover .journey-watermark {
+      opacity: 1;
+    }
+    .journey-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 0.75rem;
+    }
+    .journey-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #FF9900;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 24px rgba(255,153,0,0.35);
+      flex-shrink: 0;
+      margin-bottom: 0.75rem;
+    }
+    .journey-icon {
+      font-size: 1.4rem;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.6rem;
+    }
+    .journey-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+    .journey-sub {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #FF9900;
+      margin-bottom: 0.5rem;
+    }
+    .journey-outcome {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.4;
+      padding: 0 0.25rem;
+      margin: 0;
+    }
+    .journey-line {
+      flex: 0 0 auto;
+      width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: center;
+      color: #FF9900;
+      font-size: 1.4rem;
+      font-weight: 300;
+    }
+    .journey-line::after {
+      content: '›';
+    }
+    @media (max-width: 768px) {
+      .bespoke-intro { grid-template-columns: 1fr; gap: 2rem; }
+      .journey-track { flex-direction: column; align-items: stretch; gap: 0; }
+      .journey-line { width: auto; height: 32px; font-size: 1.4rem; transform: rotate(90deg); }
+    }
+
+    /* ── FAQs two-col ────────────────────────────────── */
+    .faqs-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 768px) {
+      .faqs-cols { grid-template-columns: 1fr; }
+    }
+
+    /* ── Pricing Tabs ─────────────────────────────────── */
+    .pricing-tab-panel { display: none; }
+    .pricing-tab-panel.active { display: block; animation: qFade 0.25s ease; }
+
+    /* ── Quote Wizard ─────────────────────────────────── */
+    .quote-progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2.5rem 0 3rem;
+    }
+    .quote-step-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      opacity: 0.35;
+      transition: opacity 0.3s;
+    }
+    .quote-step-indicator.active { opacity: 1; }
+    .quote-step-indicator.done  { opacity: 0.7; }
+    .step-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      transition: all 0.3s;
+      flex-shrink: 0;
+    }
+    .quote-step-indicator.active .step-num {
+      background: #FF9900; border-color: #FF9900; color: #fff;
+    }
+    .quote-step-indicator.done .step-num {
+      background: rgba(255,153,0,0.25); border-color: #FF9900; color: #FF9900;
+    }
+    .step-label {
+      font-size: 0.82rem; font-weight: 500;
+      color: rgba(255,255,255,0.45);
+    }
+    .quote-step-indicator.active .step-label { color: #fff; }
+    .quote-step-divider {
+      width: 60px; height: 1px;
+      background: rgba(255,255,255,0.12);
+      margin: 0 0.75rem; flex-shrink: 0;
+    }
+    /* Steps */
+    .quote-step { display: none; }
+    .quote-step.active {
+      display: block;
+      animation: qFade 0.3s ease;
+    }
+    @keyframes qFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .quote-step > h3 {
+      font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem;
+    }
+    .quote-step > p {
+      font-size: 0.9rem; color: rgba(255,255,255,0.55); margin-bottom: 1.75rem;
+    }
+    /* Service selector cards */
+    .quote-service-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+    .quote-service-card { cursor: pointer; display: block; }
+    .quote-service-card input { display: none; }
+    .qsc-inner {
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 1.75rem 1.25rem;
+      text-align: center;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.04);
+      height: 100%;
+      box-sizing: border-box;
+    }
+    .qsc-inner i {
+      font-size: 1.8rem; color: rgba(255,255,255,0.35);
+      display: block; margin-bottom: 0.75rem; transition: color 0.2s;
+    }
+    .qsc-inner h4 { font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 0.3rem; }
+    .qsc-inner p  { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.4; margin: 0; }
+    .quote-service-card:hover .qsc-inner {
+      border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.07);
+    }
+    .quote-service-card:hover .qsc-inner i { color: rgba(255,255,255,0.65); }
+    .quote-service-card:hover .qsc-inner p { color: #fff; }
+    .quote-service-card input:checked + .qsc-inner {
+      border-color: #FF9900; background: rgba(255,153,0,0.08);
+    }
+    .quote-service-card input:checked + .qsc-inner i { color: #FF9900; }
+    /* Package cards */
+    .quote-pkg-group { margin-bottom: 2rem; }
+    .quote-pkg-group-label {
+      font-size: 0.72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: #FF9900; margin-bottom: 0.75rem;
+    }
+    .quote-pkg-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.85rem;
+    }
+    .quote-pkg-card { cursor: pointer; display: block; }
+    .quote-pkg-card input { display: none; }
+    .qpc-inner {
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 1.1rem 1.25rem;
+      transition: all 0.2s;
+      background: rgba(255,255,255,0.04);
+    }
+    .qpc-tier {
+      font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5); margin-bottom: 0.2rem;
+    }
+    .qpc-price {
+      font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 0.3rem;
+    }
+    .qpc-desc {
+      font-size: 0.76rem; color: rgba(255,255,255,0.45); line-height: 1.4; margin: 0;
+    }
+    .quote-pkg-card:hover .qpc-inner {
+      border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.07);
+    }
+    .quote-pkg-card:hover .qpc-tier,
+    .quote-pkg-card:hover .qpc-desc { color: #fff; }
+    .quote-pkg-card input:checked + .qpc-inner {
+      border-color: #FF9900; background: rgba(255,153,0,0.08);
+    }
+    .quote-pkg-card input:checked + .qpc-inner .qpc-price { color: #FF9900; }
+    /* Nav row */
+    .quote-nav {
+      display: flex; gap: 1rem; margin-top: 2rem; align-items: center;
+    }
+    /* Success */
+    #quoteSuccess p {
+      padding: 1.5rem; background: rgba(255,153,0,0.1);
+      border: 1px solid rgba(255,153,0,0.3); border-radius: 12px;
+      color: #fff; font-size: 0.95rem; text-align: center;
+    }
+    /* Feature add-ons */
+    .quote-features-section { margin-top: 1.5rem; }
+    .quote-feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 0.5rem; margin-top: 0.75rem;
+    }
+    .quote-feature-item { cursor: pointer; display: block; }
+    .quote-feature-item input { display: none; }
+    .qfi-inner {
+      display: flex; justify-content: space-between; align-items: center;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+      padding: 0.6rem 0.85rem; font-size: 0.82rem;
+      color: rgba(255,255,255,0.65); transition: all 0.2s;
+      background: rgba(255,255,255,0.03);
+    }
+    .qfi-inner em { font-style: normal; font-size: 0.74rem; color: rgba(255,255,255,0.35); }
+    .quote-feature-item:hover .qfi-inner { border-color: rgba(255,255,255,0.25); color: #fff; background: rgba(255,255,255,0.06); }
+    .quote-feature-item:hover .qfi-inner em { color: rgba(255,255,255,0.6); }
+    .quote-feature-item input:checked + .qfi-inner { border-color: #FF9900; background: rgba(255,153,0,0.1); color: #fff; }
+    .quote-feature-item input:checked + .qfi-inner em { color: #FF9900; }
+    /* Live price bar */
+    .quote-price-bar {
+      margin-top: 1.5rem; background: rgba(255,153,0,0.07);
+      border: 1px solid rgba(255,153,0,0.3); border-radius: 12px;
+      padding: 1.1rem 1.5rem; display: flex; align-items: center;
+      gap: 1.25rem; flex-wrap: wrap;
+    }
+    .qpb-label { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+    .qpb-amount { font-size: 2rem; font-weight: 700; color: #FF9900; line-height: 1; }
+    .qpb-note { font-size: 0.74rem; color: rgba(255,255,255,0.35); margin-left: auto; }
+    /* Estimate summary in Step 3 */
+    .quote-estimate-box {
+      background: rgba(255,153,0,0.07); border: 1px solid rgba(255,153,0,0.25);
+      border-radius: 12px; padding: 1rem 1.25rem; margin-bottom: 1.75rem;
+      font-size: 0.85rem; color: rgba(255,255,255,0.65);
+    }
+    .quote-estimate-box .qeb-total { font-size: 1.6rem; font-weight: 700; color: #FF9900; display: block; margin-bottom: 0.25rem; }
+    .quote-estimate-box .qeb-breakdown { color: rgba(255,255,255,0.5); font-size: 0.8rem; }
+    /* Success proceed CTA */
+    .quote-success-inner { text-align: center; }
+    .quote-success-inner p { padding: 1.5rem; background: rgba(255,153,0,0.1); border: 1px solid rgba(255,153,0,0.3); border-radius: 12px; color: #fff; font-size: 0.95rem; margin-bottom: 1rem; }
+    .quote-success-inner .qprice-confirm { font-size: 2rem; font-weight: 700; color: #FF9900; display: block; margin: 0.5rem 0; }
+    .quote-success-inner .btn { margin-top: 0.5rem; }
+    @media (max-width: 640px) {
+      .quote-service-cards { grid-template-columns: 1fr; }
+      .quote-step-divider { width: 30px; }
+      .step-label { display: none; }
+    }
+    /* ── Feedback Carousel ─────────────────────────── */
+    .feedback-section { background: var(--gradient-section-b); padding: 80px 0; }
+    .feedback-nav { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+    .feedback-nav-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .feedback-nav-btn:hover { background: rgba(255,153,0,0.15); border-color: rgba(255,153,0,0.5); }
+    .feedback-carousel { overflow: hidden; }
+    .feedback-track { display: flex; gap: 1.25rem; transition: transform 0.4s ease; }
+    .feedback-card {
+      flex: 0 0 calc(33.333% - 0.84rem);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem 1.6rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .feedback-quote {
+      font-size: 13px;
+      color: var(--color-text);
+      line-height: 1.7;
+      font-style: italic;
+      flex: 1;
+    }
+    .feedback-quote::before { content: '"'; color: #FF9900; font-size: 1.4rem; line-height: 0; vertical-align: -0.4rem; margin-right: 2px; }
+    .feedback-quote::after  { content: '"'; color: #FF9900; font-size: 1.4rem; line-height: 0; vertical-align: -0.4rem; margin-left: 2px; }
+    .feedback-meta { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 0.75rem; }
+    .feedback-name { font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 0.15rem; }
+    .feedback-role { font-size: 11px; color: var(--color-text); margin: 0; }
+    .feedback-company { font-size: 11px; color: #FF9900; margin: 0; }
+    .btn-linkedin-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3);
+      background: transparent; color: rgba(255,255,255,0.7);
+      font-size: 1.1rem; cursor: pointer; transition: background 0.2s, border-color 0.2s, color 0.2s;
+      text-decoration: none;
+    }
+    .btn-linkedin-icon:hover { background: #0A66C2; border-color: #0A66C2; color: #fff; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <a href="#home"><span class="logo-white">leongovier</span>.product</a>
+      </div>
+      <nav class="main-nav" id="main-nav">
+        <ul>
+          <li><a href="#what-i-design">What I design</a></li>
+          <li><a href="#what-i-build">What I build</a></li>
+          <li><a href="#process">Process</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#feedback">Feedback</a></li>
+          <li><a href="#faqs">FAQs</a></li>
+          <li class="mobile-nav-sep" aria-hidden="true"></li>
+          <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
+          <li class="mobile-nav-extra"><a href="index.html">leongovier.digital &rarr;</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a href="https://www.linkedin.com/in/leongovier/" target="_blank" class="social-link" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-cta">
+      <button class="btn btn-primary btn-full drawer-open-btn" data-drawer="contact">Get in touch</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="home" class="hero-section">
+    <div class="hero-image-bg">
+      <img src="images/pencil-and-shavings-from-sharpening-on-colored-striped-papers-b.jpg" alt="" aria-hidden="true">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="hero-text">
+        <h2 class="hero-welcome">Hello...</h2>
+        <h1 class="hero-headline">Turning complex workflows into clear, scalable products — from discovery through delivery, brief to shipped.</h1>
+        <div class="hero-buttons">
+          <a href="#process" class="btn btn-outline">Learn more</a>
+          <a href="index.html" class="btn btn-accent">leongovier.digital &rarr;</a>
+          <a href="https://www.linkedin.com/in/leongovier/" target="_blank" class="btn-linkedin-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="hero-features">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="jki jki-team-presentation-line"></i></div>
+          <div class="feature-body">
+            <h5>User-Centered Approach</h5>
+            <p>I design solutions by deeply understanding user needs, behaviors, and pain points—then translate those insights into clear, purposeful product decisions.</p>
+          </div>
+          <span class="watermark-icon"><i class="jki jki-team-presentation-line"></i></span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="jki jki-brain-light"></i></div>
+          <div class="feature-body">
+            <h5>AI-Native Interaction Design</h5>
+            <p>I design conversational flows and AI-powered interfaces that feel intuitive, human, and genuinely useful—bridging cutting-edge AI with real-world usability.</p>
+          </div>
+          <span class="watermark-icon"><i class="jki jki-brain-light"></i></span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="jki jki-monitor-light"></i></div>
+          <div class="feature-body">
+            <h5>End-to-End Design</h5>
+            <p>I deliver complete product experiences from initial research and wireframes through to polished, high-fidelity prototypes ready for development handoff.</p>
+          </div>
+          <span class="watermark-icon"><i class="jki jki-monitor-light"></i></span>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="jki jki-tools-light"></i></div>
+          <div class="feature-body">
+            <h5>Design Systems Expertise</h5>
+            <p>I build and maintain scalable Figma design systems that keep teams moving fast, aligned, and consistently on-brand across every product surface.</p>
+          </div>
+          <span class="watermark-icon"><i class="jki jki-tools-light"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT I DESIGN — Case Studies -->
+  <section id="what-i-design" class="about-section">
+    <div class="section-overlay"></div>
+    <div class="container">
+      <p class="section-label gradient-text">What I design</p>
+      <h2 class="section-title">Selected projects over the last 5 years</h2>
+      <p class="section-desc">6 projects, one through-line — <span style="color:#fff;font-weight:600;">complex products shipped under real constraints.</span> The variable is scale. Some are AI-native MVPs designed, prompted and built solo in a month — Cubik's lending platform, a reverse-matching CRM for a car dealer. Others are design systems absorbed into enterprise platforms already serving thousands — Jamf, CWT, Coincover. Fintech and specialist lending run through most of it; conversational quote engines, mortgage affordability, pricing calculators. Different domains, same job: make the complex usable.</p>
+
+      <div class="calc-tabs">
+        <div class="toggle-scroll-wrap">
+        <div class="process-toggle">
+          <button class="process-toggle-btn calc-tab active" data-tab="websites">Case study 1</button>
+          <button class="process-toggle-btn calc-tab" data-tab="finance">Case study 2</button>
+          <button class="process-toggle-btn calc-tab" data-tab="bespoke">Case study 3</button>
+          <button class="process-toggle-btn calc-tab" data-tab="quote">Case study 4</button>
+          <button class="process-toggle-btn calc-tab" data-tab="eligibility">Case study 5</button>
+          <button class="process-toggle-btn calc-tab" data-tab="cs6">Case study 6</button>
+        </div>
+        </div>
+        <div class="calc-tab-panels">
+
+          <!-- Case study 1 — Cubik CRM -->
+          <div class="calc-tab-panel active" id="calcTab-websites">
+            <h3 class="calc-panel-title">Cubik CRM — A solo-built broker admin suite that fuses AI quoting with pipeline tracking.</h3>
+            <p class="calc-panel-desc">Cubik CRM turns broker enquiries into pipeline-tracked deals in a single workspace. Brokers generate indicative quotes for Bridging and Commercial Buy-to-Let in under 60 seconds using an embedded AI quote engine, then track cases from enquiry to completion without switching tools. Designed, prompted, prototyped and shipped as a four-week solo build using Claude Code as the full production pipeline.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/cubik-crm/slider/01.webp" alt="Cubik CRM — Buy to Let quote screen" data-gallery="cubik-crm" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>Specialist lending brokers were managing cases across spreadsheets, calculators, and email — manually recalculating every quote when terms changed. Pipeline visibility was non-existent and data was lost at every handoff point between tools.</p>
+                <ul>
+                  <li>Quotes recalculated manually on every change</li>
+                  <li>No pipeline visibility — cases stalled silently</li>
+                  <li>Data lost or duplicated at every tool handoff</li>
+                  <li>Three separate tools pretending to work together</li>
+                  <li>No audit trail — case history impossible to reconstruct</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Tool selection is part of the design decision. Claude Design extracted brand tokens; Claude Code built the React frontend directly from Figma — no screenshots, no manual handoff. AI was the production pipeline, not a helper.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Claude Design</li>
+                  <li>Claude Code</li>
+                  <li>React</li>
+                  <li>Node.js</li>
+                  <li>PostgreSQL</li>
+                  <li>Tailwind CSS</li>
+                  <li>Vercel</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>Cubik shipped as a connected workspace in four weeks. Brokers generate indicative quotes in under 60 seconds, track cases from enquiry to completion, and review full audit trails — without switching tools or context.</p>
+                <ul>
+                  <li>Indicative quote generated in under 60 seconds</li>
+                  <li>Full case lifecycle in one workspace</li>
+                  <li>Audit trail and affordability data alongside deal stages</li>
+                  <li>Brand to working product in four weeks solo</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 2 — Anything Medical -->
+          <div class="calc-tab-panel" id="calcTab-finance">
+            <h3 class="calc-panel-title">Anything Medical — Full-stack website and CRM built for a UK medical distributor.</h3>
+            <p class="calc-panel-desc">Anything Medical needed to replace a single-page WordPress site with no lead capture and no product detail. I built a 20+ page marketing site with a 16-product catalogue alongside a companion CRM — capturing every enquiry, routing it to the right sales rep, and tracking deals through a 6-stage pipeline. The client went from a phone and a spreadsheet to a live sales workflow on day one.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/anything-medical/slider/01.webp" alt="Anything Medical — Homepage" data-gallery="anything-medical" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>A one-page WordPress site with no product detail and no lead capture. Enquiries were tracked manually across email and spreadsheets.</p>
+                <ul>
+                  <li>Single-page site, no product catalogue</li>
+                  <li>Enquiries lost in a shared inbox</li>
+                  <li>No sales pipeline or lead tracking</li>
+                  <li>Sales team had no lead ownership</li>
+                  <li>No consistent brand or design system</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Built without a framework to keep the frontend fast and fully owned. Next.js powers the CRM, using serverless API routes deployed on Vercel. Claude AI accelerated the entire build.</p>
+                <ul class="tools-bullets">
+                  <li>Claude Code</li>
+                  <li>HTML / CSS / JS</li>
+                  <li>Next.js</li>
+                  <li>Vercel</li>
+                  <li>Resend</li>
+                  <li>PostgreSQL</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>A full marketing site and CRM shipped in four weeks. Every enquiry now lands in a pipeline with the right rep automatically assigned.</p>
+                <ul>
+                  <li>20+ pages replacing a single-page site</li>
+                  <li>16-product catalogue across 3 categories</li>
+                  <li>6-stage sales pipeline with audit trail</li>
+                  <li>Automated lead routing and email confirmation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 3 — Lookrr -->
+          <div class="calc-tab-panel" id="calcTab-bespoke">
+            <h3 class="calc-panel-title">Lookrr — Instant DVLA &amp; MOT vehicle intelligence for UK motor trade</h3>
+            <p class="calc-panel-desc">Lookrr gives UK motor trade professionals instant DVLA registration data, MOT history, HPI checks, and mileage fraud detection in under 2 seconds — all from a single plate search. No tab-switching, no manual cross-referencing, no missed red flags. Built as a full SaaS with tiered plans, a real-time dashboard, bulk CSV import, and a watchlist. Shipped production-ready with a complete design system, secure auth flow, and serverless API routes for live vehicle data.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/lookrr/slider/01.png" alt="Lookrr — Vehicle check dashboard" data-gallery="lookrr" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>UK dealers spend 5+ minutes per vehicle manually cross-referencing DVLA, MOT, and HPI sources. No single tool surfaces fraud signals alongside verified plate data instantly.</p>
+                <ul>
+                  <li>Manual lookups across 3+ separate government tools</li>
+                  <li>Mileage anomalies missed without side-by-side history</li>
+                  <li>No bulk lookup for part-exchange appraisals</li>
+                  <li>HPI and tax checks billed separately per query</li>
+                  <li>No audit trail or team-shareable check history</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Built in vanilla HTML, CSS, and JavaScript — no framework, no build step. Claude Code drove the full design-to-deploy loop. Vercel handles hosting and serverless API routes for live vehicle data.</p>
+                <ul class="tools-bullets">
+                  <li>Claude Code</li>
+                  <li>Claude Design</li>
+                  <li>HTML / CSS / JS</li>
+                  <li>Vercel</li>
+                  <li>DVLA Open API</li>
+                  <li>Google Fonts</li>
+                  <li>JetBrains Mono</li>
+                  <li>Chrome DevTools</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>Shipped a full SaaS platform with auth, dashboard, bulk import, and watchlist — deployed live on Vercel. Vehicle checks return full MOT, tax, and fraud data in under 2 seconds.</p>
+                <ul>
+                  <li>Live SaaS deployed at lookrr-project.vercel.app</li>
+                  <li>Sub-2-second plate-to-full-report lookup</li>
+                  <li>Bulk CSV import capped to plan allowance</li>
+                  <li>Tiered pricing from pay-as-you-go to unlimited</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 4 — Jamf ETP -->
+          <div class="calc-tab-panel" id="calcTab-quote">
+            <h3 class="calc-panel-title">Jamf ETP — Absorbing an acquired mobile threat defence platform into Jamf as sole designer.</h3>
+            <p class="calc-panel-desc">Jamf acquired a mobile threat defence platform with a completely different visual language. I absorbed the entire product into the Jamf design system as sole designer — maintaining the operational integrity security teams depend on, redesigning threat detection and incident response workflows, and contributing eight new component patterns back into the core system used across all Jamf products.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/jamf-etp/slider/01.webp" alt="Jamf ETP — Security console" data-gallery="jamf-etp" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>Jamf acquired a mobile threat defence platform with a completely different visual language and interaction model. Security operations teams using both products were context-switching between two distinct UIs — adding cognitive load at exactly the point where speed and accuracy matter most.</p>
+                <ul>
+                  <li>Acquired product had entirely separate component patterns</li>
+                  <li>Different interaction models across Jamf and ETP</li>
+                  <li>Security teams context-switching between two distinct UIs</li>
+                  <li>Operational integrity requirements blocked a simple reskin</li>
+                  <li>No existing Jamf patterns for security-specific functionality</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Embedded as sole designer for 8 months, working directly with the Jamf design system team and the ETP security product team to validate workflows against real threat scenarios.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Jamf Design System</li>
+                  <li>React</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>ETP security console fully integrated into the Jamf design system. Security teams move between products without context-switching. Eight new component patterns contributed back to the core Jamf system, now used across other Jamf products.</p>
+                <ul>
+                  <li>1 designer across the entire product</li>
+                  <li>100% Jamf design system compliance</li>
+                  <li>8 new patterns contributed to core system</li>
+                  <li>Phased delivery — no security workflow disrupted</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 5 — Coincover -->
+          <div class="calc-tab-panel" id="calcTab-eligibility">
+            <h3 class="calc-panel-title">Coincover — A tokenised design system built from zero across four audience platforms in four months.</h3>
+            <p class="calc-panel-desc">Coincover had four products, four visual languages, and zero shared infrastructure. I built a fully tokenised design system from zero — one component library spanning customer, partner, admin, and operations platforms — in four months. Brand updates that previously required four separate efforts now propagate across all products in minutes. The in-house team was self-sufficient within two weeks of handover.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/coincover/slider/01.png" alt="Coincover — Design system" data-gallery="coincover" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>Four separate products, four separate visual languages, zero shared infrastructure. Every brand decision had to be implemented four times. The design team was maintaining four Figma files with no shared styles — a single update required four separate design and development efforts.</p>
+                <ul>
+                  <li>Four products with one brand but no shared foundation</li>
+                  <li>Components duplicated with inconsistent variations</li>
+                  <li>Four separate Figma files, no shared styles or tokens</li>
+                  <li>Brand updates required four separate implementation efforts</li>
+                  <li>Cost of inconsistency compounding with every sprint</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Embedded for 4 months, building the token architecture, component library, and Storybook documentation in parallel — then running a structured handover programme to make the in-house team self-sufficient.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Design Tokens</li>
+                  <li>React</li>
+                  <li>Storybook</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>Production design system adopted across all four platforms from one component library. In-house team self-sufficient within two weeks of handover — extending the system independently from month one.</p>
+                <ul>
+                  <li>4 audience platforms served from one system</li>
+                  <li>Zero to production in 4 months</li>
+                  <li>Brand updates: weeks → minutes</li>
+                  <li>Team shipping new components without involvement</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 6 — AdaptiveCRM -->
+          <div class="calc-tab-panel" id="calcTab-cs6">
+            <h3 class="calc-panel-title">AdaptiveCRM — An AI-native CRM that reverse-matches found cars to the customers who want them.</h3>
+            <p class="calc-panel-desc">AdaptiveCRM reverses the usual workflow: instead of searching stock for customers, it searches customers for stock. A luxury-car dealer drops in a screenshot, photo, or WhatsApp message of a vehicle and AdaptiveCRM extracts the details, then ranks which customers in the database actually want it — in under ten seconds. Designed and prototyped for a UK luxury-car dealer exploring AI-native sales tools.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/adaptive-crm/slider/avs-04-matches-list.webp" alt="AdaptiveCRM — Customer match results" data-gallery="adaptive-crm" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>Luxury-car dealers find exceptional vehicles at auction but have no fast way to identify which customers would want them. The workflow relies on memory, manual CRM browsing, or blanket emails — slow, imprecise, and damaging to the client relationships luxury dealers depend on.</p>
+                <ul>
+                  <li>No way to query the CRM with a found vehicle as the starting point</li>
+                  <li>Dealers relied on memory or blanket outreach</li>
+                  <li>Found cars became missed opportunities</li>
+                  <li>Generic outreach undermined high-touch client relationships</li>
+                  <li>Customer preference data existed but was never activated</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Solo build over 3 weeks. Claude API drives vehicle detail extraction from unstructured input and customer match scoring. Claude Code built the React frontend via MCP. Validated with a UK luxury-car dealer using real auction listings and their actual customer database.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Claude Design</li>
+                  <li>Claude Code</li>
+                  <li>Claude API</li>
+                  <li>React</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>Working prototype validated with a UK luxury-car dealer. Match scoring surfaced the right customers for the right cars. Transparent scoring breakdowns let dealers personalise outreach based on the specific match reasons — not just a ranked list.</p>
+                <ul>
+                  <li>Sub-10-second match generation</li>
+                  <li>Zero manual stock entry required</li>
+                  <li>Full match score transparency per customer</li>
+                  <li>Prototype ready for production build</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="section-cta">
+        <span>Interested in working together? <strong>I'm available for contract engagements now.</strong></span>
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CALCULATORS & TOOLS (websites section removed — see _saved-websites-section.html) -->
+  <section id="what-i-build" class="about-section">
+    <div class="section-overlay"></div>
+    <div class="container">
+      <p class="section-label gradient-text">Built for you</p>
+      <h2 class="section-title">What I build</h2>
+      <p class="section-desc">Production-ready digital products designed and shipped end-to-end — from AI-native tools and design systems through to calculators, CRMs and compliance workflows.</p>
+
+      <div class="tooling-grid" style="grid-template-columns:repeat(3,1fr);margin-top:2rem;">
+
+        <div class="tooling-card">
+          <h5>Calculators &amp; Quote Engines</h5>
+          <p>Complex financial calculators and AI-powered quote tools that turn broker enquiries into structured outputs in seconds. Built for specialist lending, mortgage and fintech environments where accuracy and speed both matter.</p>
+          <ul>
+            <li>Mortgage and bridging loan calculators</li>
+            <li>AI conversational quote engines</li>
+            <li>Affordability and DTI threshold tools</li>
+            <li>Rate comparison and scenario modelling</li>
+          </ul>
+        </div>
+
+        <div class="tooling-card">
+          <h5>CRM &amp; Pipeline Tools</h5>
+          <p>Broker and sales CRMs that connect quoting, pipeline tracking and case management in one workspace. Designed for teams running their business across too many disconnected tools and losing data at every handoff.</p>
+          <ul>
+            <li>Broker admin and deal pipeline suites</li>
+            <li>AI reverse-matching and stock tools</li>
+            <li>Case tracking from enquiry to completion</li>
+            <li>Audit trails and commission calculators</li>
+          </ul>
+        </div>
+
+        <div class="tooling-card">
+          <h5>Design Systems</h5>
+          <p>Token-driven component libraries built from zero and adopted across platforms. One source of truth flowing from Figma through MCP to production code — with governance and documentation that lets teams extend them independently.</p>
+          <ul>
+            <li>Multi-platform token architecture</li>
+            <li>Component libraries with usage guidelines</li>
+            <li>Figma to code via MCP and Claude</li>
+            <li>Handover programmes for in-house teams</li>
+          </ul>
+        </div>
+
+        <div class="tooling-card">
+          <h5>AI-Native Products</h5>
+          <p>Conversational interfaces, agent-based workflows and human-in-the-loop tools built for regulated environments. Designed where the AI is a first-class part of the experience — not a feature bolted on after the fact.</p>
+          <ul>
+            <li>Conversational UX and chat interfaces</li>
+            <li>LLM-powered data extraction and matching</li>
+            <li>Human-in-the-loop compliance workflows</li>
+            <li>AI-assisted onboarding and guided flows</li>
+          </ul>
+        </div>
+
+        <div class="tooling-card">
+          <h5>SaaS Dashboards &amp; Analytics</h5>
+          <p>Internal and customer-facing dashboards across complex data domains — built with accessible visualisation systems that non-specialist teams can extend. Five domains shipped from one analytics design system at CWT.</p>
+          <ul>
+            <li>KPI and performance dashboards</li>
+            <li>Multi-domain analytics design systems</li>
+            <li>Accessible data visualisation components</li>
+            <li>Role-based views and reporting tools</li>
+          </ul>
+        </div>
+
+        <div class="tooling-card">
+          <h5>Compliance &amp; Verification Platforms</h5>
+          <p>Guided digital workflows that replace paper-based processes in regulated environments. Built for mortgage income verification, educational compliance and healthcare — where mandatory validation and audit trails are non-negotiable.</p>
+          <ul>
+            <li>Income verification and affordability flows</li>
+            <li>Document upload and OCR validation</li>
+            <li>Multi-step guided compliance workflows</li>
+            <li>Approval routing and audit trail reporting</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="section-cta">
+        <span>Currently available for contract. <strong>Tell me what you're working on.</strong></span>
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORKING TOGETHER -->
+  <section id="process" class="about-section">
+    <div class="section-overlay"></div>
+    <div class="container">
+      <p class="section-label gradient-text">Process</p>
+      <h2 class="section-title">How we'll work together.</h2>
+      <p class="section-desc">Good product design happens between people, not in isolation. I embed in teams, work through ambiguity alongside engineers and stakeholders, and keep the process visible at every stage — no black boxes, no surprises at handoff. Here's how that typically looks from first conversation to something live in the wild. AI accelerates the parts that should be fast — never the parts that require judgment.</p>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">1</text></svg></div>
+          <p class="service-step">01 / Discover</p>
+          <h3>Understand the problem space</h3>
+          <p>Sit with the team and the users. Map constraints, workflows, the messy reality — not the polished version. The real signal lives in the conversations, not the brief. AI helps synthesise interview transcripts and surface patterns across sessions faster — but the judgment about what actually matters still happens in the room.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">2</text></svg></div>
+          <p class="service-step">02 / Define</p>
+          <h3>Frame the right problem, not symptoms</h3>
+          <p>Synthesise what research actually says, not what everyone assumed it would. AI helps stress-test assumptions and spot contradictions in the data before they become design debt. Kill scope that doesn't serve the core job. Alignment here — whether it takes a week or three — saves months later.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">3</text></svg></div>
+          <p class="service-step">03 / Develop</p>
+          <h3>Figma to production</h3>
+          <p>Design in Figma — components, tokens, layouts, flows. Claude Design extracts brand tokens; Claude Code builds working components directly from layouts, removing the manual translation step entirely. Multiple review cycles still happen — AI accelerates the gap between prototype and production, it doesn't skip it.</p>
+        </div>
+        <div class="process-card">
+          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">4</text></svg></div>
+          <p class="service-step">04 / Deliver</p>
+          <h3>Polish, test, and launch</h3>
+          <p>Pair with engineers through QA, polish the details, then watch it in the wild. AI helps catch edge cases and generate test scenarios faster — flagging regressions and surfacing what manual review tends to miss — but the final call on what ships is always a human one. Shipping well means staying close until it's truly done.</p>
+        </div>
+      </div>
+
+      <div class="section-cta">
+        <span>Looking for a design lead who ships? <strong>Let's talk about your team and your product.</strong></span>
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Start a conversation</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="skills" class="features-section">
+    <div class="container">
+      <p class="section-label gradient-text">Skills</p>
+      <h2 class="section-title">What I bring to the table</h2>
+      <p class="section-desc">Thirty years in digital, the last decade focused on product design leadership across fintech, SaaS and regulated environments — from discovery and research through to shipped, production-ready products.</p>
+
+      <!-- Tab buttons -->
+      <div class="toggle-scroll-wrap">
+      <div class="process-toggle" id="pricingTabs">
+        <button class="process-toggle-btn active" data-pricing-tab="crm">Current Tooling</button>
+        <button class="process-toggle-btn" data-pricing-tab="calculators">Product Delivery</button>
+        <button class="process-toggle-btn" data-pricing-tab="websites">Product Leadership</button>
+      </div>
+      </div>
+
+      <!-- Product Leadership -->
+      <div class="pricing-tab-panel" id="ptab-websites">
+        <div class="tooling-grid">
+
+          <div class="tooling-card tooling-card-span-rows">
+            <h5>Leadership &amp; People</h5>
+            <p>How I build and lead design teams — establishing the culture, process and operating model that lets designers do their best work.</p>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Experience</p>
+            <ul>
+              <li>20+ years leading product design</li>
+              <li>3 UX functions built from zero</li>
+              <li>C-suite design advocacy</li>
+              <li>Enterprise and startup environments</li>
+              <li>Contract and embedded leadership</li>
+            </ul>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Approach</p>
+            <ul>
+              <li>Design direction and quality ownership</li>
+              <li>Hiring and capability building</li>
+              <li>Mentoring senior and mid-level designers</li>
+              <li>Design ops and process improvement</li>
+              <li>Embedding design across non-design teams</li>
+            </ul>
+          </div>
+
+          <div class="tooling-card tooling-card-span-cols">
+            <h5>Strategy &amp; Product</h5>
+            <p>How I connect design decisions to business outcomes — from shaping roadmaps and defining success through to facilitating discovery and keeping scope honest.</p>
+            <ul class="tools-bullets">
+              <li>Outcome-focused roadmap thinking</li>
+              <li>Jobs-to-be-done and problem framing</li>
+              <li>Research synthesis and insight to action</li>
+              <li>OKR alignment and success metrics</li>
+              <li>Design maturity assessment</li>
+              <li>Discovery facilitation and workshops</li>
+              <li>Requirements definition and prioritisation</li>
+              <li>MVP scoping and phased delivery</li>
+              <li>Commercially aware decision making</li>
+              <li>Design advocacy at leadership level</li>
+            </ul>
+          </div>
+
+          <div class="tooling-card tooling-card-span-cols">
+            <h5>Domain Expertise</h5>
+            <p>The sectors and product types I know deeply enough that domain expertise replaces research time — I understand the constraints before the brief lands.</p>
+            <ul class="tools-bullets">
+              <li>Fintech and specialist lending</li>
+              <li>B2B SaaS and regulated platforms</li>
+              <li>Mortgage and affordability platforms</li>
+              <li>CRM and pipeline tooling</li>
+              <li>Enterprise design systems at scale</li>
+              <li>AI-native and conversational UX</li>
+              <li>Analytics and data visualisation</li>
+              <li>Security and threat management</li>
+              <li>Healthcare and compliance-led environments</li>
+              <li>Multi-tenant SaaS and white-label products</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Product Delivery -->
+      <div class="pricing-tab-panel" id="ptab-calculators">
+        <div class="tooling-grid">
+
+          <div class="tooling-card tooling-card-span-rows">
+            <h5>Design Delivery</h5>
+            <p>How I close the gap between what's designed and what ships — using AI-assisted pipelines that take Figma layouts to production components without fidelity loss.</p>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Qualifications</p>
+            <ul>
+              <li>PMI Project Management</li>
+              <li>PMI Agile Foundation / Practitioner</li>
+              <li>PMI Product Owner</li>
+              <li>PMI Product Manager</li>
+              <li>SAFe Agile Certification</li>
+            </ul>
+            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Process</p>
+            <ul>
+              <li>Figma to React via Claude MCP</li>
+              <li>Component generation with Claude Code</li>
+              <li>Claude Design for brand token extraction</li>
+              <li>Figma layouts to production without fidelity loss</li>
+              <li>One source of truth from Figma to shipped</li>
+            </ul>
+          </div>
+
+          <div class="tooling-card tooling-card-span-cols">
+            <h5>Delivery Practice</h5>
+            <p>How I work inside product and engineering teams — from sprint planning and backlog refinement through to stakeholder reviews and regulated release cycles.</p>
+            <ul class="tools-bullets">
+              <li>Sprint planning and backlog refinement</li>
+              <li>Cross-functional squad working</li>
+              <li>Agile and SAFe delivery frameworks</li>
+              <li>Azure DevOps · Jira · Linear</li>
+              <li>Stakeholder reviews and demo facilitation</li>
+              <li>Requirements definition and scoping</li>
+              <li>Acceptance criteria and story writing</li>
+              <li>Design within regulated release cycles</li>
+              <li>Risk and dependency management</li>
+              <li>Continuous delivery and deployment</li>
+            </ul>
+          </div>
+
+          <div class="tooling-card tooling-card-span-cols">
+            <h5>Tools &amp; Infrastructure</h5>
+            <p>The full stack I use to design, build and ship — from component libraries and design systems through to deployment pipelines and production environments.</p>
+            <ul class="tools-bullets">
+              <li>GitHub · Vercel · Netlify</li>
+              <li>Notion · Confluence</li>
+              <li>Figma · Storybook</li>
+              <li>Claude Code · Cursor</li>
+              <li>PostgreSQL · Node.js</li>
+              <li>React · Next.js · TypeScript</li>
+              <li>Tailwind CSS · shadcn/ui</li>
+              <li>Azure DevOps pipelines</li>
+              <li>CI/CD and production deployment</li>
+              <li>Environment management across staging and live</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Current Tooling -->
+      <div class="pricing-tab-panel active" id="ptab-crm">
+        <div class="tooling-grid">
+
+          <div class="tooling-card tooling-card-span-rows">
+            <h5>Design</h5>
+            <p>From early wireframes to polished, production-ready components. The tools I use to design, prototype and build at every fidelity.</p>
+            <ul>
+              <li>Figma</li>
+              <li>Claude Design</li>
+              <li>Figma AI</li>
+              <li>Figma Make</li>
+              <li>Adobe Creative Suite</li>
+              <li>React</li>
+              <li>Vite</li>
+              <li>Next.js</li>
+              <li>Tailwind CSS</li>
+              <li>Claude Code</li>
+              <li>Cursor</li>
+              <li>v0 (Vercel)</li>
+            </ul>
+          </div>
+
+          <div class="tooling-card tooling-card-span-cols">
+            <h5>Product Design &amp; Design Systems</h5>
+            <p>Product design leadership across fintech, SaaS and regulated environments — from discovery through to shipped.</p>
+            <ul class="tools-bullets">
+              <li>Interaction design for complex workflows</li>
+              <li>Journey mapping and experience design</li>
+              <li>Information architecture</li>
+              <li>Service flow and experience mapping</li>
+              <li>Design systems and component libraries</li>
+              <li>Design system governance</li>
+              <li>Cross-platform product design</li>
+              <li>Web, SaaS and mobile product experience</li>
+            </ul>
+          </div>
+
+          <div class="tooling-card tooling-card-span-cols">
+            <h5>AI-Enabled Product Design</h5>
+            <p>Designing AI-enabled products where the model is a first-class part of the experience.</p>
+            <ul class="tools-bullets">
+              <li>Conversational UX design</li>
+              <li>Agent-based interaction models</li>
+              <li>Human-in-the-loop design</li>
+              <li>AI in regulated environments</li>
+              <li>AI-assisted discovery workflows</li>
+              <li>AI-assisted design and delivery</li>
+              <li>LLM capabilities in product experiences</li>
+              <li>AI-native interface patterns</li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+    <div class="container" style="margin-top:2rem;">
+      <div class="section-cta">
+        <span>Day rate, fixed scope or retainer. <strong>Get in touch and I'll send a proposal.</strong></span>
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Start a conversation</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEEDBACK -->
+  <section id="feedback" class="feedback-section">
+    <div class="container">
+      <p class="section-label gradient-text">Feedback received</p>
+      <h2 class="section-title">Twelve years. Twelve voices.</h2>
+      <p class="section-desc">Recommendations gathered over the years from the people on the other side of the work — chief officers, product directors, design leads and engineers. Different companies, different briefs, but the themes recur: clarity under pressure, design that holds up after launch, and someone equally at home in a stakeholder room or deep in the detail. Their words, not mine.</p>
+
+      <div class="feedback-nav">
+        <button class="feedback-nav-btn" id="feedbackPrev">&#8592;</button>
+        <button class="feedback-nav-btn" id="feedbackNext">&#8594;</button>
+      </div>
+
+      <div class="feedback-carousel">
+        <div class="feedback-track" id="feedbackTrack">
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon has led a wide range of transformation initiatives across systems, process and governance. He combines genuine diligence with strong product judgement and a clear solution-orientated mindset. He is equally comfortable rolling up his sleeves to resolve detail-level issues as he is operating in senior forums, where he communicates with clarity and confidence.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Jack Warner</p>
+              <p class="feedback-role">Chief Operating Officer</p>
+              <p class="feedback-company">Market Financial Solutions</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon is a driving force for change with the ability to translate business requirements into best in class UX. A passion for excellence is abundantly clear which, when aligned to his collaborative approach, outputs always exceed expectations. Leon is comfortable working to tight deadlines within high change environments applying the principles of agile implementation.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Craig Collins</p>
+              <p class="feedback-role">Chief Commercial Officer</p>
+              <p class="feedback-company">Admiral Money</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">It pains me to say this because I want to keep Leon all to myself, but I cannot recommend him enough. A calm, composed influence within the team, bringing structure to the UX design process, and the end product — what can I say. There's no hipster, trendy stuff here; this is solid, well thought out design where everything serves a purpose.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Tom Cooksey</p>
+              <p class="feedback-role">Fractional CTO</p>
+              <p class="feedback-company">Logic Rooms</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon has a passion and dedication for his work which I have seldom seen or experienced in other colleagues. A track record for consistent high quality delivery against demanding timescales and always looking to innovate. A leader and role model for his team in the field of UX, always challenging them to learn new skills. Never afraid to speak his mind and challenge the status quo, but always focused on delivery.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Simon Martin</p>
+              <p class="feedback-role">Chief Commercial Officer</p>
+              <p class="feedback-company">Interbridge Mortgages</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon worked on the design of a web-app which was being rearchitected to run as a Single Page Application. Leon's focus extended well past the pure UI into the user journeys, and overall UX, culminating in a much cleaner, much more user-friendly application. His approach of working directly with the end users to understand their pain points allowed us to focus on what was important to them, aiding adoption and resulting in a product that runs on over 90% of devices.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Paul Strinati</p>
+              <p class="feedback-role">Chief Technology Officer</p>
+              <p class="feedback-company">Interbridge Mortgages Ltd</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon brought a wide range of UX and UI Design experience to TrakCel and over the term of a short contract was able to quickly engage with the team and went beyond expectations in delivering benefit to the design of the product and influence to the future direction of UX, design and development in the organisation. The experience, team-orientation and urgency that Leon brings to his work would be a welcome addition in any product team.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Paul Howlett</p>
+              <p class="feedback-role">Product Director</p>
+              <p class="feedback-company">TrakCel</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon came into Hills to head up the visual design team. He performed exceptionally in hiring and managing the team, while delivering the high quality of work the business needed. At the same time he built strong relationships across the business and worked effectively with a wide range of stakeholders and peers. He would be an asset to any digital business.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Greg Jarrett</p>
+              <p class="feedback-role">Head of Design &amp; Super IC</p>
+              <p class="feedback-company">William Hill</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon provides me with nothing but support and guidance when I need it. He passes down his wealth of User Experience and Design knowledge for which I will be grateful. His management skills are very good and has built a culture where my colleagues and I can thrive. I wouldn't hesitate giving Leon my full recommendation to anyone.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Myles Carey</p>
+              <p class="feedback-role">Senior Product Designer</p>
+              <p class="feedback-company">&nbsp;</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">I have worked with Leon directly, he supported me on product launches; he has essentially dressed the shop window for the company. To this end, Leon has been spectacular. I quickly learned to be less prescriptive and let Leon's experience and creative flair provide relevant, current and workable solutions. Leon has always provided forward looking solutions which extend beyond the current project.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Jonathan Manton</p>
+              <p class="feedback-role">Head of Proposition Development</p>
+              <p class="feedback-company">Pepper Money UK</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon was instrumental to our ability to deliver a high quality product to the market. He first identified gaps in existing UX processes, then provided an end-to-end solution to improve understanding of business requirements and communicating final designs to development teams. His expertise in UI/UX is self-evident, and on top of this he is an excellent collaborator, communicator, organised, and does what he says.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Kristina Gennow</p>
+              <p class="feedback-role">Digital Leadership / Product Management</p>
+              <p class="feedback-company">CWT</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">I had the pleasure of working with Leon at CWT, where he significantly improved our UX-to-development handoff. By implementing a Material UI design system and driving full adoption across design and engineering, he brought consistency, clarity, and scalability to our workflow. This streamlined delivery, reduced rework, and improved collaboration between teams. Leon's ability to align design with real-world implementation had a clear and lasting impact on how we build products.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Laura Graham</p>
+              <p class="feedback-role">Lead UX Designer</p>
+              <p class="feedback-company">CWT</p>
+            </div>
+          </div>
+
+          <div class="feedback-card">
+            <p class="feedback-quote">Leon is a great addition to any team and I couldn't recommend him enough. During a short-term contract, he successfully designed and delivered a high-quality customer portal that put our customer's needs at the forefront, and improved our design to developer handoff process. Leon brings with him a wealth of UX and UI experience which he is always happy to share.</p>
+            <div class="feedback-meta">
+              <p class="feedback-name">Emma Galvin</p>
+              <p class="feedback-role">Design Lead</p>
+              <p class="feedback-company">CoinCover</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section id="faqs" class="faqs-section">
+    <div class="container">
+      <p class="section-label gradient-text">FAQs</p>
+      <h2 class="section-title">Some important questions</h2>
+      <p class="section-desc">You might have questions about working with me. If what you need isn't answered here, please reach out directly.</p>
+
+      <div class="faqs-cols">
+
+        <div class="accordion" id="accordion-left">
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>What kind of work do you take on?</button>
+            <div class="accordion-body"><p>I work on product design, design systems, AI-native experiences and cross-functional delivery — usually embedded with product and engineering teams in fintech, SaaS or regulated environments. I take on leadership roles (Head of Product, UX Lead), senior IC positions, and delivery consulting where design maturity or velocity needs improvement. I don't do branding, marketing sites, or one-off logo work.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>How do you typically engage with teams?</button>
+            <div class="accordion-body"><p>I embed as part of the team — either leading design direction or working hands-on as a senior IC. I work contract-based (day rate or fixed scope), on retainer for ongoing support, or fractionally for smaller teams that need consistent design leadership without a full-time hire. I'm comfortable in Agile, SAFe, or custom delivery models.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>Do you work remotely or on-site?</button>
+            <div class="accordion-body"><p>I work hybrid. I'm based in Cardiff with regular availability in London, and I'm set up for effective remote collaboration across distributed teams. I'm flexible for on-site days, sprint planning, workshops or stakeholder sessions when face-to-face adds value. Most of my work happens remotely with intentional in-person touchpoints.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>What's your design-to-delivery process?</button>
+            <div class="accordion-body"><p>I follow Double Diamond — Discover, Define, Develop, Deliver. What changes project-to-project is phase weighting and tooling. I use Figma for design, Claude and MCP for AI-assisted delivery, and work directly with engineers to ship production-ready components. Discovery and research stay human-paced; design-to-code is where AI compounds velocity.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>Can you build as well as design?</button>
+            <div class="accordion-body"><p>Yes. I have strong front-end fluency (HTML, CSS, JavaScript, React) and use AI-assisted workflows to go from Figma to production code. I'm not replacing engineers — I'm accelerating handoff quality and reducing translation loss. I can prototype, build design systems, or ship MVPs when speed matters.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>Do you work with AI tools?</button>
+            <div class="accordion-body"><p>Extensively. I design AI-native products (conversational UX, human-in-the-loop workflows, LLM-assisted experiences) and use AI in my delivery process (Claude, MCP, automated testing). I'm particularly experienced in regulated environments where AI needs guardrails, transparency and human oversight.</p></div>
+          </div>
+        </div>
+
+        <div class="accordion" id="accordion-right">
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>What industries do you specialise in?</button>
+            <div class="accordion-body"><p>Fintech, lending, SaaS, healthcare and regulated platforms. I understand compliance constraints, complex workflows and high-stakes user journeys. I've designed mortgage platforms, trading tools, CRM systems, analytics dashboards and AI-enabled lending products. If your domain is complex and regulated, I've likely worked in something similar.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>How long does a typical engagement last?</button>
+            <div class="accordion-body"><p>It depends on scope. Short-term contracts run 4–12 weeks (design system setup, product redesign, discovery sprint). Longer engagements are 3–6 months (Head of Product, embedded design lead). Retainers are ongoing. I'm flexible and scope work to match your delivery cadence and budget.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>What does it cost to work with you?</button>
+            <div class="accordion-body"><p>Day rates vary based on scope, duration and engagement type. I'm transparent about pricing and structure proposals around outcomes, not hours. For fixed-scope work, I provide a clear estimate upfront. For ongoing work, we agree on a retainer or day rate. Get in touch and I'll send a proposal.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>Do you offer design systems or just product design?</button>
+            <div class="accordion-body"><p>Both. I build scalable design systems (components, tokens, documentation, governance) aligned to your tech stack — whether that's React, Angular, Salesforce LWC, or custom. I also lead end-to-end product design from research through delivery. Often both happen together: designing the product while establishing the system to scale it.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>Can you help improve our team's design maturity?</button>
+            <div class="accordion-body"><p>Yes. I've led UX transformation in fintech and SaaS orgs — introducing research practices, design ops, better tooling and cross-functional workflows. I mentor designers, upskill teams on Figma, Storybook and delivery processes, and help product and engineering teams raise design quality without slowing down.</p></div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header"><i class="fas fa-chevron-right accordion-icon"></i>What if we're not sure what we need?</button>
+            <div class="accordion-body"><p>Let's talk. I start most engagements with a discovery conversation — understanding your product, team structure, delivery challenges and goals. From there, I'll recommend the right scope: whether that's hands-on IC work, design leadership, systems thinking, or process improvement. No obligation, just clarity.</p></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="section-cta">
+        <span>Still have questions? <strong>I'm happy to jump on a call — no obligation, just a conversation.</strong></span>
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Book a call</button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer id="footer" class="site-footer">
+    <div class="footer-overlay"></div>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <button class="footer-policy-btn" data-policy="privacy">Privacy Policy</button>
+          <span class="footer-pipe">|</span>
+          <button class="footer-policy-btn" data-policy="cookies">Cookie Policy</button>
+          <span class="footer-pipe">|</span>
+          <a href="https://portfolio.leongovier.com" target="_blank" rel="noopener" class="footer-policy-btn">Portfolio</a>
+        </div>
+        <p class="footer-copy">LG Digital Ltd Copyright &copy;2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SIDE DRAWER: Contact -->
+  <div class="side-drawer" id="drawer-contact" aria-hidden="true">
+    <div class="side-drawer-backdrop"></div>
+    <div class="side-drawer-panel" role="dialog" aria-modal="true" aria-label="Contact">
+
+      <div class="side-drawer-header">
+        <span class="side-drawer-label gradient-text">Get in touch</span>
+        <button class="side-drawer-close" aria-label="Close drawer">&times;</button>
+      </div>
+
+      <div class="side-drawer-hero">
+        <h2 class="side-drawer-title">Let's talk.</h2>
+        <p class="side-drawer-strapline">Send me the brief and I'll come back to you — usually within a day.</p>
+      </div>
+
+      <div class="side-drawer-content">
+        <form class="contact-form" id="contactForm">
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label class="form-label">Your name <span class="required">*</span></label>
+              <input type="text" name="contact_name" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your email <span class="required">*</span></label>
+              <input type="email" name="contact_email" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company / agency</label>
+              <input type="text" name="business_name" class="form-input">
+            </div>
+            <div class="form-group">
+              <label class="form-label">LinkedIn or website</label>
+              <input type="url" name="contact_url" class="form-input" placeholder="https://…">
+            </div>
+          </div>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label class="form-label">Engagement type <span class="required">*</span></label>
+              <select name="project_type" class="form-input form-select" required>
+                <option value="" disabled selected>Select&hellip;</option>
+                <option>Contract — day rate</option>
+                <option>Contract — fixed scope</option>
+                <option>Permanent role</option>
+                <option>Not sure yet — let's talk</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">When do you need someone?</label>
+              <select name="start_date" class="form-input form-select">
+                <option value="" disabled selected>Select&hellip;</option>
+                <option>Immediately</option>
+                <option>Within a month</option>
+                <option>1–3 months</option>
+                <option>3+ months</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tell me about the role or brief <span class="required">*</span></label>
+            <textarea name="information" class="form-textarea" required placeholder="What's the team, the stack, the problem you're trying to solve? The more detail the better."></textarea>
+          </div>
+          <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
+          <button type="submit" class="btn btn-primary btn-full" id="contactSubmit">Send message</button>
+          <div class="form-success" id="contactSuccess" style="display:none"></div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- POLICY MODAL -->
+  <div class="policy-modal" id="policyModal" aria-hidden="true">
+    <div class="policy-modal-backdrop"></div>
+    <div class="policy-modal-panel" role="dialog" aria-modal="true">
+      <div class="policy-modal-header">
+        <h2 class="policy-modal-title" id="policyTitle"></h2>
+        <button class="policy-modal-close" id="policyClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="policy-modal-body" id="policyBody"></div>
+    </div>
+  </div>
+
+  <!-- CASE STUDY MODAL -->
+  <div class="cs-modal" id="csModal" aria-hidden="true">
+    <div class="cs-modal-backdrop"></div>
+    <div class="cs-modal-panel" role="dialog" aria-modal="true" aria-label="Case study">
+      <div class="cs-modal-header">
+        <div>
+          <span class="cs-tag">Case Study</span>
+          <h2 class="cs-modal-title" id="csTitle"></h2>
+        </div>
+        <button class="cs-modal-close" id="csClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="cs-modal-body" id="csBody"></div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image gallery">
+    <div class="lightbox-backdrop"></div>
+    <div class="lightbox-inner">
+      <div class="lightbox-toolbar">
+        <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+        <button class="lightbox-close" id="lightboxClose" aria-label="Close gallery">&times;</button>
+      </div>
+      <div class="lightbox-stage">
+        <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Previous image">&#8592;</button>
+        <div class="lightbox-main">
+          <img src="" alt="" id="lightboxMainImg">
+        </div>
+        <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Next image">&#8594;</button>
+      </div>
+      <div class="lightbox-thumbs-row">
+        <button class="lightbox-thumb-prev" id="lightboxThumbPrev" aria-label="Scroll thumbnails left">&#8592;</button>
+        <div class="lightbox-thumbs-viewport">
+          <div class="lightbox-thumbs" id="lightboxThumbs"></div>
+        </div>
+        <button class="lightbox-thumb-next" id="lightboxThumbNext" aria-label="Scroll thumbnails right">&#8594;</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ── Case Study Modal ────────────────────────────── */
+    (function () {
+      var CASES = {
+        starter: {
+          title: 'Anything Medical Ltd',
+          brief: 'A UK-based medical supplies distributor needed to replace an outdated single-page WordPress site. They had a growing product catalogue, no way to manage sales enquiries, and no internal tooling — just a phone, a spreadsheet, and a contact form that disappeared into an inbox.',
+          images: [
+            'images/anything-medical/Macbook-Air-localhost.png',
+            'images/anything-medical/Macbook-Air-localhost (1).png',
+            'images/anything-medical/Macbook-Air-localhost (2).png',
+            'images/anything-medical/Macbook-Air-localhost (3).png',
+            'images/anything-medical/Macbook-Air-localhost (4).png',
+            'images/anything-medical/Macbook-Air-crm-orcin-delta-78.vercel.app.png',
+            'images/anything-medical/Macbook-Air-crm-orcin-delta-78.vercel.app (1).png',
+            'images/anything-medical/Macbook-Air-crm-orcin-delta-78.vercel.app (2).png',
+            'images/anything-medical/Macbook-Air-crm-orcin-delta-78.vercel.app (3).png'
+          ],
+          built: [
+            {
+              heading: 'Marketing Website',
+              points: [
+                'Fully custom HTML / CSS / JS — no template',
+                'Bespoke design system (Poppins, navy/teal palette, CSS tokens)',
+                'Homepage, About, Contact, FAQs, Brand Guidelines, Privacy Policy',
+                '16 products across 3 categories (diagnostic devices, surgical covers, surgical consumables)',
+                'Product pages built from supplier spec sheets',
+                'Supplier names stripped from all public-facing copy',
+                'GDPR-compliant privacy policy',
+                'Contact form POSTs directly to the CRM API'
+              ]
+            },
+            {
+              heading: 'Internal CRM',
+              points: [
+                'Next.js app deployed on Vercel',
+                'Shared design system with the marketing site',
+                'JWT auth wired into the website login modal',
+                '6-stage lead pipeline — New → Won / Lost',
+                'Support ticket kanban board',
+                'Role-based access — Admin + up to 4 Sales users',
+                'Activity log on every lead',
+                'Email notifications via Resend',
+                'Per-role dashboard metrics',
+                'show_on_website toggle — controls live product visibility in real time'
+              ]
+            }
+          ],
+          outcomes: [
+            { stat: '20+', label: 'Pages launched' },
+            { stat: '0', label: 'Third-party CRM subscriptions' },
+            { stat: 'Day 1', label: 'Live sales pipeline' }
+          ],
+          result: 'The client went from a one-page WordPress site with no product detail and no lead capture to a 20+ page site with a working sales pipeline on day one. The CRM replaced a manual inbox-and-spreadsheet workflow, gave the sales team individual lead ownership, and connected the marketing site directly to the sales process — no third-party CRM subscription required.'
+        }
+        enterprise: {
+          title: 'lendRR',
+          brief: 'Mortgage brokerages operating across multiple lending products had no single system built for how they actually work. Leads came in through ad hoc channels, quotes were produced manually in spreadsheets, and tracking a deal from enquiry to completion meant juggling several disconnected tools. lendRR was built to replace all of that — a purpose-built broker platform covering Buy to Let, Bridging Finance, Commercial and Residential lending, with indicative pricing built in from the first conversation.',
+          images: [],
+          built: [
+            {
+              heading: 'Broker Dashboard',
+              points: [
+                'Multi-vertical SPA — Buy to Let, Bridging, Commercial, Residential',
+                'Full deal lifecycle: lead → quote → DIP → underwriting → completions',
+                'Embeddable lead-capture form for introducer websites',
+                'Dynamic white-label branding applied at runtime',
+                'Live reporting across all verticals',
+                'Pipeline performance, workload and conversion metrics'
+              ]
+            },
+            {
+              heading: 'Instant Quote Calculator Suite',
+              points: [
+                'Second Charge — 4-step guided flow, lead saved from quote result',
+                'Buy to Let — LTV, ICR stress-test, individual / Ltd Co / SPV',
+                'Bridging Finance — gross LTV, monthly rate, first/second charge toggle',
+                'Commercial Mortgage — DSCR, annual debt service, max loan from income',
+                'Asset class, occupancy and lease term modelled into pricing',
+                'Cold enquiry to indicative quote in under two minutes'
+              ]
+            }
+          ],
+          outcomes: [
+            { stat: '4× faster', label: 'Quote vs manual process' },
+            { stat: '4-in-1', label: 'Verticals, single login' },
+            { stat: '100%', label: 'Pipeline visibility' }
+          ],
+          result: 'Brokers go from a cold enquiry to a compliant indicative quote in under two minutes — without leaving the platform or opening a spreadsheet. Management gets live visibility of every deal across all four lending products simultaneously. lendRR replaces a stack of generic tools with one system built around the lending workflow.'
+        }
+      };
+
+      var modal = document.getElementById('csModal');
+      var csTitle = document.getElementById('csTitle');
+      var csBody  = document.getElementById('csBody');
+
+      function openModal(key) {
+        var c = CASES[key];
+        if (!c) return;
+        csTitle.textContent = c.title;
+
+        var builtCards = c.built.map(function (b) {
+          return '<div class="cs-built-card"><h4>' + b.heading + '</h4><ul>' +
+            b.points.map(function (p) { return '<li>' + p + '</li>'; }).join('') +
+            '</ul></div>';
+        }).join('');
+
+        var outcomes = c.outcomes.map(function (o) {
+          return '<div class="cs-outcome"><strong>' + o.stat + '</strong><span>' + o.label + '</span></div>';
+        }).join('');
+
+        var carouselHtml = '';
+        if (c.images && c.images.length) {
+          var imgs = c.images.map(function (src) {
+            return '<img src="' + src + '" alt="">';
+          }).join('');
+          var dots = c.images.map(function (_, i) {
+            return '<button class="cs-carousel-dot' + (i === 0 ? ' active' : '') + '" data-i="' + i + '"></button>';
+          }).join('');
+          carouselHtml =
+            '<div class="cs-carousel" id="csCarousel">' +
+              '<div class="cs-carousel-track" id="csCarouselTrack">' + imgs + '</div>' +
+              '<button class="cs-carousel-btn cs-carousel-prev" id="csPrev">&#8592;</button>' +
+              '<button class="cs-carousel-btn cs-carousel-next" id="csNext">&#8594;</button>' +
+            '</div>' +
+            '<div class="cs-carousel-dots" id="csDots">' + dots + '</div>';
+        }
+
+        csBody.innerHTML =
+          '<div class="cs-section"><p class="cs-section-label">The Brief</p><p>' + c.brief + '</p>' + carouselHtml + '</div>' +
+          '<div class="cs-section"><p class="cs-section-label">What Was Built</p><div class="cs-built-grid">' + builtCards + '</div></div>' +
+          '<div class="cs-section"><p class="cs-section-label">The Result</p><div class="cs-outcomes">' + outcomes + '</div><p style="margin-top:0.75rem;font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.7;">' + c.result + '</p></div>' +
+          '<div class="cs-modal-footer"><p>Interested in something similar? <strong>Let\'s talk about your project.</strong></p><button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button></div>';
+
+        if (c.images && c.images.length) {
+          var track = document.getElementById('csCarouselTrack');
+          var dots  = document.querySelectorAll('#csDots .cs-carousel-dot');
+          var cur   = 0;
+          function goTo(n) {
+            cur = (n + c.images.length) % c.images.length;
+            track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+            dots.forEach(function (d, i) { d.classList.toggle('active', i === cur); });
+          }
+          document.getElementById('csPrev').addEventListener('click', function () { goTo(cur - 1); });
+          document.getElementById('csNext').addEventListener('click', function () { goTo(cur + 1); });
+          dots.forEach(function (d) { d.addEventListener('click', function () { goTo(parseInt(d.getAttribute('data-i'))); }); });
+        }
+
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        csBody.querySelector('.drawer-open-btn').addEventListener('click', function () {
+          closeModal();
+          var drawer = document.getElementById('drawer-contact');
+          if (drawer) { drawer.setAttribute('aria-hidden', 'false'); drawer.classList.add('open'); }
+        });
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      document.querySelectorAll('.case-study-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () { openModal(btn.getAttribute('data-case')); });
+      });
+
+      document.getElementById('csClose').addEventListener('click', closeModal);
+      modal.querySelector('.cs-modal-backdrop').addEventListener('click', closeModal);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+    })();
+  </script>
+  <script src="js/main.js?v=18"></script>
+  <script>
+    // Supplement galleries added after main.js was written
+    window.addEventListener('load', function() {
+      if (window.galleries) {
+        window.galleries['anything-medical'] = window.galleries['anything-medical'] || [
+          'images/case-studies/anything-medical/slider/01.webp',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.01.30.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.01.45.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.03.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.09.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.19.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.26.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.32.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.44.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.02.52.png',
+          'images/case-studies/anything-medical/slider/Screenshot 2026-06-04 at 07.03.00.png',
+        ];
+        window.galleries['lookrr'] = window.galleries['lookrr'] || [
+          'images/case-studies/lookrr/slider/01.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.56.37.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.56.48.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.56.54.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.57.27.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.57.45.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.58.09.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.58.27.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.58.49.png',
+          'images/case-studies/lookrr/slider/Screenshot 2026-06-04 at 06.59.09.png',
+        ];
+      }
+      document.querySelectorAll('img[data-gallery]').forEach(function(img) {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', function() {
+          var key = img.getAttribute('data-gallery');
+          var imgs = window.galleries && window.galleries[key];
+          if (imgs && imgs.length && window.openLightbox) {
+            window.openLightbox(imgs, 0);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
