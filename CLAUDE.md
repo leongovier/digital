@@ -25,9 +25,10 @@ landing/
 No build step. Files are served directly.
 
 - **Local preview:** open `index.html` in a browser, or use `npx serve .`
-- **Deploy:** `vercel --prod` from the `landing/` directory
+- **Deploy:** push to the `main` branch — Vercel is connected to git auto-deploy and ships production automatically. Repo: `github.com/leongovier/digital`.
 - **Domain:** `leongovier.digital`
-- Vercel is **not** connected to git auto-deploy. Push to GitHub saves work but does **not** deploy. Always run `vercel --prod` manually to ship.
+- Do **not** run `vercel --prod` from the CLI — the project deploys via git push, and the CLI hits a different team/path and errors out.
+- Large image payloads can time out the push (HTTP 408). If so, bump `git config http.postBuffer 524288000` and retry.
 
 ## Editing
 
