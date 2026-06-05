@@ -368,6 +368,15 @@
       font-weight: 700;
       flex-shrink: 0;
     }
+    /* On mobile the cards are narrow, so let long bullets wrap instead of
+       being clipped by the single-line nowrap/ellipsis treatment. */
+    @media (max-width: 768px) {
+      .calc-feature ul li {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+      }
+    }
     .calc-tab-panels {
       padding: 1.75rem 0;
     }
