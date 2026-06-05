@@ -1118,6 +1118,12 @@
     .feedback-name { font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 0.15rem; }
     .feedback-role { font-size: 11px; color: var(--color-text); margin: 0; }
     .feedback-company { font-size: 11px; color: #FF9900; margin: 0; }
+    @media (max-width: 900px) {
+      .feedback-card { flex: 0 0 calc(50% - 0.625rem); }
+    }
+    @media (max-width: 600px) {
+      .feedback-card { flex: 0 0 100%; }
+    }
     .btn-linkedin-icon {
       display: inline-flex; align-items: center; justify-content: center;
       width: 44px; height: 44px; border-radius: 50%;
