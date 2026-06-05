@@ -2245,3 +2245,12 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   .feedback-section { padding: 60px 0; }
   .feedback-card { flex: 0 0 100%; }
 }
+
+/* Bump small 12px text up to 13px on mobile for readability */
+@media (max-width: 768px) {
+  .feature-body p,
+  .footer-copy,
+  .side-drawer-label {
+    font-size: 13px;
+  }
+}
