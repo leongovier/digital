@@ -675,9 +675,10 @@ if (contactForm) {
     if (index < 0) index = 0;
     if (index > maxIndex) index = maxIndex;
     current = index;
-    var cardWidth = cards[0].offsetWidth;
-    var gap = 24;
-    track.style.transform = 'translateX(-' + (current * (cardWidth + gap)) + 'px)';
+    // Measure the real position so the slide stays aligned regardless of the
+    // CSS gap or card width at the current breakpoint.
+    var offset = cards[current].offsetLeft - cards[0].offsetLeft;
+    track.style.transform = 'translateX(-' + offset + 'px)';
     if (dotsWrap) {
       dotsWrap.querySelectorAll('.feedback-dot').forEach(function (d, i) {
         d.classList.toggle('active', i === current);
