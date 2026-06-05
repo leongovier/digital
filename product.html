@@ -463,6 +463,12 @@
       color: #FF9900;
       margin-right: 6px;
     }
+    @media (max-width: 768px) {
+      .tooling-grid { grid-template-columns: 1fr; }
+      .tooling-card-span-rows,
+      .tooling-card-span-cols { grid-column: auto; grid-row: auto; }
+      .tools-bullets { grid-template-columns: 1fr; }
+    }
     .calc-feature {
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.1);
@@ -1610,7 +1616,7 @@
       <h2 class="section-title">What I build</h2>
       <p class="section-desc">Production-ready digital products designed and shipped end-to-end — from AI-native tools and design systems through to calculators, CRMs and compliance workflows.</p>
 
-      <div class="tooling-grid" style="grid-template-columns:repeat(3,1fr);margin-top:2rem;">
+      <div class="tooling-grid" style="margin-top:2rem;">
 
         <div class="tooling-card">
           <h5>Calculators &amp; Quote Engines</h5>
