@@ -123,6 +123,12 @@
       text-transform: uppercase; letter-spacing: 0.12em;
       color: #FF9900; margin-bottom: 0.4rem;
     }
+    .cs-card-label {
+      font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; color: #FF9900; margin: 0.85rem 0 0.4rem;
+    }
+    /* Higher specificity than .tooling-card p so desktop stays 11px */
+    .tooling-card .cs-card-label { font-size: 11px; }
     .cs-modal-title { font-size: 1.5rem; font-weight: 700; color: #fff; margin: 0; }
     .cs-modal-close {
       background: none; border: none; color: rgba(255,255,255,0.4);
@@ -1151,9 +1157,11 @@
       .journey-sub,
       .journey-outcome,
       .feedback-role,
-      .feedback-company {
+      .feedback-company,
+      .cs-tag {
         font-size: 13px;
       }
+      .tooling-card .cs-card-label { font-size: 13px; }
     }
   </style>
 </head>
@@ -1776,7 +1784,7 @@
           <div class="tooling-card tooling-card-span-rows">
             <h5>Leadership &amp; People</h5>
             <p>How I build and lead design teams — establishing the culture, process and operating model that lets designers do their best work.</p>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Experience</p>
+            <p class="cs-card-label">Experience</p>
             <ul>
               <li>20+ years leading product design</li>
               <li>3 UX functions built from zero</li>
@@ -1784,7 +1792,7 @@
               <li>Enterprise and startup environments</li>
               <li>Contract and embedded leadership</li>
             </ul>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Approach</p>
+            <p class="cs-card-label">Approach</p>
             <ul>
               <li>Design direction and quality ownership</li>
               <li>Hiring and capability building</li>
@@ -1838,7 +1846,7 @@
           <div class="tooling-card tooling-card-span-rows">
             <h5>Design Delivery</h5>
             <p>How I close the gap between what's designed and what ships — using AI-assisted pipelines that take Figma layouts to production components without fidelity loss.</p>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Qualifications</p>
+            <p class="cs-card-label">Qualifications</p>
             <ul>
               <li>PMI Project Management</li>
               <li>PMI Agile Foundation / Practitioner</li>
@@ -1846,7 +1854,7 @@
               <li>PMI Product Manager</li>
               <li>SAFe Agile Certification</li>
             </ul>
-            <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#FF9900;margin:0.85rem 0 0.4rem;">Process</p>
+            <p class="cs-card-label">Process</p>
             <ul>
               <li>Figma to React via Claude MCP</li>
               <li>Component generation with Claude Code</li>
