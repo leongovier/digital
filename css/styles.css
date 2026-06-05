@@ -69,7 +69,16 @@
 
 /* ===== RESET ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Contain horizontal overflow at the root. `clip` (Safari 16+) clips fixed
+     and off-canvas descendants that `overflow-x: hidden` on body alone can't —
+     the cause of the iOS-only black strip beside the hero — without making the
+     root a scroll container (so position: sticky keeps working). `hidden` is
+     the fallback for older engines. */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
 body {
   font-family: var(--font-primary);
   font-size: 14px;
@@ -78,6 +87,7 @@ body {
   background-color: var(--bg-primary);
   line-height: 1.7;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
@@ -2072,7 +2082,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   .hamburger { display: flex; }
   .header-mobile-cta { display: none; }
   .section-title { font-size: 24px; }
-  .hero-section { height: auto; min-height: 100svh; align-items: flex-start; overflow-x: hidden; overflow-y: visible; padding-top: calc(var(--header-height) + 60px); padding-bottom: 60px; }
+  .hero-section { height: auto; min-height: 100svh; align-items: flex-start; overflow-x: clip; overflow-y: visible; padding-top: calc(var(--header-height) + 60px); padding-bottom: 60px; }
   .hero-buttons { display: none; }
   .hero-features { grid-template-columns: 1fr; }
   .services-grid { grid-template-columns: 1fr; }
