@@ -890,6 +890,10 @@ input, textarea { font-family: var(--font-primary); }
   inset: 0;
   z-index: 1000;
   pointer-events: none;
+  /* Clip the off-canvas panel parked at translateX(100%). It's a fixed-context
+     element, so body's overflow-x:hidden can't contain it — without this it
+     extends the page on iOS and shows a black strip beside the hero. */
+  overflow: hidden;
 }
 .side-drawer.open {
   pointer-events: all;
