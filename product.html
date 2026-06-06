@@ -345,6 +345,34 @@
     }
     /* Calculators bullet list */
     .calc-tabs { margin: 1.5rem 0 2rem; }
+    /* Case-study tab strip — horizontal slider at all widths so every tab
+       keeps its full text on one line instead of wrapping when squeezed. */
+    .calc-tabs .toggle-scroll-wrap { position: relative; }
+    .calc-tabs .process-toggle {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,153,0,0.6) rgba(255,255,255,0.08);
+    }
+    .calc-tabs .process-toggle::-webkit-scrollbar { height: 6px; }
+    .calc-tabs .process-toggle::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.06);
+    }
+    .calc-tabs .process-toggle::-webkit-scrollbar-thumb {
+      background: rgba(255,153,0,0.55);
+      border-radius: 3px;
+    }
+    .calc-tabs .process-toggle::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,153,0,0.8);
+    }
+    .calc-tabs .process-toggle-btn {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
     .calc-feature ul {
       list-style: none;
       margin: 0.75rem 0 0;
@@ -1353,7 +1381,7 @@
     <div class="container">
       <p class="section-label gradient-text">What I design</p>
       <h2 class="section-title">Selected projects over the last 5 years</h2>
-      <p class="section-desc">6 projects, one through-line — <span style="color:#fff;font-weight:600;">complex products shipped under real constraints.</span> The variable is scale. Some are AI-native MVPs designed, prompted and built solo in a month — Cubik's lending platform, a reverse-matching CRM for a car dealer. Others are design systems absorbed into enterprise platforms already serving thousands — Jamf, CWT, Coincover. Fintech and specialist lending run through most of it; conversational quote engines, mortgage affordability, pricing calculators. Different domains, same job: make the complex usable.</p>
+      <p class="section-desc">10 projects, one through-line — <span style="color:#fff;font-weight:600;">complex products shipped under real constraints.</span> The variable is scale. Some are AI-native MVPs designed, prompted and built solo in a month — Cubik's lending platform, a reverse-matching CRM for a car dealer. Others are design systems absorbed into enterprise platforms already serving thousands — Jamf, CWT, Coincover. Fintech and specialist lending run through most of it; conversational quote engines, mortgage affordability, pricing calculators. Different domains, same job: make the complex usable.</p>
 
       <div class="calc-tabs">
         <div class="toggle-scroll-wrap">
@@ -1364,6 +1392,10 @@
           <button class="process-toggle-btn calc-tab" data-tab="quote">Case study 4</button>
           <button class="process-toggle-btn calc-tab" data-tab="eligibility">Case study 5</button>
           <button class="process-toggle-btn calc-tab" data-tab="cs6">Case study 6</button>
+          <button class="process-toggle-btn calc-tab" data-tab="astra">Case study 7</button>
+          <button class="process-toggle-btn calc-tab" data-tab="polaris">Case study 8</button>
+          <button class="process-toggle-btn calc-tab" data-tab="cwt">Case study 9</button>
+          <button class="process-toggle-btn calc-tab" data-tab="checkrr">Case study 10</button>
         </div>
         </div>
         <div class="calc-tab-panels">
@@ -1625,6 +1657,177 @@
                   <li>Zero manual stock entry required</li>
                   <li>Full match score transparency per customer</li>
                   <li>Prototype ready for production build</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 7 — Astra Design System -->
+          <div class="calc-tab-panel" id="calcTab-astra">
+            <h3 class="calc-panel-title">Astra Design System — Closing the design-to-code gap with a token-driven Salesforce design system.</h3>
+            <p class="calc-panel-desc">Astra closed the design-to-code gap for a Salesforce implementation with a token-driven design system — one source of truth flowing SLDS2 → Astra → Figma → Storybook → VS Code. I built the token architecture, component library and usage guidelines that ended the drift between what was designed and what shipped, absorbing design decisions into reusable patterns so the team could ship faster without reinventing components every sprint.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/astra/slider/01.webp" alt="Astra Design System — Token architecture" data-gallery="astra" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>The Salesforce implementation had significant drift between Figma designs and shipped product. Developers made visual decisions in code because the specs were incomplete, and the same component existed in multiple inconsistent variants across screens. With no shared token system, every sprint widened the gap.</p>
+                <ul>
+                  <li>Components built in code didn't match Figma</li>
+                  <li>The same component existed in multiple variants</li>
+                  <li>No token system linking design decisions to code</li>
+                  <li>Developers making visual calls from incomplete specs</li>
+                  <li>Inconsistency compounding with every release</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Six months embedded with the team. Astra was built as a layer on top of SLDS2 — design tokens mapped to SLDS2 variables so decisions made in Figma propagated to Storybook and VS Code without manual translation.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Salesforce SLDS2</li>
+                  <li>Design Tokens</li>
+                  <li>Storybook</li>
+                  <li>VS Code</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>A token-first design system adopted across the Salesforce implementation. Drift dropped to zero on Astra-compliant components because design and code referenced the same token values, and a contribution guide let the in-house team extend the system independently after handover.</p>
+                <ul>
+                  <li>One source of truth, Figma to code</li>
+                  <li>Zero drift between design and shipped product</li>
+                  <li>100% SLDS2 compliance</li>
+                  <li>Team self-sufficient post-handover</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 8 — Polaris -->
+          <div class="calc-tab-panel" id="calcTab-polaris">
+            <h3 class="calc-panel-title">Polaris — A standalone mortgage calculator platform that broke MFS free of Salesforce delays.</h3>
+            <p class="calc-panel-desc">Polaris broke MFS's mortgage calculators free of Salesforce delays — production-ready bridging and buy-to-let calculators running outside Salesforce but embeddable inside it via Visualforce. Built to regain delivery control after a Salesforce-native build stalled for months, it let brokers generate quotes, surface affordability and calculate DTI thresholds without waiting for the next release window.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/polaris-calculator-suite/slider/01.webp" alt="Polaris — Mortgage calculator platform" data-gallery="polaris" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>MFS's mortgage calculator build was stalled in the Salesforce release queue. Brokers were calculating rates with outdated PDFs and spreadsheets because the digital tool wasn't shipping — every update required a full Salesforce release cycle, and the business was losing broker confidence while competitors moved faster.</p>
+                <ul>
+                  <li>Salesforce-native build stalled for months</li>
+                  <li>Brokers stuck on outdated PDFs and spreadsheets</li>
+                  <li>Every update gated by a full release cycle</li>
+                  <li>Delivery infrastructure was the bottleneck, not the logic</li>
+                  <li>Broker confidence in digital tooling slipping</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Three months embedded. Polaris was designed as a standalone React app decoupled from Salesforce's release cycle, embedded inside it via Visualforce iframes so brokers never left the environment they already worked in.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>React</li>
+                  <li>Visualforce</li>
+                  <li>Salesforce</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>A production calculator platform live across the MFS broker network. Four calculator types — Core Residential, Specialist, Commercial and Semi-Commercial BTL — shipping updates without waiting for Salesforce release windows, all inside the familiar Salesforce UI.</p>
+                <ul>
+                  <li>Zero Salesforce release dependencies</li>
+                  <li>100% embeddable in the existing Salesforce UI</li>
+                  <li>Stalled build to live platform in three months</li>
+                  <li>Four calculator types across the broker network</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 9 — CWT (AMEX) -->
+          <div class="calc-tab-panel" id="calcTab-cwt">
+            <h3 class="calc-panel-title">CWT — A tokenised analytics design system, built from zero across five data domains.</h3>
+            <p class="calc-panel-desc">CWT's Data &amp; Analytics function needed internal dashboards across five data domains and a tokenised analytics design system built from zero for a team new to data viz. I led UX for the dashboards and built the system that let non-specialists ship consistent, accessible data products — encoding best practices into reusable components so the team could extend it without constant design oversight.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/cwt/hero-cwt.webp" alt="CWT — Analytics design system" data-gallery="cwt" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>CWT's Data &amp; Analytics team was building five dashboards simultaneously with no shared design foundation and no data visualisation experience. Each was making independent chart-type, colour-encoding and interaction decisions — inconsistently and often incorrectly — with accessibility considered nowhere.</p>
+                <ul>
+                  <li>Five dashboards built independently, no shared language</li>
+                  <li>Strong data engineering skills, zero data viz experience</li>
+                  <li>Chart, colour and interaction decisions made incorrectly</li>
+                  <li>Accessibility absent from visualisation decisions</li>
+                  <li>Inconsistency compounding across five workstreams</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Six months embedded as lead designer. The system encoded data-viz best practice explicitly — chart selection guidance, accessible colour-encoding tokens and layout patterns — so a non-specialist team could make correct decisions without design oversight.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Design Tokens</li>
+                  <li>React</li>
+                  <li>D3.js</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>An analytics design system live across five data domains, with the team self-sufficient post-handover. All five dashboards shipped consistently and accessibly, and the team extended the system independently — shipping two new components in the first month.</p>
+                <ul>
+                  <li>Five data domains from one system</li>
+                  <li>Zero data viz experience in team at project start</li>
+                  <li>Zero to production in six months</li>
+                  <li>Team self-sufficient within two weeks of handover</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case study 10 — checkRR -->
+          <div class="calc-tab-panel" id="calcTab-checkrr">
+            <h3 class="calc-panel-title">checkRR — Turning mortgage income verification from a blocker into a 5-minute flow.</h3>
+            <p class="calc-panel-desc">checkRR turns mortgage affordability checks into a guided 5-minute applicant flow. PAYE or self-employed applicants upload three months of payslips and statements themselves, and the product verifies income against ONS benchmarks to return a clear affordability and DTI picture. Brokers get that verified data instantly through a white-label dashboard instead of chasing paperwork for a week. Shipped end to end: marketing site, installable PWA, brand identity and the design system underneath.</p>
+            <div class="calc-features-grid cs-2x2">
+              <div class="calc-feature calc-feature-gallery">
+                <img src="images/case-studies/checkrr/slider/01.webp" alt="checkRR — Income verification flow" data-gallery="checkrr" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+              </div>
+              <div class="calc-feature">
+                <h5>Problem</h5>
+                <p>Income verification for mortgage applications was broken: 7–14 day cycles, email chains with blurry payslip photos, underwriters manually transcribing data, and 40% of applicants abandoning mid-flow. Existing tools were either heavy enterprise systems or basic upload forms with no validation — and none were mobile-first.</p>
+                <ul>
+                  <li>7–14 day verification cycles</li>
+                  <li>40% of applicants abandoned mid-flow</li>
+                  <li>Underwriters manually transcribing blurry payslips</li>
+                  <li>Friction at every applicant–broker–underwriter handoff</li>
+                  <li>No mobile-first option with instant feedback</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Tools</h5>
+                <p>Four-week solo build. I designed 24 screens in Figma; Claude read the file via MCP and generated production React directly from the layouts — no handoff loss. Weekly testing with real underwriters and brokers tuned the OCR thresholds and document views.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Claude Design</li>
+                  <li>Claude Code</li>
+                  <li>React</li>
+                  <li>Node.js</li>
+                  <li>PostgreSQL</li>
+                </ul>
+              </div>
+              <div class="calc-feature">
+                <h5>Outcome</h5>
+                <p>A production-ready SaaS platform with three pilot lenders and a Q2 2026 launch. Applicants upload in five minutes with real-time feedback; underwriters receive complete cases with zero manual entry and regional affordability context; brokers get configurable white-label dashboards.</p>
+                <ul>
+                  <li>80% completion rate, up from 40% baseline</li>
+                  <li>15-minute average, down from 7–14 days</li>
+                  <li>99.9% reduction in manual data entry</li>
+                  <li>3 pilot lenders, Q2 2026 launch</li>
                 </ul>
               </div>
             </div>
