@@ -32,3 +32,6 @@ pnpm-debug.log*
 
 # claude code local state
 .claude/
+
+# local dev notes
+leongovier/

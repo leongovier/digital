@@ -348,6 +348,7 @@ const galleries = {
 function openDrawer(id) {
   const drawer = document.getElementById('drawer-' + id);
   if (!drawer) return;
+  if (id === 'contact' && window.resetContactDrawer) window.resetContactDrawer();
   drawer.classList.add('open');
   drawer.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
@@ -551,12 +552,78 @@ function handleContactForm(formId, submitId, successId) {
     }
   });
 }
+/* ===== CONTACT DRAWER — qualifier + routed form ===== */
+(function () {
+  const drawer = document.getElementById('drawer-contact');
+  if (!drawer) return;
+  const step1 = document.getElementById('contactStep1');
+  const step2 = document.getElementById('contactStep2');
+  const titleEl = document.getElementById('contactFormTitle');
+  const strapEl = document.getElementById('contactFormStrap');
+  const form = document.getElementById('contactForm');
+  const back = document.getElementById('contactBack');
+  if (!step1 || !step2 || !form) return;
+
+  const COPY = {
+    build: {
+      title: "Let's talk about your project.",
+      strap: "Tell me what you're building and I'll come back to you — usually within a day.",
+      ph: "What are you trying to build or solve? The more detail the better.",
+    },
+    hire: {
+      title: "Let's talk.",
+      strap: "Send me the brief and I'll come back to you — usually within a day.",
+      ph: "What's the team, the stack, the problem you're trying to solve? The more detail the better.",
+    },
+  };
+
+  function setPath(path) {
+    drawer.querySelectorAll('.form-path').forEach(fp => {
+      const active = fp.getAttribute('data-path') === path;
+      fp.hidden = !active;
+      // disabled fields are excluded from validation AND from the submitted payload
+      fp.querySelectorAll('input, select, textarea').forEach(el => { el.disabled = !active; });
+    });
+  }
+
+  function choose(path) {
+    const c = COPY[path];
+    if (!c) return;
+    setPath(path);
+    if (titleEl) titleEl.textContent = c.title;
+    if (strapEl) strapEl.textContent = c.strap;
+    const ta = form.querySelector('textarea[name="information"]');
+    if (ta) ta.setAttribute('placeholder', c.ph);
+    step1.hidden = true;
+    step2.hidden = false;
+    const panel = drawer.querySelector('.side-drawer-panel');
+    if (panel) panel.scrollTop = 0;
+  }
+
+  function reset() {
+    step2.hidden = true;
+    step1.hidden = false;
+    form.reset();
+    const s = document.getElementById('contactSuccess');
+    if (s) s.style.display = 'none';
+    setPath(null); // disable both paths until one is chosen
+  }
+  window.resetContactDrawer = reset;
+
+  drawer.querySelectorAll('.contact-choice-card').forEach(b => {
+    b.addEventListener('click', () => choose(b.getAttribute('data-path')));
+  });
+  if (back) back.addEventListener('click', reset);
+  reset();
+})();
+
 const contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('contactSubmit');
     const success = document.getElementById('contactSuccess');
+    const origLabel = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'Sending…';
     try {
@@ -577,7 +644,7 @@ if (contactForm) {
       success.style.color = '#ff6b6b';
     } finally {
       btn.disabled = false;
-      btn.textContent = 'Submit';
+      btn.textContent = origLabel;
     }
   });
 }
