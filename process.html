@@ -79,7 +79,7 @@
         <h1 class="hero-headline">A clear process, the right tools, and judgment where it counts.</h1>
         <p>From first conversation to something live in the wild — embedded in the team, working through ambiguity alongside engineers and stakeholders. AI accelerates the parts that should be fast, never the parts that require judgment.</p>
         <div class="hero-buttons">
-          <a href="#process" class="btn btn-outline">The process</a>
+          <a href="#methodology" class="btn btn-outline">The process</a>
           <a href="#skills" class="btn btn-accent">Skills &amp; tools &rarr;</a>
           <a href="https://www.linkedin.com/in/leongovier/" target="_blank" class="btn-linkedin-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
@@ -90,44 +90,163 @@
     </div>
   </section>
 
-  <!-- WORKING TOGETHER -->
-  <section id="process" class="about-section">
+  <!-- METHODOLOGY: Double Diamond + Snowball Sprint -->
+  <section id="methodology" class="methodology-section">
     <div class="section-overlay"></div>
     <div class="container">
       <p class="section-label gradient-text">Process</p>
-      <h2 class="section-title">How we'll work together.</h2>
-      <p class="section-desc">Good product design happens between people, not in isolation. I embed in teams, work through ambiguity alongside engineers and stakeholders, and keep the process visible at every stage — no black boxes, no surprises at handoff. Here's how that typically looks from first conversation to something live in the wild. AI accelerates the parts that should be fast — never the parts that require judgment.</p>
+      <h2 class="section-title">Two frameworks, in sequence.</h2>
+      <p class="section-desc">I run two methodologies back to back. <strong>Double Diamond</strong> is the discipline of finding the right problem before building anything — diverge to explore, converge to decide, twice. But a validated concept that never ships is worth nothing. So once the problem is clear, I switch to the <strong>Snowball Sprint</strong>: short cycles that ship, prove, and compound value before skepticism sets in. They don't compete — they operate at different altitudes, and they're strongest run in sequence.</p>
 
-      <div class="process-grid">
-        <div class="process-card">
-          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">1</text></svg></div>
-          <p class="service-step">01 / Discover</p>
-          <h3>Understand the problem space</h3>
-          <p>Sit with the team and the users. Map constraints, workflows, the messy reality — not the polished version. The real signal lives in the conversations, not the brief. AI helps synthesise interview transcripts and surface patterns across sessions faster — but the judgment about what actually matters still happens in the room.</p>
+      <!-- Sequence diagram -->
+      <div class="method-flow">
+        <svg class="method-flow-svg" viewBox="0 0 920 240" role="img" aria-label="Double Diamond flows into Snowball Sprint">
+          <defs>
+            <linearGradient id="snowGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#FF9900" stop-opacity="0.25"/>
+              <stop offset="1" stop-color="#FF9900" stop-opacity="0.6"/>
+            </linearGradient>
+            <marker id="arrowHead" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="#FF9900"/>
+            </marker>
+          </defs>
+
+          <!-- Double Diamond -->
+          <g fill="rgba(255,153,0,0.06)" stroke="#FF9900" stroke-width="1.5" stroke-linejoin="round">
+            <polygon points="40,120 165,46 290,120 165,194"/>
+            <polygon points="290,120 415,46 540,120 415,194"/>
+          </g>
+          <text class="mf-phase" x="115" y="125">Discover</text>
+          <text class="mf-phase" x="225" y="125">Define</text>
+          <text class="mf-phase" x="345" y="125">Develop</text>
+          <text class="mf-phase" x="475" y="125">Deliver</text>
+          <text class="mf-label" x="165" y="218">Diverge → Converge</text>
+          <text class="mf-label" x="415" y="218">Diverge → Converge</text>
+          <text class="mf-title" x="290" y="26">DOUBLE DIAMOND · problem</text>
+
+          <!-- Connector -->
+          <line x1="548" y1="120" x2="610" y2="120" stroke="#FF9900" stroke-width="1.5" stroke-dasharray="4 4" marker-end="url(#arrowHead)"/>
+
+          <!-- Snowball Sprint — compounding circles -->
+          <g fill="url(#snowGrad)" stroke="#FF9900" stroke-width="1.5">
+            <circle cx="660" cy="120" r="26"/>
+            <circle cx="740" cy="120" r="38"/>
+            <circle cx="838" cy="120" r="52"/>
+          </g>
+          <text class="mf-sprint" x="660" y="125">S1</text>
+          <text class="mf-sprint" x="740" y="125">S2</text>
+          <text class="mf-sprint" x="838" y="125">S3</text>
+          <text class="mf-label" x="745" y="200">Each sprint informed by the last</text>
+          <text class="mf-title" x="745" y="26">SNOWBALL SPRINT · momentum</text>
+        </svg>
+        <p class="method-flow-caption">Use Double Diamond <strong>once</strong> to find the right beachhead. Then Snowball Sprint to own it. Skip the Diamond and you ship a flawless solution to the wrong problem; skip the Sprint and the validated concept never leaves the page.</p>
+      </div>
+
+      <!-- Two philosophies -->
+      <div class="method-philosophy">
+        <div class="method-phil-card">
+          <span class="method-phil-tag">Double Diamond</span>
+          <h3>Are we solving the right problem?</h3>
+          <p>Problem-centric. Most teams jump to solutions before understanding the problem deeply enough. The discipline is <em>slowing down</em> to look wider before narrowing.</p>
+          <p class="method-phil-punch">About being <strong>right</strong>.</p>
         </div>
-        <div class="process-card">
-          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">2</text></svg></div>
-          <p class="service-step">02 / Define</p>
-          <h3>Frame the right problem, not symptoms</h3>
-          <p>Synthesise what research actually says, not what everyone assumed it would. AI helps stress-test assumptions and spot contradictions in the data before they become design debt. Kill scope that doesn't serve the core job. Alignment here — whether it takes a week or three — saves months later.</p>
-        </div>
-        <div class="process-card">
-          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">3</text></svg></div>
-          <p class="service-step">03 / Develop</p>
-          <h3>Figma to production</h3>
-          <p>Design in Figma — components, tokens, layouts, flows. Claude Design extracts brand tokens; Claude Code builds working components directly from layouts, removing the manual translation step entirely. Multiple review cycles still happen — AI accelerates the gap between prototype and production, it doesn't skip it.</p>
-        </div>
-        <div class="process-card">
-          <div class="process-ring"><svg viewBox="0 0 70 70" width="54" height="54"><circle cx="35" cy="35" r="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="5"/><circle cx="35" cy="35" r="28" fill="none" stroke="#FF9900" stroke-width="5" stroke-dasharray="44 131.9" stroke-dashoffset="-44" stroke-linecap="round"/><text x="35" y="40" text-anchor="middle" fill="white" font-size="16" font-weight="600" font-family="Poppins,sans-serif">4</text></svg></div>
-          <p class="service-step">04 / Deliver</p>
-          <h3>Polish, test, and launch</h3>
-          <p>Pair with engineers through QA, polish the details, then watch it in the wild. AI helps catch edge cases and generate test scenarios faster — flagging regressions and surfacing what manual review tends to miss — but the final call on what ships is always a human one. Shipping well means staying close until it's truly done.</p>
+        <div class="method-phil-card">
+          <span class="method-phil-tag">Snowball Sprint</span>
+          <h3>Are we shipping and compounding value?</h3>
+          <p>Momentum-centric. Most AI programs die not from bad ideas but from stalled execution and eroding trust. The discipline is <em>speeding up</em> the proof cycle before skepticism sets in.</p>
+          <p class="method-phil-punch">About staying <strong>alive</strong> long enough to get better.</p>
         </div>
       </div>
 
-      <div class="section-cta">
-        <span>This is the process behind every project. <strong>See it applied in real work.</strong></span>
-        <a href="case-studies.html" class="btn btn-primary">See it in practice &rarr;</a>
+      <!-- Comparison table -->
+      <div class="method-compare">
+        <div class="method-compare-head">
+          <span></span>
+          <span>Double Diamond</span>
+          <span>Snowball Sprint</span>
+        </div>
+        <div class="method-compare-row">
+          <span class="mc-dim">Starting point</span>
+          <span>Ambiguous problem space</span>
+          <span>Known pain point</span>
+        </div>
+        <div class="method-compare-row">
+          <span class="mc-dim">Orientation</span>
+          <span>Diverge then converge</span>
+          <span>Converge immediately, iterate outward</span>
+        </div>
+        <div class="method-compare-row">
+          <span class="mc-dim">Time horizon</span>
+          <span>One arc — weeks to months</span>
+          <span>Repeated short cycles — 1–2 weeks each</span>
+        </div>
+        <div class="method-compare-row">
+          <span class="mc-dim">Output</span>
+          <span>A validated solution concept</span>
+          <span>A shipped, measured increment</span>
+        </div>
+        <div class="method-compare-row">
+          <span class="mc-dim">Risk managed</span>
+          <span>Solving the wrong problem</span>
+          <span>Over-scoping, stalling, losing trust</span>
+        </div>
+        <div class="method-compare-row">
+          <span class="mc-dim">Failure mode</span>
+          <span>Skipping discovery, building on assumptions</span>
+          <span>Sprawl, non-adjacency, no measurement</span>
+        </div>
+      </div>
+
+      <!-- Where they overlap -->
+      <p class="method-subhead">Where they agree</p>
+      <div class="method-overlap">
+        <div class="method-overlap-item">
+          <i class="jki jki-improvement-light"></i>
+          <h4>Assumptions are dangerous</h4>
+          <p>The Diamond surfaces them through research; the Sprint surfaces them through shipping. Either way, they get tested.</p>
+        </div>
+        <div class="method-overlap-item">
+          <i class="jki jki-improvement-light"></i>
+          <h4>Iteration beats perfection</h4>
+          <p>Neither bets everything on a single big-bang waterfall delivery. Both improve through repeated, deliberate passes.</p>
+        </div>
+        <div class="method-overlap-item">
+          <i class="jki jki-improvement-light"></i>
+          <h4>Humans drive the decisions</h4>
+          <p>Both keep a human in the loop at the key inflection points. AI accelerates the work — it never makes the call.</p>
+        </div>
+      </div>
+
+      <!-- When to lead with which -->
+      <p class="method-subhead">When to lead with which</p>
+      <div class="method-when">
+        <div class="method-when-card">
+          <h4>Lead with the Diamond</h4>
+          <ul>
+            <li>The problem space is genuinely unclear</li>
+            <li>Stakeholders disagree on the real problem</li>
+            <li>You're entering a new domain or user group</li>
+            <li>Failure would be costly and hard to reverse</li>
+          </ul>
+        </div>
+        <div class="method-when-card">
+          <h4>Lead with the Sprint</h4>
+          <ul>
+            <li>The pain point is already well understood</li>
+            <li>Trust in AI is low and needs building</li>
+            <li>A tight budget has to justify itself fast</li>
+            <li>Shipping teaches you more than researching</li>
+          </ul>
+        </div>
+        <div class="method-when-card method-when-card-accent">
+          <h4>Use both</h4>
+          <ul>
+            <li>You're building a serious, long-term AI program from scratch</li>
+            <li>Diamond to find the right beachhead</li>
+            <li>Sprint to execute and compound</li>
+            <li>Own it, then keep getting better</li>
+          </ul>
+        </div>
       </div>
 
     </div>
