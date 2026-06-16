@@ -45,8 +45,7 @@
 
     /* ── Stacked case-study entries ─────────────────── */
     .cs-entries { display: flex; flex-direction: column; gap: 0; }
-    .cs-entry { padding: 3.5rem 0; border-top: 1px solid rgba(255,255,255,0.08); }
-    .cs-entry:first-child { border-top: none; padding-top: 1.5rem; }
+    /* .cs-entry card styling (glass bg, padding, radius) lives in css/styles.css */
     .cs-entry-head {
       display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 1.75rem;
     }
@@ -67,7 +66,6 @@
       line-height: 1.7; margin: 0;
     }
     @media (max-width: 600px) {
-      .cs-entry { padding: 2.5rem 0; }
       .cs-entry-head { gap: 0.85rem; }
       .cs-entry-num { width: 38px; height: 38px; font-size: 0.85rem; }
       .cs-entry-title { font-size: 1.1rem; }
@@ -85,8 +83,8 @@
                 <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="about.html">Who I am</a></li>
-          <li><a href="build.html">What I build</a></li>
           <li><a href="design.html">What I design</a></li>
+          <li><a href="build.html">What I build</a></li>
           <li><a href="case-studies.html">Case studies</a></li>
           <li><a href="process.html">How I work</a></li>
           <li class="mobile-nav-sep" aria-hidden="true"></li>
@@ -147,13 +145,22 @@
             <p class="cs-entry-desc">Cubik CRM turns broker enquiries into pipeline-tracked deals in a single workspace. Brokers generate indicative quotes for Bridging and Commercial Buy-to-Let in under 60 seconds using an embedded AI quote engine, then track cases from enquiry to completion without switching tools. Designed, prompted, prototyped and shipped as a four-week solo build using Claude Code as the full production pipeline.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/cubik-crm/slider/01.webp" alt="Cubik CRM — Buy to Let quote screen" data-gallery="cubik-crm" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/cubik-crm/slider/cubik-crm-login-devices-combined.png" alt="Cubik CRM — login across desktop and mobile" data-gallery="cubik-crm" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>Specialist lending brokers were managing cases across spreadsheets, calculators, and email — manually recalculating every quote when terms changed. Pipeline visibility was non-existent and data was lost at every handoff point between tools.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <div class="cs-panel-grid">
+                    <div class="cs-panel-text">
+                      <p>Specialist lending brokers were managing cases across spreadsheets, calculators, and email — manually recalculating every quote when terms changed. Pipeline visibility was non-existent and data was lost at every handoff point between tools.</p>
                 <ul>
                   <li>Quotes recalculated manually on every change</li>
                   <li>No pipeline visibility — cases stalled silently</li>
@@ -161,10 +168,32 @@
                   <li>Three separate tools pretending to work together</li>
                   <li>No audit trail — case history impossible to reconstruct</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Tool selection is part of the design decision. Claude Design extracted brand tokens; Claude Code built the React frontend directly from Figma — no screenshots, no manual handoff. AI was the production pipeline, not a helper.</p>
+                    </div>
+                    <div class="cs-panel-media">
+                      <img src="images/case-studies/cubik-crm/slider/tabs/Macbook-Air-crm.cubikcommercial.co.uk%20(1).webp" alt="Cubik CRM — problem">
+                    </div>
+                  </div>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <div class="cs-panel-grid">
+                    <div class="cs-panel-text">
+                      <p>Cubik shipped as a connected workspace in four weeks. Brokers generate indicative quotes in under 60 seconds, track cases from enquiry to completion, and review full audit trails — without switching tools or context.</p>
+                <ul>
+                  <li>Indicative quote generated in under 60 seconds</li>
+                  <li>Full case lifecycle in one workspace</li>
+                  <li>Audit trail and affordability data alongside deal stages</li>
+                  <li>Brand to working product in four weeks solo</li>
+                </ul>
+                    </div>
+                    <div class="cs-panel-media">
+                      <img src="images/case-studies/cubik-crm/slider/tabs/Macbook-Air-crm.cubikcommercial.co.uk%20(2).webp" alt="Cubik CRM — outcome">
+                    </div>
+                  </div>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <div class="cs-panel-grid">
+                    <div class="cs-panel-text">
+                      <p>Tool selection is part of the design decision. Claude Design extracted brand tokens; Claude Code built the React frontend directly from Figma — no screenshots, no manual handoff. AI was the production pipeline, not a helper.</p>
                 <ul class="tools-bullets">
                   <li>Figma</li>
                   <li>Claude Design</li>
@@ -175,16 +204,12 @@
                   <li>Tailwind CSS</li>
                   <li>Vercel</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>Cubik shipped as a connected workspace in four weeks. Brokers generate indicative quotes in under 60 seconds, track cases from enquiry to completion, and review full audit trails — without switching tools or context.</p>
-                <ul>
-                  <li>Indicative quote generated in under 60 seconds</li>
-                  <li>Full case lifecycle in one workspace</li>
-                  <li>Audit trail and affordability data alongside deal stages</li>
-                  <li>Brand to working product in four weeks solo</li>
-                </ul>
+                    </div>
+                    <div class="cs-panel-media">
+                      <img src="images/case-studies/cubik-crm/slider/tabs/Macbook-Air-crm.cubikcommercial.co.uk%20(3).webp" alt="Cubik CRM — tools">
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
       </article>
@@ -197,13 +222,22 @@
             <p class="cs-entry-desc">Anything Medical needed to replace a single-page WordPress site with no lead capture and no product detail. I built a 20+ page marketing site with a 16-product catalogue alongside a companion CRM — capturing every enquiry, routing it to the right sales rep, and tracking deals through a 6-stage pipeline. The client went from a phone and a spreadsheet to a live sales workflow on day one.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/anything-medical/slider/01.webp" alt="Anything Medical — Homepage" data-gallery="anything-medical" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/anything-medical/anythingmedical-devices-combined.png" alt="Anything Medical — site and CRM across desktop and mobile" data-gallery="anything-medical" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>A one-page WordPress site with no product detail and no lead capture. Enquiries were tracked manually across email and spreadsheets.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <div class="cs-panel-grid">
+                    <div class="cs-panel-text">
+                      <p>A one-page WordPress site with no product detail and no lead capture. Enquiries were tracked manually across email and spreadsheets.</p>
                 <ul>
                   <li>Single-page site, no product catalogue</li>
                   <li>Enquiries lost in a shared inbox</li>
@@ -211,10 +245,32 @@
                   <li>Sales team had no lead ownership</li>
                   <li>No consistent brand or design system</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Built without a framework to keep the frontend fast and fully owned. Next.js powers the CRM, using serverless API routes deployed on Vercel. Claude AI accelerated the entire build.</p>
+                    </div>
+                    <div class="cs-panel-media">
+                      <img src="images/case-studies/anything-medical/slider/tabs/Macbook-Air-crm.anythingmedical.co.uk.webp" alt="Anything Medical — problem">
+                    </div>
+                  </div>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <div class="cs-panel-grid">
+                    <div class="cs-panel-text">
+                      <p>A full marketing site and CRM shipped in four weeks. Every enquiry now lands in a pipeline with the right rep automatically assigned.</p>
+                <ul>
+                  <li>20+ pages replacing a single-page site</li>
+                  <li>16-product catalogue across 3 categories</li>
+                  <li>6-stage sales pipeline with audit trail</li>
+                  <li>Automated lead routing and email confirmation</li>
+                </ul>
+                    </div>
+                    <div class="cs-panel-media">
+                      <img src="images/case-studies/anything-medical/slider/tabs/Macbook-Air-crm.anythingmedical.co.uk%20(1).webp" alt="Anything Medical — outcome">
+                    </div>
+                  </div>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <div class="cs-panel-grid">
+                    <div class="cs-panel-text">
+                      <p>Built without a framework to keep the frontend fast and fully owned. Next.js powers the CRM, using serverless API routes deployed on Vercel. Claude AI accelerated the entire build.</p>
                 <ul class="tools-bullets">
                   <li>Claude Code</li>
                   <li>HTML / CSS / JS</li>
@@ -223,16 +279,12 @@
                   <li>Resend</li>
                   <li>PostgreSQL</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>A full marketing site and CRM shipped in four weeks. Every enquiry now lands in a pipeline with the right rep automatically assigned.</p>
-                <ul>
-                  <li>20+ pages replacing a single-page site</li>
-                  <li>16-product catalogue across 3 categories</li>
-                  <li>6-stage sales pipeline with audit trail</li>
-                  <li>Automated lead routing and email confirmation</li>
-                </ul>
+                    </div>
+                    <div class="cs-panel-media">
+                      <img src="images/case-studies/anything-medical/slider/tabs/Macbook-Air-crm.anythingmedical.co.uk%20(2).webp" alt="Anything Medical — tools">
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
       </article>
@@ -245,13 +297,20 @@
             <p class="cs-entry-desc">Lookrr gives UK motor trade professionals instant DVLA registration data, MOT history, HPI checks, and mileage fraud detection in under 2 seconds — all from a single plate search. No tab-switching, no manual cross-referencing, no missed red flags. Built as a full SaaS with tiered plans, a real-time dashboard, bulk CSV import, and a watchlist. Shipped production-ready with a complete design system, secure auth flow, and serverless API routes for live vehicle data.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/lookrr/slider/lookrr-main.webp" alt="Lookrr — Vehicle check dashboard" data-gallery="lookrr" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/lookrr/slider/lookrr-main.webp" alt="Lookrr — Vehicle check dashboard" data-gallery="lookrr" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>UK dealers spend 5+ minutes per vehicle manually cross-referencing DVLA, MOT, and HPI sources. No single tool surfaces fraud signals alongside verified plate data instantly.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>UK dealers spend 5+ minutes per vehicle manually cross-referencing DVLA, MOT, and HPI sources. No single tool surfaces fraud signals alongside verified plate data instantly.</p>
                 <ul>
                   <li>Manual lookups across 3+ separate government tools</li>
                   <li>Mileage anomalies missed without side-by-side history</li>
@@ -259,10 +318,18 @@
                   <li>HPI and tax checks billed separately per query</li>
                   <li>No audit trail or team-shareable check history</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Built in vanilla HTML, CSS, and JavaScript — no framework, no build step. Claude Code drove the full design-to-deploy loop. Vercel handles hosting and serverless API routes for live vehicle data.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>Shipped a full SaaS platform with auth, dashboard, bulk import, and watchlist — deployed live on Vercel. Vehicle checks return full MOT, tax, and fraud data in under 2 seconds.</p>
+                <ul>
+                  <li>Live SaaS deployed at lookrr-project.vercel.app</li>
+                  <li>Sub-2-second plate-to-full-report lookup</li>
+                  <li>Bulk CSV import capped to plan allowance</li>
+                  <li>Tiered pricing from pay-as-you-go to unlimited</li>
+                </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Built in vanilla HTML, CSS, and JavaScript — no framework, no build step. Claude Code drove the full design-to-deploy loop. Vercel handles hosting and serverless API routes for live vehicle data.</p>
                 <ul class="tools-bullets">
                   <li>Claude Code</li>
                   <li>Claude Design</li>
@@ -273,16 +340,7 @@
                   <li>JetBrains Mono</li>
                   <li>Chrome DevTools</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>Shipped a full SaaS platform with auth, dashboard, bulk import, and watchlist — deployed live on Vercel. Vehicle checks return full MOT, tax, and fraud data in under 2 seconds.</p>
-                <ul>
-                  <li>Live SaaS deployed at lookrr-project.vercel.app</li>
-                  <li>Sub-2-second plate-to-full-report lookup</li>
-                  <li>Bulk CSV import capped to plan allowance</li>
-                  <li>Tiered pricing from pay-as-you-go to unlimited</li>
-                </ul>
+                </div>
               </div>
             </div>
       </article>
@@ -295,13 +353,20 @@
             <p class="cs-entry-desc">Jamf acquired a mobile threat defence platform with a completely different visual language. I absorbed the entire product into the Jamf design system as sole designer — maintaining the operational integrity security teams depend on, redesigning threat detection and incident response workflows, and contributing eight new component patterns back into the core system used across all Jamf products.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/jamf-etp/slider/01.webp" alt="Jamf ETP — Security console" data-gallery="jamf-etp" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/jamf-etp/slider/01.webp" alt="Jamf ETP — Security console" data-gallery="jamf-etp" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>Jamf acquired a mobile threat defence platform with a completely different visual language and interaction model. Security operations teams using both products were context-switching between two distinct UIs — adding cognitive load at exactly the point where speed and accuracy matter most.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>Jamf acquired a mobile threat defence platform with a completely different visual language and interaction model. Security operations teams using both products were context-switching between two distinct UIs — adding cognitive load at exactly the point where speed and accuracy matter most.</p>
                 <ul>
                   <li>Acquired product had entirely separate component patterns</li>
                   <li>Different interaction models across Jamf and ETP</li>
@@ -309,25 +374,24 @@
                   <li>Operational integrity requirements blocked a simple reskin</li>
                   <li>No existing Jamf patterns for security-specific functionality</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Embedded as sole designer for 8 months, working directly with the Jamf design system team and the ETP security product team to validate workflows against real threat scenarios.</p>
-                <ul class="tools-bullets">
-                  <li>Figma</li>
-                  <li>Jamf Design System</li>
-                  <li>React</li>
-                </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>ETP security console fully integrated into the Jamf design system. Security teams move between products without context-switching. Eight new component patterns contributed back to the core Jamf system, now used across other Jamf products.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>ETP security console fully integrated into the Jamf design system. Security teams move between products without context-switching. Eight new component patterns contributed back to the core Jamf system, now used across other Jamf products.</p>
                 <ul>
                   <li>1 designer across the entire product</li>
                   <li>100% Jamf design system compliance</li>
                   <li>8 new patterns contributed to core system</li>
                   <li>Phased delivery — no security workflow disrupted</li>
                 </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Embedded as sole designer for 8 months, working directly with the Jamf design system team and the ETP security product team to validate workflows against real threat scenarios.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Jamf Design System</li>
+                  <li>React</li>
+                </ul>
+                </div>
               </div>
             </div>
       </article>
@@ -340,13 +404,20 @@
             <p class="cs-entry-desc">Coincover had four products, four visual languages, and zero shared infrastructure. I built a fully tokenised design system from zero — one component library spanning customer, partner, admin, and operations platforms — in four months. Brand updates that previously required four separate efforts now propagate across all products in minutes. The in-house team was self-sufficient within two weeks of handover.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/coincover/slider/01.png" alt="Coincover — Design system" data-gallery="coincover" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/coincover/slider/01.png" alt="Coincover — Design system" data-gallery="coincover" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>Four separate products, four separate visual languages, zero shared infrastructure. Every brand decision had to be implemented four times. The design team was maintaining four Figma files with no shared styles — a single update required four separate design and development efforts.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>Four separate products, four separate visual languages, zero shared infrastructure. Every brand decision had to be implemented four times. The design team was maintaining four Figma files with no shared styles — a single update required four separate design and development efforts.</p>
                 <ul>
                   <li>Four products with one brand but no shared foundation</li>
                   <li>Components duplicated with inconsistent variations</li>
@@ -354,26 +425,25 @@
                   <li>Brand updates required four separate implementation efforts</li>
                   <li>Cost of inconsistency compounding with every sprint</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Embedded for 4 months, building the token architecture, component library, and Storybook documentation in parallel — then running a structured handover programme to make the in-house team self-sufficient.</p>
-                <ul class="tools-bullets">
-                  <li>Figma</li>
-                  <li>Design Tokens</li>
-                  <li>React</li>
-                  <li>Storybook</li>
-                </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>Production design system adopted across all four platforms from one component library. In-house team self-sufficient within two weeks of handover — extending the system independently from month one.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>Production design system adopted across all four platforms from one component library. In-house team self-sufficient within two weeks of handover — extending the system independently from month one.</p>
                 <ul>
                   <li>4 audience platforms served from one system</li>
                   <li>Zero to production in 4 months</li>
                   <li>Brand updates: weeks → minutes</li>
                   <li>Team shipping new components without involvement</li>
                 </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Embedded for 4 months, building the token architecture, component library, and Storybook documentation in parallel — then running a structured handover programme to make the in-house team self-sufficient.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Design Tokens</li>
+                  <li>React</li>
+                  <li>Storybook</li>
+                </ul>
+                </div>
               </div>
             </div>
       </article>
@@ -386,13 +456,20 @@
             <p class="cs-entry-desc">AdaptiveCRM reverses the usual workflow: instead of searching stock for customers, it searches customers for stock. A luxury-car dealer drops in a screenshot, photo, or WhatsApp message of a vehicle and AdaptiveCRM extracts the details, then ranks which customers in the database actually want it — in under ten seconds. Designed and prototyped for a UK luxury-car dealer exploring AI-native sales tools.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/adaptive-crm/slider/avs-12-social-post-generator.webp" alt="AdaptiveCRM — Social post generator" data-gallery="adaptive-crm" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/adaptive-crm/slider/avs-12-social-post-generator.webp" alt="AdaptiveCRM — Social post generator" data-gallery="adaptive-crm" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>Luxury-car dealers find exceptional vehicles at auction but have no fast way to identify which customers would want them. The workflow relies on memory, manual CRM browsing, or blanket emails — slow, imprecise, and damaging to the client relationships luxury dealers depend on.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>Luxury-car dealers find exceptional vehicles at auction but have no fast way to identify which customers would want them. The workflow relies on memory, manual CRM browsing, or blanket emails — slow, imprecise, and damaging to the client relationships luxury dealers depend on.</p>
                 <ul>
                   <li>No way to query the CRM with a found vehicle as the starting point</li>
                   <li>Dealers relied on memory or blanket outreach</li>
@@ -400,10 +477,18 @@
                   <li>Generic outreach undermined high-touch client relationships</li>
                   <li>Customer preference data existed but was never activated</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Solo build over 3 weeks. Claude API drives vehicle detail extraction from unstructured input and customer match scoring. Claude Code built the React frontend via MCP. Validated with a UK luxury-car dealer using real auction listings and their actual customer database.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>Working prototype validated with a UK luxury-car dealer. Match scoring surfaced the right customers for the right cars. Transparent scoring breakdowns let dealers personalise outreach based on the specific match reasons — not just a ranked list.</p>
+                <ul>
+                  <li>Sub-10-second match generation</li>
+                  <li>Zero manual stock entry required</li>
+                  <li>Full match score transparency per customer</li>
+                  <li>Prototype ready for production build</li>
+                </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Solo build over 3 weeks. Claude API drives vehicle detail extraction from unstructured input and customer match scoring. Claude Code built the React frontend via MCP. Validated with a UK luxury-car dealer using real auction listings and their actual customer database.</p>
                 <ul class="tools-bullets">
                   <li>Figma</li>
                   <li>Claude Design</li>
@@ -411,16 +496,7 @@
                   <li>Claude API</li>
                   <li>React</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>Working prototype validated with a UK luxury-car dealer. Match scoring surfaced the right customers for the right cars. Transparent scoring breakdowns let dealers personalise outreach based on the specific match reasons — not just a ranked list.</p>
-                <ul>
-                  <li>Sub-10-second match generation</li>
-                  <li>Zero manual stock entry required</li>
-                  <li>Full match score transparency per customer</li>
-                  <li>Prototype ready for production build</li>
-                </ul>
+                </div>
               </div>
             </div>
       </article>
@@ -433,13 +509,20 @@
             <p class="cs-entry-desc">Astra closed the design-to-code gap for a Salesforce implementation with a token-driven design system — one source of truth flowing SLDS2 → Astra → Figma → Storybook → VS Code. I built the token architecture, component library and usage guidelines that ended the drift between what was designed and what shipped, absorbing design decisions into reusable patterns so the team could ship faster without reinventing components every sprint.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/astra/slider/01.webp" alt="Astra Design System — Token architecture" data-gallery="astra" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/astra/slider/01.webp" alt="Astra Design System — Token architecture" data-gallery="astra" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>The Salesforce implementation had significant drift between Figma designs and shipped product. Developers made visual decisions in code because the specs were incomplete, and the same component existed in multiple inconsistent variants across screens. With no shared token system, every sprint widened the gap.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>The Salesforce implementation had significant drift between Figma designs and shipped product. Developers made visual decisions in code because the specs were incomplete, and the same component existed in multiple inconsistent variants across screens. With no shared token system, every sprint widened the gap.</p>
                 <ul>
                   <li>Components built in code didn't match Figma</li>
                   <li>The same component existed in multiple variants</li>
@@ -447,10 +530,18 @@
                   <li>Developers making visual calls from incomplete specs</li>
                   <li>Inconsistency compounding with every release</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Six months embedded with the team. Astra was built as a layer on top of SLDS2 — design tokens mapped to SLDS2 variables so decisions made in Figma propagated to Storybook and VS Code without manual translation.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>A token-first design system adopted across the Salesforce implementation. Drift dropped to zero on Astra-compliant components because design and code referenced the same token values, and a contribution guide let the in-house team extend the system independently after handover.</p>
+                <ul>
+                  <li>One source of truth, Figma to code</li>
+                  <li>Zero drift between design and shipped product</li>
+                  <li>100% SLDS2 compliance</li>
+                  <li>Team self-sufficient post-handover</li>
+                </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Six months embedded with the team. Astra was built as a layer on top of SLDS2 — design tokens mapped to SLDS2 variables so decisions made in Figma propagated to Storybook and VS Code without manual translation.</p>
                 <ul class="tools-bullets">
                   <li>Figma</li>
                   <li>Salesforce SLDS2</li>
@@ -458,16 +549,7 @@
                   <li>Storybook</li>
                   <li>VS Code</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>A token-first design system adopted across the Salesforce implementation. Drift dropped to zero on Astra-compliant components because design and code referenced the same token values, and a contribution guide let the in-house team extend the system independently after handover.</p>
-                <ul>
-                  <li>One source of truth, Figma to code</li>
-                  <li>Zero drift between design and shipped product</li>
-                  <li>100% SLDS2 compliance</li>
-                  <li>Team self-sufficient post-handover</li>
-                </ul>
+                </div>
               </div>
             </div>
       </article>
@@ -480,13 +562,20 @@
             <p class="cs-entry-desc">Polaris broke MFS's mortgage calculators free of Salesforce delays — production-ready bridging and buy-to-let calculators running outside Salesforce but embeddable inside it via Visualforce. Built to regain delivery control after a Salesforce-native build stalled for months, it let brokers generate quotes, surface affordability and calculate DTI thresholds without waiting for the next release window.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/polaris-calculator-suite/slider/01.webp" alt="Polaris — Mortgage calculator platform" data-gallery="polaris" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/polaris-calculator-suite/slider/01.webp" alt="Polaris — Mortgage calculator platform" data-gallery="polaris" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>MFS's mortgage calculator build was stalled in the Salesforce release queue. Brokers were calculating rates with outdated PDFs and spreadsheets because the digital tool wasn't shipping — every update required a full Salesforce release cycle, and the business was losing broker confidence while competitors moved faster.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>MFS's mortgage calculator build was stalled in the Salesforce release queue. Brokers were calculating rates with outdated PDFs and spreadsheets because the digital tool wasn't shipping — every update required a full Salesforce release cycle, and the business was losing broker confidence while competitors moved faster.</p>
                 <ul>
                   <li>Salesforce-native build stalled for months</li>
                   <li>Brokers stuck on outdated PDFs and spreadsheets</li>
@@ -494,10 +583,18 @@
                   <li>Delivery infrastructure was the bottleneck, not the logic</li>
                   <li>Broker confidence in digital tooling slipping</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Three months embedded. Polaris was designed as a standalone React app decoupled from Salesforce's release cycle, embedded inside it via Visualforce iframes so brokers never left the environment they already worked in.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>A production calculator platform live across the MFS broker network. Four calculator types — Core Residential, Specialist, Commercial and Semi-Commercial BTL — shipping updates without waiting for Salesforce release windows, all inside the familiar Salesforce UI.</p>
+                <ul>
+                  <li>Zero Salesforce release dependencies</li>
+                  <li>100% embeddable in the existing Salesforce UI</li>
+                  <li>Stalled build to live platform in three months</li>
+                  <li>Four calculator types across the broker network</li>
+                </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Three months embedded. Polaris was designed as a standalone React app decoupled from Salesforce's release cycle, embedded inside it via Visualforce iframes so brokers never left the environment they already worked in.</p>
                 <ul class="tools-bullets">
                   <li>Figma</li>
                   <li>React</li>
@@ -506,16 +603,7 @@
                   <li>WordPress</li>
                   <li>Calculator logic</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>A production calculator platform live across the MFS broker network. Four calculator types — Core Residential, Specialist, Commercial and Semi-Commercial BTL — shipping updates without waiting for Salesforce release windows, all inside the familiar Salesforce UI.</p>
-                <ul>
-                  <li>Zero Salesforce release dependencies</li>
-                  <li>100% embeddable in the existing Salesforce UI</li>
-                  <li>Stalled build to live platform in three months</li>
-                  <li>Four calculator types across the broker network</li>
-                </ul>
+                </div>
               </div>
             </div>
       </article>
@@ -528,13 +616,20 @@
             <p class="cs-entry-desc">CWT's Data &amp; Analytics function needed internal dashboards across five data domains and a tokenised analytics design system built from zero for a team new to data viz. I led UX for the dashboards and built the system that let non-specialists ship consistent, accessible data products — encoding best practices into reusable components so the team could extend it without constant design oversight.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/cwt/hero-cwt.webp" alt="CWT — Analytics design system" data-gallery="cwt" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/cwt/hero-cwt.webp" alt="CWT — Analytics design system" data-gallery="cwt" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>CWT's Data &amp; Analytics team was building five dashboards simultaneously with no shared design foundation and no data visualisation experience. Each was making independent chart-type, colour-encoding and interaction decisions — inconsistently and often incorrectly — with accessibility considered nowhere.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>CWT's Data &amp; Analytics team was building five dashboards simultaneously with no shared design foundation and no data visualisation experience. Each was making independent chart-type, colour-encoding and interaction decisions — inconsistently and often incorrectly — with accessibility considered nowhere.</p>
                 <ul>
                   <li>Five dashboards built independently, no shared language</li>
                   <li>Strong data engineering skills, zero data viz experience</li>
@@ -542,26 +637,25 @@
                   <li>Accessibility absent from visualisation decisions</li>
                   <li>Inconsistency compounding across five workstreams</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Six months embedded as lead designer. The system encoded data-viz best practice explicitly — chart selection guidance, accessible colour-encoding tokens and layout patterns — so a non-specialist team could make correct decisions without design oversight.</p>
-                <ul class="tools-bullets">
-                  <li>Figma</li>
-                  <li>Design Tokens</li>
-                  <li>React</li>
-                  <li>D3.js</li>
-                </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>An analytics design system live across five data domains, with the team self-sufficient post-handover. All five dashboards shipped consistently and accessibly, and the team extended the system independently — shipping two new components in the first month.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>An analytics design system live across five data domains, with the team self-sufficient post-handover. All five dashboards shipped consistently and accessibly, and the team extended the system independently — shipping two new components in the first month.</p>
                 <ul>
                   <li>Five data domains from one system</li>
                   <li>Zero data viz experience in team at project start</li>
                   <li>Zero to production in six months</li>
                   <li>Team self-sufficient within two weeks of handover</li>
                 </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Six months embedded as lead designer. The system encoded data-viz best practice explicitly — chart selection guidance, accessible colour-encoding tokens and layout patterns — so a non-specialist team could make correct decisions without design oversight.</p>
+                <ul class="tools-bullets">
+                  <li>Figma</li>
+                  <li>Design Tokens</li>
+                  <li>React</li>
+                  <li>D3.js</li>
+                </ul>
+                </div>
               </div>
             </div>
       </article>
@@ -574,13 +668,20 @@
             <p class="cs-entry-desc">checkRR turns mortgage affordability checks into a guided 5-minute applicant flow. PAYE or self-employed applicants upload three months of payslips and statements themselves, and the product verifies income against ONS benchmarks to return a clear affordability and DTI picture. Brokers get that verified data instantly through a white-label dashboard instead of chasing paperwork for a week. Shipped end to end: marketing site, installable PWA, brand identity and the design system underneath.</p>
           </div>
         </div>
-        <div class="calc-features-grid cs-2x2">
-              <div class="calc-feature calc-feature-gallery">
-                <img src="images/case-studies/checkrr/slider/01.webp" alt="checkRR — Income verification flow" data-gallery="checkrr" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+        <div class="cs-media">
+              <img src="images/case-studies/checkrr/slider/01.webp" alt="checkRR — Income verification flow" data-gallery="checkrr" style="width:100%;border-radius:8px;margin-top:0.5rem;cursor:pointer;">
+            </div>
+            <div class="cs-tabs">
+              <div class="toggle-scroll-wrap">
+                <div class="process-toggle cs-tab-strip">
+                  <button class="cs-tab-btn active" data-cstab="problem">Problem</button>
+                  <button class="cs-tab-btn" data-cstab="outcome">Outcome</button>
+                  <button class="cs-tab-btn" data-cstab="tools">Tools</button>
+                </div>
               </div>
-              <div class="calc-feature">
-                <h5>Problem</h5>
-                <p>Income verification for mortgage applications was broken: 7–14 day cycles, email chains with blurry payslip photos, underwriters manually transcribing data, and 40% of applicants abandoning mid-flow. Existing tools were either heavy enterprise systems or basic upload forms with no validation — and none were mobile-first.</p>
+              <div class="cs-tab-panels">
+                <div class="cs-tab-panel active" data-cspanel="problem">
+                  <p>Income verification for mortgage applications was broken: 7–14 day cycles, email chains with blurry payslip photos, underwriters manually transcribing data, and 40% of applicants abandoning mid-flow. Existing tools were either heavy enterprise systems or basic upload forms with no validation — and none were mobile-first.</p>
                 <ul>
                   <li>7–14 day verification cycles</li>
                   <li>40% of applicants abandoned mid-flow</li>
@@ -588,10 +689,18 @@
                   <li>Friction at every applicant–broker–underwriter handoff</li>
                   <li>No mobile-first option with instant feedback</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Tools</h5>
-                <p>Four-week solo build. I designed 24 screens in Figma; Claude read the file via MCP and generated production React directly from the layouts — no handoff loss. Weekly testing with real underwriters and brokers tuned the OCR thresholds and document views.</p>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="outcome">
+                  <p>A production-ready SaaS platform with three pilot lenders and a Q2 2026 launch. Applicants upload in five minutes with real-time feedback; underwriters receive complete cases with zero manual entry and regional affordability context; brokers get configurable white-label dashboards.</p>
+                <ul>
+                  <li>80% completion rate, up from 40% baseline</li>
+                  <li>15-minute average, down from 7–14 days</li>
+                  <li>99.9% reduction in manual data entry</li>
+                  <li>3 pilot lenders, Q2 2026 launch</li>
+                </ul>
+                </div>
+                <div class="cs-tab-panel" data-cspanel="tools">
+                  <p>Four-week solo build. I designed 24 screens in Figma; Claude read the file via MCP and generated production React directly from the layouts — no handoff loss. Weekly testing with real underwriters and brokers tuned the OCR thresholds and document views.</p>
                 <ul class="tools-bullets">
                   <li>Figma</li>
                   <li>Claude Design</li>
@@ -600,16 +709,7 @@
                   <li>Node.js</li>
                   <li>PostgreSQL</li>
                 </ul>
-              </div>
-              <div class="calc-feature">
-                <h5>Outcome</h5>
-                <p>A production-ready SaaS platform with three pilot lenders and a Q2 2026 launch. Applicants upload in five minutes with real-time feedback; underwriters receive complete cases with zero manual entry and regional affordability context; brokers get configurable white-label dashboards.</p>
-                <ul>
-                  <li>80% completion rate, up from 40% baseline</li>
-                  <li>15-minute average, down from 7–14 days</li>
-                  <li>99.9% reduction in manual data entry</li>
-                  <li>3 pilot lenders, Q2 2026 launch</li>
-                </ul>
+                </div>
               </div>
             </div>
       </article>

@@ -383,6 +383,21 @@ document.querySelectorAll('.calc-tab').forEach(tab => {
   });
 });
 
+// Case study tabs — scoped per entry (Problem / Outcome / Tools)
+document.querySelectorAll('.cs-tabs').forEach(tabs => {
+  const btns = tabs.querySelectorAll('.cs-tab-btn');
+  const panels = tabs.querySelectorAll('.cs-tab-panel');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const panel = tabs.querySelector('.cs-tab-panel[data-cspanel="' + btn.dataset.cstab + '"]');
+      if (panel) panel.classList.add('active');
+    });
+  });
+});
+
 document.querySelectorAll('.drawer-open-btn').forEach(btn => {
   btn.addEventListener('click', () => openDrawer(btn.dataset.drawer));
 });

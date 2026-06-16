@@ -2796,6 +2796,53 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   .calc-feature ul li { white-space: normal; overflow: visible; text-overflow: clip; }
 }
 
+/* ── Case study: full-width media + tabs ────────────────────────── */
+.cs-entry {
+  background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 3rem 3.25rem 3.25rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.cs-media { margin-top: 0.5rem; }
+.cs-media img { width: 100%; height: auto; border-radius: 12px; cursor: pointer; display: block; }
+.cs-tabs { margin-top: 1.5rem; }
+.cs-tabs .toggle-scroll-wrap { position: relative; }
+.cs-tab-strip {
+  overflow-x: auto; overflow-y: hidden; max-width: 100%;
+  -webkit-overflow-scrolling: touch; scrollbar-width: thin;
+  scrollbar-color: rgba(255,153,0,0.6) rgba(255,255,255,0.08);
+}
+.cs-tab-strip::-webkit-scrollbar { height: 6px; }
+.cs-tab-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.06); }
+.cs-tab-strip::-webkit-scrollbar-thumb { background: rgba(255,153,0,0.55); border-radius: 3px; }
+.cs-tab-btn {
+  background: transparent; border: none; color: var(--color-text);
+  font-family: var(--font-primary); font-size: 13px; font-weight: 600;
+  padding: 10px 28px; cursor: pointer; transition: var(--transition);
+  white-space: nowrap; flex-shrink: 0;
+}
+.cs-tab-btn.active { background: var(--color-accent); color: #fff; }
+.cs-tab-btn:not(.active):hover { background: var(--color-accent-light); color: var(--color-white); }
+.cs-tab-panels { padding-top: 1.5rem; }
+.cs-tab-panel { display: none; }
+.cs-tab-panel.active { display: block; animation: qFade 0.25s ease; }
+.cs-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+.cs-panel-text { min-width: 0; }
+.cs-panel-media { min-width: 0; }
+.cs-panel-media img { width: 100%; height: auto; border-radius: 12px; display: block; }
+.cs-tab-panel p { font-size: 0.85rem; color: rgb(168,168,189); line-height: 1.6; margin: 0; }
+.cs-tab-panel ul { list-style: none; margin: 0.75rem 0 0; padding: 0; }
+.cs-tab-panel ul:not(.tools-bullets) li {
+  font-size: 0.875rem; color: rgba(255,255,255,0.8);
+  padding: 0.45rem 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex; align-items: baseline; gap: 0.5rem;
+}
+.cs-tab-panel ul:not(.tools-bullets) li::before { content: '•'; color: #FF9900; font-weight: 700; flex-shrink: 0; }
+
 /* ── Tools & Tooling Cards ──────────────────────────────────────── */
 .tools-bullets {
   display: grid; grid-template-columns: 1fr 1fr; gap: 0;
@@ -3078,4 +3125,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
 @media (max-width: 768px) {
   .pricing-tier, .journey-sub, .journey-outcome, .cs-tag,
   .tooling-card p, .tooling-card ul li, .tools-bullets li { font-size: 13px; }
+  .cs-panel-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .cs-entry { padding: 1.25rem 1.1rem 1.5rem; border-radius: 16px; }
 }
