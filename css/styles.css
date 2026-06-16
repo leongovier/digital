@@ -1867,7 +1867,8 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
 .accordion-header:hover { color: var(--color-accent); }
 .accordion-icon {
   color: var(--color-accent);
-  font-size: 12px;
+  width: 12px;
+  height: 12px;
   transition: transform var(--transition);
   flex-shrink: 0;
 }
@@ -2449,7 +2450,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 1rem;
   background: linear-gradient(rgba(10,8,20,0.78), rgba(10,8,20,0.78)),
-              url('images/vinyl-retro-minimal-art-design.jpg') center/cover no-repeat;
+              url('../images/vinyl-retro-minimal-art-design.jpg') center/cover no-repeat;
   border-radius: 12px; padding: 1.5rem 1.75rem;
   font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.6;
 }
@@ -2542,7 +2543,7 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem; flex-wrap: wrap;
   background: linear-gradient(rgba(10,8,20,0.78), rgba(10,8,20,0.78)),
-              url('images/vinyl-retro-minimal-art-design.jpg') center/cover no-repeat;
+              url('../images/vinyl-retro-minimal-art-design.jpg') center/cover no-repeat;
   border: none; border-radius: 12px; padding: 1.5rem 1.75rem;
   margin-top: 2rem; font-size: 0.9rem; color: rgba(255,255,255,0.7);
   line-height: 1.6; overflow: hidden;
@@ -2765,8 +2766,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   font-size: 13px; line-height: 20px; margin-bottom: 1.75rem; padding: 0 12px;
 }
 .calc-features-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.25rem; }
-.cs-stack { grid-template-columns: 1fr; }
-.cs-2x2 { grid-template-columns: 1fr 1fr; }
 
 /* ── Calc Feature Cards ─────────────────────────────────────────── */
 .calc-feature {
@@ -2780,8 +2779,6 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   background: rgba(255,153,0,0.07); border-color: rgba(255,153,0,0.45);
   transform: translateY(-2px);
 }
-.calc-feature-gallery { background: none; border: none; padding: 12px 0 0; }
-.calc-feature-gallery:hover { background: none; border-color: transparent; transform: none; }
 .calc-feature h5 { color: #FF9900; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
 .calc-feature p { font-size: 0.8rem; color: rgb(168,168,189); line-height: 1.6; margin: 0; text-align: justify; }
 .calc-feature ul { list-style: none; margin: 0.75rem 0 0; padding: 0; }
@@ -3112,13 +3109,14 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   text-decoration: none;
 }
 .btn-linkedin-icon:hover { background: #0A66C2; border-color: #0A66C2; color: #fff; }
+.btn-linkedin-icon svg { width: 20px; height: 20px; }
 
 /* ── Responsive grid collapses ──────────────────────────────────── */
 @media (max-width: 600px) {
   .pricing-grid, .pricing-grid-2, .pricing-grid-auto { grid-template-columns: 1fr; }
   .calc-list { grid-template-columns: 1fr; }
   .systems-grid { grid-template-columns: 1fr; }
-  .calc-features-grid, .cs-2x2 { grid-template-columns: 1fr; }
+  .calc-features-grid { grid-template-columns: 1fr; }
 }
 
 /* ── Mobile readability bumps ───────────────────────────────────── */
