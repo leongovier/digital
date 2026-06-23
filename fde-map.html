@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Business Case Gap Map — Is your case strong enough to survive scrutiny? | leongovier.digital</title>
+  <meta name="description" content="Rate your AI business case across five dimensions. See where stakeholders will push back — and exactly what evidence to build to close the gap. With inline coaching and an email report.">
+  <meta name="author" content="Leon Govier">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://leongovier.digital/fde-map.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leongovier.digital/fde-map.html">
+  <meta property="og:title" content="AI Business Case Gap Map — Leon Govier">
+  <meta property="og:description" content="Rate your AI business case across five dimensions. See where stakeholders will push back — and exactly what to build to close the gap.">
+  <meta property="og:image" content="https://leongovier.digital/images/og-cover.jpg">
+  <meta property="og:site_name" content="leongovier.digital">
+  <meta property="og:locale" content="en_GB">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Business Case Gap Map — Leon Govier">
+  <meta name="twitter:description" content="Rate your AI business case across five dimensions. See where stakeholders will push back — and exactly what to build.">
+  <meta name="twitter:image" content="https://leongovier.digital/images/og-cover.jpg">
+
+  <!-- Favicons -->
+  <link rel="icon" href="images/favicon-32.png" sizes="32x32">
+  <link rel="icon" href="images/favicon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="images/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/jkiticon.css">
+  <link rel="stylesheet" href="css/styles.css?v=10">
+
+  <style>
+    /* ── Page-specific: fde-map.html ───────────────────── */
+    :root {
+      --bc-none:   #555a6b;
+      --bc-weak:   #e24b4a;
+      --bc-part:   #ef9f27;
+      --bc-strong: #378add;
+      --bc-water:  #1d9e75;
+      --bc-card:    #111111;
+      --bc-card-border: #1f1f1f;
+      --bc-input:   #1a1a1a;
+      --bc-input-border: #2a2a2a;
+      /* Slightly brighter muted text on this page (0.5 → 0.8) */
+      --color-text-muted: rgba(168, 168, 189, 0.8);
+    }
+
+    .bc-wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+    /* Hero (mirrors value-matrix / eval two-column hero) */
+    .bc-hero .hero-text p { font-size: 15px; }
+    .bc-hero .hero-buttons { display: flex; }
+
+    /* Stylised gap-map preview card (right column) */
+    .bc-hero-card {
+      width: 100%; max-width: 380px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--color-white-15);
+      border-radius: var(--radius);
+      padding: 22px;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    }
+    .bc-hero-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+    .bc-hero-eyebrow { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-accent); }
+    .bc-hero-title { display: block; font-size: 16px; font-weight: 600; color: #fff; margin-top: 5px; }
+    .bc-hero-score { text-align: right; flex-shrink: 0; }
+    .bc-hero-score-num { font-size: 26px; font-weight: 700; color: var(--bc-part); line-height: 1; }
+    .bc-hero-score-lbl { font-size: 10px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; }
+    .bc-hero-rows { display: flex; flex-direction: column; gap: 13px; }
+    .bc-hero-row { display: flex; align-items: center; gap: 12px; font-size: 12.5px; }
+    .bc-hero-dim { flex: 1; color: var(--color-text); }
+    .bc-hero-track { width: 84px; height: 6px; background: #2b2b38; border-radius: 4px; overflow: hidden; flex-shrink: 0; }
+    .bc-hero-fill { height: 100%; border-radius: 4px; }
+    .bc-hero-rate { min-width: 58px; text-align: right; font-size: 11.5px; font-weight: 600; flex-shrink: 0; }
+    .bc-hero-chev { font-size: 11px; color: var(--color-text-muted); flex-shrink: 0; line-height: 1; }
+
+    /* Tool section */
+    .bc-tool { padding: 56px 0 90px; background: var(--bg-primary); }
+    .bc-tool-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .bc-intro { margin-bottom: 22px; }
+    .bc-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 8px;
+    }
+    .bc-intro h2 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 8px; }
+    .bc-intro p { font-size: 13.5px; color: var(--color-text); line-height: 1.6; max-width: 620px; }
+
+    /* Dimension accordion cards */
+    .bc-dims { display: flex; flex-direction: column; gap: 12px; }
+    .bc-card {
+      background: var(--bc-card); border: 1px solid var(--bc-card-border);
+      border-radius: var(--radius); overflow: hidden;
+      transition: border-color var(--transition);
+    }
+    .bc-card:hover { border-color: #2a2a2a; }
+    .bc-head {
+      padding: 18px 20px; cursor: pointer; user-select: none;
+      display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center;
+    }
+    .bc-name { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 3px; }
+    .bc-q { font-size: 12.5px; color: var(--color-text-muted); line-height: 1.4; }
+    .bc-head-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+    .bc-track { width: 80px; height: 5px; background: #262630; border-radius: 3px; overflow: hidden; }
+    .bc-fill { height: 100%; border-radius: 3px; width: 0%; transition: width 0.35s, background 0.35s; }
+    .bc-rl { font-size: 11.5px; font-weight: 600; min-width: 58px; text-align: right; color: var(--bc-none); }
+    .bc-chev { font-size: 12px; color: var(--color-text-muted); transition: transform 0.25s; line-height: 1; }
+    .bc-body { display: none; padding: 0 20px 20px; }
+    .bc-body.open { display: block; }
+    .bc-body-inner { border-top: 1px solid var(--bc-card-border); padding-top: 18px; }
+    .bc-what { font-size: 13px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px; }
+
+    /* Rating buttons */
+    .bc-ratings { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+    .bc-rbtn {
+      font-family: var(--font-primary); font-size: 12px; font-weight: 500;
+      padding: 7px 14px; border-radius: 7px; cursor: pointer;
+      border: 1px solid var(--bc-input-border); background: var(--bc-input);
+      color: var(--color-text); transition: var(--transition);
+    }
+    .bc-rbtn:hover { border-color: var(--color-accent-50); color: #fff; }
+    .bc-rbtn.sel { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-08); }
+
+    .bc-evidence {
+      width: 100%; padding: 11px 13px; background: var(--bc-input);
+      border: 1px solid var(--bc-input-border); border-radius: 8px;
+      color: #fff; font-size: 13px; margin-bottom: 16px;
+      transition: border-color var(--transition); font-family: var(--font-primary);
+    }
+    .bc-evidence:focus { outline: none; border-color: var(--color-accent); }
+    .bc-evidence::placeholder { color: var(--color-text-muted); }
+
+    /* Coaching box */
+    .bc-coach {
+      background: #0d0d0d; border: 1px solid var(--bc-input-border);
+      border-radius: 8px; padding: 16px 18px; display: none;
+    }
+    .bc-coach.show { display: block; }
+    .bc-coach.proven { border-color: var(--bc-water); }
+    .bc-coach-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: var(--color-accent); margin-bottom: 7px; }
+    .bc-coach.proven .bc-coach-lbl { color: var(--bc-water); }
+    .bc-coach-title { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 7px; }
+    .bc-coach-body { font-size: 12.5px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 10px; }
+    .bc-coach-sub { font-size: 11px; font-weight: 600; color: #fff; margin: 12px 0 7px; }
+    .bc-arts { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
+    .bc-art { display: flex; gap: 8px; font-size: 12.5px; color: var(--color-text-muted); line-height: 1.5; }
+    .bc-art-n { color: var(--color-accent); font-weight: 600; flex-shrink: 0; min-width: 16px; }
+
+    /* Build plan + email (left column, below dims) */
+    .bc-plan-wrap { margin-top: 28px; display: none; }
+    .bc-plan-wrap.show { display: block; }
+    .bc-plan-list { display: flex; flex-direction: column; gap: 9px; }
+    .bc-plan-row {
+      background: var(--bc-card); border: 1px solid var(--bc-card-border);
+      border-radius: 10px; padding: 14px 16px;
+      display: grid; grid-template-columns: 24px 1fr auto; gap: 12px; align-items: start;
+    }
+    .bc-plan-num { font-size: 13px; font-weight: 700; color: var(--color-accent); padding-top: 1px; }
+    .bc-plan-name { font-size: 13.5px; font-weight: 500; color: #fff; margin-bottom: 3px; }
+    .bc-plan-rate { font-size: 11.5px; color: var(--color-text-muted); font-weight: 400; }
+    .bc-plan-action { font-size: 12.5px; color: var(--color-text-muted); line-height: 1.5; }
+    .bc-badge { font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+    .bc-badge--now { background: rgba(29,158,117,0.15); color: var(--bc-water); border: 1px solid rgba(29,158,117,0.3); }
+    .bc-badge--next { background: rgba(55,138,221,0.14); color: var(--bc-strong); border: 1px solid rgba(55,138,221,0.28); }
+    .bc-badge--later { background: #1a1a1a; color: var(--color-text-muted); border: 1px solid var(--bc-input-border); }
+
+    /* Email report card */
+    .bc-report {
+      margin-top: 24px;
+      background: var(--bc-card); border: 1px solid var(--bc-card-border);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .bc-report h3 { font-size: 20px; font-weight: 500; color: #fff; margin-bottom: 6px; }
+    .bc-report-sub { font-size: 13px; color: var(--color-text); line-height: 1.6; margin-bottom: 22px; }
+    .bc-field { margin-bottom: 16px; }
+    .bc-field > label { display: block; font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 9px; }
+    .bc-input {
+      width: 100%; padding: 12px 14px; background: var(--bc-input);
+      border: 1px solid var(--bc-input-border); border-radius: 8px;
+      color: #fff; font-size: 14px; transition: border-color var(--transition);
+    }
+    .bc-input:focus { outline: none; border-color: var(--color-accent); }
+    .bc-input::placeholder { color: var(--color-text-muted); }
+    .bc-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .bc-error { display: none; font-size: 11.5px; color: var(--bc-weak); margin-top: 7px; }
+    .bc-field.bc-invalid .bc-error { display: block; }
+    .bc-field.bc-invalid .bc-input { border-color: var(--bc-weak); }
+
+    .bc-btn {
+      font-family: var(--font-secondary); font-size: 13px; font-weight: 700;
+      border-radius: 8px; padding: 13px 18px; cursor: pointer; width: 100%;
+      background: var(--color-accent); color: #1a1100; border: 1px solid var(--color-accent);
+      transition: var(--transition); margin-top: 4px;
+    }
+    .bc-btn:hover { background: #ffb84d; border-color: #ffb84d; }
+    .bc-btn[disabled] { opacity: 0.55; pointer-events: none; }
+    .bc-form-msg { display: none; margin-top: 16px; padding: 15px 18px; border-radius: 10px; font-size: 13.5px; line-height: 1.6; }
+    .bc-form-msg.show { display: block; }
+    .bc-form-msg.ok { background: rgba(29,158,117,0.1); border: 1px solid rgba(29,158,117,0.35); color: var(--bc-water); }
+    .bc-form-msg.err { background: rgba(226,75,74,0.12); border: 1px solid var(--bc-weak); color: #ffb3b2; }
+    .bc-form-msg.err a { color: var(--color-accent); }
+
+    /* Right column — live results (sticky) */
+    .bc-side { position: sticky; top: calc(var(--header-height) + 16px); display: flex; flex-direction: column; gap: 14px; }
+    .bc-metric {
+      background: var(--bc-card); border: 1px solid var(--bc-card-border);
+      border-radius: var(--radius); padding: 18px 20px;
+    }
+    .bc-metric-label { font-size: 12px; color: var(--color-text-muted); margin-bottom: 6px; }
+    .bc-metric-value { font-size: 30px; font-weight: 600; color: #fff; line-height: 1; }
+    .bc-metric-value.bc-sm { font-size: 17px; }
+    .bc-metric-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .bc-metric-row .bc-metric { padding: 16px 18px; }
+    .bc-metric-row .bc-metric-value { font-size: 24px; }
+
+    .bc-verdict {
+      background: var(--bc-card); border: 1px solid var(--bc-card-border);
+      border-radius: var(--radius); padding: 20px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .bc-verdict-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: 8px; }
+    .bc-verdict-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 7px; }
+    .bc-verdict-desc { font-size: 13px; color: var(--color-text-muted); line-height: 1.6; }
+
+    @media (max-width: 991px) {
+      .bc-tool-grid { grid-template-columns: minmax(0, 1fr); }
+      .bc-side { position: static; }
+    }
+    @media (max-width: 560px) {
+      .bc-form-grid { grid-template-columns: 1fr; }
+      .bc-head { grid-template-columns: 1fr; }
+      .bc-track { display: none; }
+    }
+  </style>
+</head>
+<body class="no-copy">
+
+  <!-- HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <a href="index.html"><span class="logo-white">leongovier</span>.digital</a>
+      </div>
+      <nav class="main-nav" id="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">Who I am</a></li>
+          <li><a href="design.html">What I design</a></li>
+          <li><a href="build.html">What I build</a></li>
+          <li><a href="case-studies.html">Case studies</a></li>
+          <li><a href="process.html">How I work</a></li>
+          <li class="nav-has-dropdown">
+            <a class="nav-dropdown-toggle" tabindex="0" role="button" aria-haspopup="true">Tools <span class="nav-caret" aria-hidden="true">▾</span></a>
+            <ul class="nav-dropdown">
+              <li><a href="value-matrix.html">Value Matrix ROI Scorer</a></li>
+              <li><a href="eval-framework.html">Eval Framework Builder</a></li>
+              <li><a href="fde-map.html">AI Business Case Gap Map</a></li>
+            </ul>
+          </li>
+          <li class="mobile-nav-sep" aria-hidden="true"></li>
+          <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-cta">
+      <button class="btn btn-primary btn-full drawer-open-btn" data-drawer="contact">Get in touch</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-section cs-hero bc-hero">
+    <div class="hero-image-bg">
+      <img src="images/cta/s1-split-circles.png" alt="" aria-hidden="true">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="hero-text">
+        <h2 class="hero-welcome">AI Business Case Gap Map</h2>
+        <h1 class="hero-headline">Is your AI business case strong enough to survive scrutiny?</h1>
+        <p>Rate your evidence across five dimensions. See where stakeholders will push back — and exactly what to build to close the gap, with inline coaching and an email report.</p>
+        <div class="hero-buttons">
+          <a href="#bcTool" class="btn btn-accent">Assess my case &rarr;</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="bc-hero-card" aria-hidden="true">
+          <div class="bc-hero-card-head">
+            <div>
+              <span class="bc-hero-eyebrow">Gap map</span>
+              <span class="bc-hero-title">Credit decisioning case</span>
+            </div>
+            <div class="bc-hero-score">
+              <div class="bc-hero-score-num">48%</div>
+              <div class="bc-hero-score-lbl">Case strength</div>
+            </div>
+          </div>
+          <div class="bc-hero-rows">
+            <div class="bc-hero-row"><span class="bc-hero-dim">Problem definition</span><span class="bc-hero-track"><span class="bc-hero-fill" style="width:75%;background:#378add"></span></span><span class="bc-hero-rate" style="color:#378add">Strong</span><span class="bc-hero-chev">&#9662;</span></div>
+            <div class="bc-hero-row"><span class="bc-hero-dim">Solution design</span><span class="bc-hero-track"><span class="bc-hero-fill" style="width:50%;background:#ef9f27"></span></span><span class="bc-hero-rate" style="color:#ef9f27">Partial</span><span class="bc-hero-chev">&#9662;</span></div>
+            <div class="bc-hero-row"><span class="bc-hero-dim">Evidence of value</span><span class="bc-hero-track"><span class="bc-hero-fill" style="width:25%;background:#e24b4a"></span></span><span class="bc-hero-rate" style="color:#e24b4a">Weak</span><span class="bc-hero-chev">&#9662;</span></div>
+            <div class="bc-hero-row"><span class="bc-hero-dim">ROI and cost</span><span class="bc-hero-track"><span class="bc-hero-fill" style="width:50%;background:#ef9f27"></span></span><span class="bc-hero-rate" style="color:#ef9f27">Partial</span><span class="bc-hero-chev">&#9662;</span></div>
+            <div class="bc-hero-row"><span class="bc-hero-dim">Risk and governance</span><span class="bc-hero-track"><span class="bc-hero-fill" style="width:100%;background:#1d9e75"></span></span><span class="bc-hero-rate" style="color:#1d9e75">Watertight</span><span class="bc-hero-chev">&#9662;</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOL -->
+  <section class="bc-tool" id="bcTool">
+    <div class="bc-wrap">
+      <div class="bc-tool-grid">
+
+        <!-- Left: dimensions + plan + email -->
+        <div class="bc-main">
+          <div class="bc-intro">
+            <div class="bc-eyebrow">Gap analysis</div>
+            <h2>Rate your evidence</h2>
+            <p>A strong AI business case needs evidence across five dimensions. Where you have gaps, stakeholders push back — or the initiative doesn't get funded. Rate what you have. See exactly what to build.</p>
+          </div>
+
+          <div class="bc-dims" id="bcDims"></div>
+
+          <!-- Build plan + email (appear after first rating) -->
+          <div class="bc-plan-wrap" id="bcPlanWrap">
+            <div class="bc-intro" style="margin-top:8px;margin-bottom:16px;">
+              <div class="bc-eyebrow">Prioritised build plan</div>
+              <h2>What to build, in order</h2>
+            </div>
+            <div class="bc-plan-list" id="bcPlanList"></div>
+
+            <div class="bc-report">
+              <h3>Get your gap analysis by email</h3>
+              <p class="bc-report-sub">We'll send the full breakdown — what evidence to build, what a Watertight case looks like for your two biggest gaps, and a sprint plan to get you there.</p>
+              <form id="bcForm" novalidate>
+                <div class="bc-form-grid">
+                  <div class="bc-field" id="bcField-name">
+                    <label for="bcName">Your name</label>
+                    <input type="text" id="bcName" class="bc-input" placeholder="e.g. Alex Chen" autocomplete="name">
+                    <div class="bc-error">Please enter your name.</div>
+                  </div>
+                  <div class="bc-field" id="bcField-email">
+                    <label for="bcEmail">Your email</label>
+                    <input type="email" id="bcEmail" class="bc-input" placeholder="you@company.com" autocomplete="email">
+                    <div class="bc-error">Please enter a valid email address.</div>
+                  </div>
+                </div>
+                <div class="bc-field">
+                  <label for="bcInitiative">Your initiative (optional)</label>
+                  <input type="text" id="bcInitiative" class="bc-input" placeholder="e.g. AI-assisted credit decisioning" autocomplete="off">
+                </div>
+                <input type="text" id="bcHp" name="website" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+                <button type="submit" class="bc-btn" id="bcSend">Send my gap analysis &rarr;</button>
+                <div class="bc-form-msg" id="bcFormMsg"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: live results (sticky) -->
+        <div class="bc-side">
+          <div class="bc-metric">
+            <div class="bc-metric-label">Case strength</div>
+            <div class="bc-metric-value" id="bcPct">—</div>
+          </div>
+          <div class="bc-metric-row">
+            <div class="bc-metric">
+              <div class="bc-metric-label">Dimensions covered</div>
+              <div class="bc-metric-value" id="bcCov">—</div>
+            </div>
+            <div class="bc-metric">
+              <div class="bc-metric-label">Weakest</div>
+              <div class="bc-metric-value bc-sm" id="bcGap">—</div>
+            </div>
+          </div>
+          <div class="bc-verdict" id="bcVerdict">
+            <div class="bc-verdict-lbl">Verdict</div>
+            <div class="bc-verdict-title" id="bcVTitle">Rate your dimensions</div>
+            <div class="bc-verdict-desc" id="bcVDesc">Score each dimension to see your gap analysis and a prioritised plan to strengthen your case.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="site-footer">
+    <div class="footer-overlay"></div>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <button class="footer-policy-btn" data-policy="privacy">Privacy Policy</button>
+          <span class="footer-pipe">|</span>
+          <button class="footer-policy-btn" data-policy="cookies">Cookie Policy</button>
+        </div>
+        <p class="footer-copy">LG Digital Ltd Copyright &copy;2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SIDE DRAWER: Contact -->
+  <div class="side-drawer" id="drawer-contact" aria-hidden="true">
+    <div class="side-drawer-backdrop"></div>
+    <div class="side-drawer-panel" role="dialog" aria-modal="true" aria-label="Contact">
+      <div class="side-drawer-header">
+        <span class="side-drawer-label gradient-text">Get in touch</span>
+        <button class="side-drawer-close" aria-label="Close drawer">&times;</button>
+      </div>
+      <div class="side-drawer-step" id="contactStep1">
+        <div class="side-drawer-hero">
+          <h2 class="side-drawer-title">What can I help with?</h2>
+          <p class="side-drawer-strapline">Pick the closest fit and I'll ask the right questions.</p>
+        </div>
+        <div class="side-drawer-content">
+          <div class="contact-choice">
+            <button type="button" class="contact-choice-card" data-path="build">
+              <i class="jki jki-improvement-light"></i>
+              <h4>Build something</h4>
+              <p>A website, calculator, quote engine or bespoke CRM/CMS for your business.</p>
+            </button>
+            <button type="button" class="contact-choice-card" data-path="hire">
+              <i class="jki jki-team-presentation-line"></i>
+              <h4>Hire me</h4>
+              <p>Contract or permanent product design — embedded with your team.</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="side-drawer-step" id="contactStep2" hidden>
+        <div class="side-drawer-hero">
+          <button type="button" class="contact-back" id="contactBack">&larr; Change</button>
+          <h2 class="side-drawer-title" id="contactFormTitle">Let's talk about your project.</h2>
+          <p class="side-drawer-strapline" id="contactFormStrap">Tell me what you're building and I'll come back to you — usually within a day.</p>
+        </div>
+        <div class="side-drawer-content">
+          <form class="contact-form" id="contactForm">
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label class="form-label">Your name <span class="required">*</span></label>
+                <input type="text" name="contact_name" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your email <span class="required">*</span></label>
+                <input type="email" name="contact_email" class="form-input" required>
+              </div>
+            </div>
+            <div class="form-path" data-path="build" hidden>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Phone number</label>
+                  <input type="tel" name="contact_number" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Business name</label>
+                  <input type="text" name="business_name" class="form-input">
+                </div>
+              </div>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">What do you need? <span class="required">*</span></label>
+                  <select name="project_type" class="form-input form-select" required>
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Website</option>
+                    <option>Calculator or tool</option>
+                    <option>Bespoke CRM / CMS system</option>
+                    <option>All three!</option>
+                    <option>Not sure yet — let's talk</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Approximate budget</label>
+                  <select name="budget" class="form-input form-select">
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Under £1,500</option>
+                    <option>£1,500 – £3,000</option>
+                    <option>£3,000 – £6,000</option>
+                    <option>£6,000+</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-path" data-path="hire" hidden>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Company / agency</label>
+                  <input type="text" name="business_name" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">LinkedIn or website</label>
+                  <input type="url" name="contact_url" class="form-input" placeholder="https://…">
+                </div>
+              </div>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Engagement type <span class="required">*</span></label>
+                  <select name="project_type" class="form-input form-select" required>
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Contract — day rate</option>
+                    <option>Contract — fixed scope</option>
+                    <option>Permanent role</option>
+                    <option>Not sure yet — let's talk</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">When do you need someone?</label>
+                  <select name="start_date" class="form-input form-select">
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Immediately</option>
+                    <option>Within a month</option>
+                    <option>1–3 months</option>
+                    <option>3+ months</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell me more <span class="required">*</span></label>
+              <textarea name="information" class="form-textarea" required placeholder="The more detail the better."></textarea>
+            </div>
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
+            <button type="submit" class="btn btn-primary btn-full" id="contactSubmit">Send message</button>
+            <div class="form-success" id="contactSuccess" style="display:none"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLICY MODAL -->
+  <div class="policy-modal" id="policyModal" aria-hidden="true">
+    <div class="policy-modal-backdrop"></div>
+    <div class="policy-modal-panel" role="dialog" aria-modal="true">
+      <div class="policy-modal-header">
+        <h2 class="policy-modal-title" id="policyTitle"></h2>
+        <button class="policy-modal-close" id="policyClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="policy-modal-body" id="policyBody"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js?v=22"></script>
+  <script src="js/fde-map.js?v=2"></script>
+
+  <script src="js/protect.js?v=1"></script>
+</body>
+</html>

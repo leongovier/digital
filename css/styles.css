@@ -230,36 +230,117 @@ input, textarea { font-family: var(--font-primary); }
 .main-nav { flex: 1; }
 .main-nav ul {
   display: flex;
-  gap: 4px;
+  gap: 0;
   align-items: center;
+}
+.main-nav > ul > li:not(.mobile-nav-sep):not(.mobile-nav-extra) { display: flex; align-items: center; }
+/* brand-orange separator between top-level items */
+.main-nav > ul > li:not(.mobile-nav-sep):not(.mobile-nav-extra) + li:not(.mobile-nav-sep):not(.mobile-nav-extra)::before {
+  content: "\2022";
+  color: var(--color-accent);
+  font-size: 11px;
+  line-height: 1;
+  pointer-events: none;
 }
 .main-nav a {
   color: var(--color-text);
   font-size: 13px;
   font-weight: 500;
-  padding: 8px 12px;
+  padding: 7px 8px;
   border-radius: 0;
-  border-bottom: 2px solid transparent;
-  transition: var(--transition);
+  transition: color var(--transition);
 }
-.main-nav a:hover, .main-nav a.active,
+.main-nav a:hover,
 .main-nav-drawer-btn:hover {
-  color: var(--color-white);
+  color: var(--color-accent);
   background: none;
-  border-bottom-color: var(--color-accent);
+}
+/* current-page item — full white */
+.main-nav a.active,
+.main-nav .nav-dropdown-toggle.active {
+  color: var(--color-white);
 }
 .main-nav-drawer-btn {
   color: var(--color-text);
   font-size: 13px;
   font-weight: 500;
-  padding: 8px 12px;
+  padding: 7px 8px;
   border-radius: 0;
   border: none;
-  border-bottom: 2px solid transparent;
   background: none;
   cursor: pointer;
-  transition: var(--transition);
+  transition: color var(--transition);
   font-family: var(--font-primary);
+}
+
+/* ── Tools dropdown ──────────────────────────────────────── */
+.nav-has-dropdown { position: relative; }
+.nav-dropdown-toggle { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.nav-caret { font-size: 8px; line-height: 1; opacity: 0.85; transition: transform var(--transition); }
+.nav-has-dropdown:hover .nav-caret,
+.nav-has-dropdown:focus-within .nav-caret { transform: rotate(180deg); }
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 232px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2px;
+  background: #15151b;
+  border: 1px solid var(--color-white-15);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  z-index: 1001;
+}
+.nav-has-dropdown:hover .nav-dropdown,
+.nav-has-dropdown:focus-within .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.nav-dropdown li { display: block; }
+.nav-dropdown li::before { content: none !important; }
+.nav-dropdown a {
+  display: block;
+  white-space: nowrap;
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  text-align: left;
+  color: var(--color-text);
+  transition: color var(--transition);
+}
+.nav-dropdown a:hover { color: var(--color-accent); }
+
+/* ── Content protection (tool pages: body.no-copy) ───────── */
+body.no-copy {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body.no-copy input,
+body.no-copy textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+@media print {
+  body.no-copy { visibility: hidden; }
+  body.no-copy::before {
+    content: "Printing is disabled. Use the email option on the page to receive your results.";
+    visibility: visible;
+    position: fixed; top: 0; left: 0; right: 0;
+    padding: 40px; font: 16px/1.6 'Poppins', Arial, sans-serif; color: #000;
+  }
 }
 .header-actions {
   display: flex;
@@ -2113,6 +2194,21 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   }
   .main-nav ul { flex-direction: column; gap: 4px; align-items: flex-end; }
   .main-nav ul a { display: block; padding: 12px 16px; font-size: 14px; text-align: right; }
+  /* Stack nav items vertically; no inline bullets on mobile */
+  .main-nav > ul > li { display: block; width: 100%; }
+  .main-nav > ul > li + li::before { content: none !important; }
+  /* Tools sub-menu shows inline (expanded) inside the mobile drawer */
+  .main-nav > ul > li.nav-has-dropdown { display: block !important; }
+  .nav-has-dropdown { position: static; }
+  .nav-dropdown-toggle { display: block; text-align: right; }
+  .nav-caret { display: none; }
+  .nav-dropdown-toggle { justify-content: flex-end; }
+  .nav-dropdown {
+    position: static; opacity: 1; visibility: visible; transform: none;
+    background: none; border: none; box-shadow: none;
+    padding: 0; margin: 2px 0 0; min-width: 0; align-items: flex-end; z-index: auto;
+  }
+  .nav-dropdown a { padding: 10px 16px; font-size: 13px; color: var(--color-text-muted); text-align: right; }
   .mobile-nav-backdrop {
     display: none;
     position: fixed;

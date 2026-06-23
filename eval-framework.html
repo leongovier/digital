@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/jkiticon.css">
-  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=10">
 
   <style>
     /* ── Page-specific: eval-framework.html ──────────────────── */
@@ -47,15 +47,52 @@
       --ef-card-border: #1f1f1f;
       --ef-input:   #1a1a1a;
       --ef-input-border: #2a2a2a;
+      /* Slightly brighter muted text on this page (0.5 → 0.8) */
+      --color-text-muted: rgba(168, 168, 189, 0.8);
     }
+
+    /* Locked inputs (after a framework is generated) */
+    .ef-inputs.ef-locked .ef-pill { pointer-events: none; cursor: not-allowed; }
+    .ef-inputs.ef-locked .ef-pill:not(.selected) { opacity: 0.4; }
+    .ef-inputs.ef-locked .ef-input { opacity: 0.55; cursor: not-allowed; }
 
     .ef-wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
 
-    /* Hero (mirrors value-matrix hero) */
-    .ef-hero .hero-content { grid-template-columns: 1fr; }
-    .ef-hero .hero-text { max-width: 720px; padding-right: 0; }
+    /* Hero (mirrors value-matrix two-column hero) */
     .ef-hero .hero-text p { font-size: 15px; }
     .ef-hero .hero-buttons { display: flex; }
+
+    /* Stylised framework-preview card (right column) */
+    .ef-hero-card {
+      width: 100%; max-width: 380px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--color-white-15);
+      border-radius: var(--radius);
+      padding: 22px;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    }
+    .ef-hero-card-head { margin-bottom: 16px; }
+    .ef-hero-eyebrow { display: block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--color-accent); }
+    .ef-hero-title { display: block; font-size: 16px; font-weight: 600; color: #fff; margin-top: 5px; }
+    .ef-hero-sections { display: flex; flex-direction: column; gap: 8px; }
+    .ef-hero-row {
+      display: flex; align-items: center; gap: 10px; font-size: 12.5px;
+      color: var(--color-text-bright);
+      background: rgba(255,255,255,0.03); border: 1px solid var(--color-white-05);
+      border-radius: 8px; padding: 9px 11px;
+    }
+    .ef-hero-chip {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+      background: var(--color-accent); color: #1a1100;
+      font-size: 11px; font-weight: 700; line-height: 20px; text-align: center;
+    }
+    .ef-hero-badge {
+      margin-left: auto; font-size: 11px; font-weight: 700; color: #fff;
+      background: rgba(255,255,255,0.1); border-radius: 20px; padding: 2px 9px;
+      font-variant-numeric: tabular-nums;
+    }
+    .ef-hero-badge--risk { background: var(--ef-danger); }
 
     /* Tool section */
     .ef-tool { padding: 0 0 90px; background: var(--bg-primary); }
@@ -161,8 +198,8 @@
     /* 1. categories grid */
     .ef-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .ef-cat {
-      background: #0d0d0d; border: 1px solid var(--ef-card-border);
-      border-left: 3px solid var(--color-accent); border-radius: 8px; padding: 14px 16px;
+      background: #0d0d0d; border: 1px solid var(--color-accent);
+      border-radius: 8px; padding: 14px 16px;
     }
     .ef-cat.ef-span { grid-column: 1 / -1; }
     .ef-cat-name { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 5px; }
@@ -219,8 +256,8 @@
 
     /* 5. residual */
     .ef-residual {
-      background: #0d0d0d; border: 1px solid var(--ef-card-border);
-      border-left: 3px solid var(--ef-danger); border-radius: 8px; padding: 18px 20px;
+      background: #0d0d0d; border: 1px solid var(--ef-danger);
+      border-radius: 8px; padding: 18px 20px;
     }
     .ef-residual p { font-size: 13px; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 12px; }
     .ef-residual p:last-child { margin-bottom: 0; }
@@ -230,10 +267,9 @@
     .ef-action-msg { font-size: 11.5px; color: var(--ef-danger); margin-top: 8px; text-align: right; display: none; }
     .ef-action-msg.show { display: block; }
 
-    /* Email report card */
-    .ef-report { padding: 0 0 100px; background: var(--bg-primary); }
+    /* Email report card (right column, below output) */
     .ef-report-card {
-      max-width: 720px; margin: 0 auto;
+      margin-top: 24px;
       background: var(--ef-card); border: 1px solid var(--ef-card-border);
       border-radius: var(--radius); padding: 32px 28px;
     }
@@ -259,7 +295,7 @@
     }
   </style>
 </head>
-<body>
+<body class="no-copy">
 
   <!-- HEADER -->
   <header class="site-header" id="site-header">
@@ -275,6 +311,14 @@
           <li><a href="build.html">What I build</a></li>
           <li><a href="case-studies.html">Case studies</a></li>
           <li><a href="process.html">How I work</a></li>
+          <li class="nav-has-dropdown">
+            <a class="nav-dropdown-toggle" tabindex="0" role="button" aria-haspopup="true">Tools <span class="nav-caret" aria-hidden="true">▾</span></a>
+            <ul class="nav-dropdown">
+              <li><a href="value-matrix.html">Value Matrix ROI Scorer</a></li>
+              <li><a href="eval-framework.html">Eval Framework Builder</a></li>
+              <li><a href="fde-map.html">AI Business Case Gap Map</a></li>
+            </ul>
+          </li>
           <li class="mobile-nav-sep" aria-hidden="true"></li>
           <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
         </ul>
@@ -294,7 +338,7 @@
   <!-- HERO -->
   <section class="hero-section cs-hero ef-hero">
     <div class="hero-image-bg">
-      <img src="images/cta/s11-rings.png" alt="" aria-hidden="true">
+      <img src="images/cta/s6-intersect.png" alt="" aria-hidden="true">
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-content container">
@@ -304,6 +348,21 @@
         <p>Generate a structured evaluation framework for your UK FS AI initiative in 60 seconds — including test cases, metrics, and a residual risk statement for your model risk committee.</p>
         <div class="hero-buttons">
           <a href="#efTool" class="btn btn-accent">Build my framework &rarr;</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="ef-hero-card" aria-hidden="true">
+          <div class="ef-hero-card-head">
+            <span class="ef-hero-eyebrow">Eval framework</span>
+            <span class="ef-hero-title">Credit decisioning</span>
+          </div>
+          <div class="ef-hero-sections">
+            <div class="ef-hero-row"><span class="ef-hero-chip">1</span>Test categories<span class="ef-hero-badge">5</span></div>
+            <div class="ef-hero-row"><span class="ef-hero-chip">2</span>Example test cases<span class="ef-hero-badge">10</span></div>
+            <div class="ef-hero-row"><span class="ef-hero-chip">3</span>Success metrics<span class="ef-hero-badge">5</span></div>
+            <div class="ef-hero-row"><span class="ef-hero-chip">4</span>Adversarial &amp; edge cases<span class="ef-hero-badge">5</span></div>
+            <div class="ef-hero-row"><span class="ef-hero-chip">5</span>Residual risk statement<span class="ef-hero-badge ef-hero-badge--risk">High</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -343,37 +402,33 @@
           <button type="button" class="ef-btn ef-btn-primary" id="efGenerate">Generate framework &rarr;</button>
         </div>
 
-        <!-- Right: output -->
-        <div>
+        <!-- Right: output + email (col 8) -->
+        <div class="ef-col-right">
           <div class="ef-empty" id="efEmpty">Your evaluation framework will appear here once you generate it.</div>
           <div class="ef-output" id="efOutput" hidden></div>
+
+          <!-- Email report -->
+          <div class="ef-report-card">
+            <h2>Get your framework by email</h2>
+            <p class="ef-report-sub">We'll send a formatted copy with recommended next steps for your initiative.</p>
+            <form id="efForm" novalidate>
+              <div class="ef-field" id="efField-reportName">
+                <label for="efReportName">Initiative name</label>
+                <input type="text" id="efReportName" class="ef-input" placeholder="Your initiative" autocomplete="off">
+                <div class="ef-error">Please add an initiative name.</div>
+              </div>
+              <div class="ef-field" id="efField-email">
+                <label for="efEmail">Email address</label>
+                <input type="email" id="efEmail" class="ef-input" placeholder="you@company.com" autocomplete="email">
+                <div class="ef-error">Please enter a valid email address.</div>
+              </div>
+              <input type="text" id="efHp" name="website" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <button type="submit" class="ef-btn ef-btn-primary" id="efSend">Send my framework &rarr;</button>
+              <div class="ef-form-msg" id="efFormMsg"></div>
+            </form>
+          </div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- EMAIL REPORT -->
-  <section class="ef-report">
-    <div class="ef-wrap">
-      <div class="ef-report-card">
-        <h2>Get your framework by email</h2>
-        <p class="ef-report-sub">We'll send a formatted copy with recommended next steps for your initiative.</p>
-        <form id="efForm" novalidate>
-          <div class="ef-field" id="efField-reportName">
-            <label for="efReportName">Initiative name</label>
-            <input type="text" id="efReportName" class="ef-input" placeholder="Your initiative" autocomplete="off">
-            <div class="ef-error">Please add an initiative name.</div>
-          </div>
-          <div class="ef-field" id="efField-email">
-            <label for="efEmail">Email address</label>
-            <input type="email" id="efEmail" class="ef-input" placeholder="you@company.com" autocomplete="email">
-            <div class="ef-error">Please enter a valid email address.</div>
-          </div>
-          <input type="text" id="efHp" name="website" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" class="ef-btn ef-btn-primary" id="efSend">Send my framework &rarr;</button>
-          <div class="ef-form-msg" id="efFormMsg"></div>
-        </form>
       </div>
     </div>
   </section>
@@ -534,8 +589,9 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=21"></script>
-  <script src="js/eval-framework.js"></script>
+  <script src="js/main.js?v=22"></script>
+  <script src="js/eval-framework.js?v=2"></script>
 
+  <script src="js/protect.js?v=1"></script>
 </body>
 </html>

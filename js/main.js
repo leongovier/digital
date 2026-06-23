@@ -39,20 +39,33 @@ mainNav.querySelectorAll('button').forEach(btn => {
 /* ===== ACTIVE NAV ===== */
 function updateActiveNav() {
   const sections = document.querySelectorAll('section[id], footer[id]');
-  const navLinks = document.querySelectorAll('.main-nav a');
   let current = '';
   sections.forEach(section => {
     if (window.scrollY >= section.offsetTop - 120) {
       current = section.getAttribute('id');
     }
   });
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === `#${current}`) {
+  // Only manage in-page anchor links here; leave full-page links to markCurrentPage().
+  document.querySelectorAll('.main-nav a[href^="#"]').forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+  });
+}
+
+// Mark the nav item for the current page as active (full white).
+function markCurrentPage() {
+  const path = (location.pathname.split('/').pop() || 'index.html').toLowerCase();
+  document.querySelectorAll('.main-nav a[href]').forEach(link => {
+    const href = (link.getAttribute('href') || '').split('/').pop().toLowerCase();
+    if (!href || href.charAt(0) === '#') return;
+    if (href === path) {
       link.classList.add('active');
+      // If it lives in the Tools dropdown, light up the "Tools" toggle too.
+      const dd = link.closest('.nav-has-dropdown');
+      if (dd) { const t = dd.querySelector('.nav-dropdown-toggle'); if (t) t.classList.add('active'); }
     }
   });
 }
+markCurrentPage();
 
 /* ===== LIGHTBOX ===== */
 const galleries = {

@@ -378,6 +378,7 @@ function fmtDateISO(d) {
   if (!els.generate) return;
 
   const state = { name: '', useCase: '', context: '', sensitivity: '' };
+  let locked = false; // true once a framework has been generated
 
   /* Build pill groups ----------------------------------------- */
   function buildPills(container, items, onPick) {
@@ -394,6 +395,7 @@ function fmtDateISO(d) {
         btn.textContent = it.label;
       }
       btn.addEventListener('click', () => {
+        if (locked) return;
         container.querySelectorAll('.ef-pill').forEach((p) => p.classList.remove('selected'));
         btn.classList.add('selected');
         onPick(it.value);
@@ -417,10 +419,31 @@ function fmtDateISO(d) {
   function setError(key) { const f = $('efField-' + key); if (f) f.classList.add('ef-invalid'); }
   function clearError(key) { const f = $('efField-' + key); if (f) f.classList.remove('ef-invalid'); }
 
-  /* ── Generate ───────────────────────────────────────────────── */
+  /* ── Generate / Reset ───────────────────────────────────────── */
   let current = null; // { state, tpl, useCaseLabel, date }
+  const inputsPanel = document.querySelector('.ef-inputs');
+
+  function lockTool() {
+    locked = true;
+    inputsPanel.classList.add('ef-locked');
+    els.name.disabled = true;
+    els.generate.innerHTML = 'Reset framework';
+  }
+  function resetTool() {
+    locked = false;
+    inputsPanel.classList.remove('ef-locked');
+    els.name.disabled = false;
+    els.generate.innerHTML = 'Generate framework &rarr;';
+    current = null;
+    els.output.hidden = true;
+    els.output.innerHTML = '';
+    els.empty.style.display = 'block';
+    els.empty.textContent = 'Your evaluation framework will appear here once you generate it.';
+    document.getElementById('efTool').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 
   els.generate.addEventListener('click', () => {
+    if (locked) { resetTool(); return; }
     state.name = els.name.value;
     let ok = true;
     ['name', 'useCase', 'context', 'sensitivity'].forEach((k) => clearError(k));
@@ -449,6 +472,7 @@ function fmtDateISO(d) {
 
     els.empty.style.display = 'none';
     els.output.hidden = false;
+    lockTool();
     els.output.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
@@ -489,10 +513,6 @@ function fmtDateISO(d) {
         '<div><div class="ef-eyebrow">Eval framework</div>' +
         '<div class="ef-out-title">' + esc(titleDisplay) + '</div>' +
         '<div class="ef-out-meta">' + esc(meta) + '</div></div>' +
-        '<div class="ef-out-actions">' +
-          '<button type="button" class="ef-btn ef-btn-ghost" id="efCopy"><i class="jki jki-copy"></i> Copy</button>' +
-          '<button type="button" class="ef-btn ef-btn-ghost" id="efDownload"><i class="jki jki-download"></i> Download .txt</button>' +
-        '</div>' +
       '</div>' +
       '<div class="ef-action-msg" id="efActionMsg"></div>' +
       section(1, 'Test categories', '<div class="ef-cat-grid">' + cats + '</div>') +
@@ -500,10 +520,6 @@ function fmtDateISO(d) {
       section(3, 'Success metrics', '<div class="ef-metric-grid">' + metrics + '</div>') +
       section(4, 'Adversarial & edge cases', advs) +
       section(5, 'Residual risk statement', '<div class="ef-residual">' + residual + '</div>');
-
-    // Wire copy/download
-    $('efCopy').addEventListener('click', onCopy);
-    $('efDownload').addEventListener('click', onDownload);
   }
 
   function section(n, title, inner) {

@@ -33,7 +33,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/jkiticon.css">
-  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=10">
 
   <style>
     /* ── Page-specific: case-studies.html ──────────────
@@ -86,6 +86,14 @@
           <li><a href="build.html">What I build</a></li>
           <li><a href="case-studies.html">Case studies</a></li>
           <li><a href="process.html">How I work</a></li>
+          <li class="nav-has-dropdown">
+            <a class="nav-dropdown-toggle" tabindex="0" role="button" aria-haspopup="true">Tools <span class="nav-caret" aria-hidden="true">▾</span></a>
+            <ul class="nav-dropdown">
+              <li><a href="value-matrix.html">Value Matrix ROI Scorer</a></li>
+              <li><a href="eval-framework.html">Eval Framework Builder</a></li>
+              <li><a href="fde-map.html">AI Business Case Gap Map</a></li>
+            </ul>
+          </li>
           <li class="mobile-nav-sep" aria-hidden="true"></li>
           <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
         </ul>
@@ -916,7 +924,7 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=21"></script>
+  <script src="js/main.js?v=22"></script>
   <script>
     window.addEventListener('load', function() {
       document.querySelectorAll('img[data-gallery]').forEach(function(img) {
