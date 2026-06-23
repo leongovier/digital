@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Value Matrix ROI Scorer — Is your AI initiative worth building? | leongovier.digital</title>
+  <meta name="description" content="Score your AI initiative across strategic value and implementation cost in 2 minutes, and get a personalised analysis report sent to your inbox.">
+  <meta name="author" content="Leon Govier">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://leongovier.digital/value-matrix.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leongovier.digital/value-matrix.html">
+  <meta property="og:title" content="Value Matrix ROI Scorer — Leon Govier">
+  <meta property="og:description" content="Score your AI initiative in 2 minutes and get a personalised analysis sent to your inbox.">
+  <meta property="og:image" content="https://leongovier.digital/images/og-cover.jpg">
+  <meta property="og:site_name" content="leongovier.digital">
+  <meta property="og:locale" content="en_GB">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Value Matrix ROI Scorer — Leon Govier">
+  <meta name="twitter:description" content="Score your AI initiative in 2 minutes and get a personalised analysis sent to your inbox.">
+  <meta name="twitter:image" content="https://leongovier.digital/images/og-cover.jpg">
+
+  <!-- Favicons -->
+  <link rel="icon" href="images/favicon-32.png" sizes="32x32">
+  <link rel="icon" href="images/favicon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="images/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/jkiticon.css">
+  <link rel="stylesheet" href="css/styles.css?v=3">
+
+  <style>
+    /* ── Page-specific: value-matrix.html — Value Matrix ROI Scorer ───── */
+
+    /* Quadrant accent colours (from spec) */
+    :root {
+      --vm-build:   #1D9E75;
+      --vm-plan:    #378ADD;
+      --vm-experiment: #EF9F27;
+      --vm-avoid:   #E24B4A;
+      --vm-value:   #1D9E75; /* Strategic Value group */
+      --vm-cost:    #E24B4A; /* Implementation Cost group */
+    }
+
+    /* Centred shell */
+    .vm-wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+    /* Two-column working area: sliders (8) + form left, results + breakdown (4) right.
+       Desktop places the form under the sliders (col 1, row 2); the sticky side
+       column spans both rows. On mobile everything collapses to one column in
+       source order — sliders, results, breakdown, then the form. */
+    .vm-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 24px;
+    }
+    .vm-col-main { grid-column: 1; grid-row: 1; }
+    .vm-layout > .vm-form-card { grid-column: 1; grid-row: 2; }
+    .vm-col-side {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: start;
+      position: sticky;
+      top: calc(var(--header-height) + 16px);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    /* In the narrow side column, stack the score cards and breakdown columns */
+    .vm-col-side .vm-results,
+    .vm-col-side .vm-breakdown { margin-bottom: 0; }
+    .vm-col-side .vm-scores { grid-template-columns: 1fr; gap: 10px; }
+    .vm-col-side .vm-score { display: flex; align-items: baseline; gap: 10px; text-align: left; }
+    .vm-col-side .vm-score-cap { margin-top: 0; margin-left: auto; }
+    .vm-col-side .vm-break-grid { grid-template-columns: 1fr; gap: 20px; }
+
+    @media (max-width: 991px) {
+      .vm-layout { grid-template-columns: 1fr; }
+      .vm-col-main,
+      .vm-layout > .vm-form-card,
+      .vm-col-side { grid-column: 1; grid-row: auto; }
+      .vm-col-side { position: static; }
+      .vm-col-side .vm-scores { grid-template-columns: repeat(3, 1fr); }
+      .vm-col-side .vm-score { display: block; text-align: center; }
+      .vm-col-side .vm-score-cap { margin-top: 8px; margin-left: 0; }
+      .vm-col-side .vm-break-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 560px) {
+      .vm-col-side .vm-scores { grid-template-columns: 1fr; }
+      .vm-col-side .vm-break-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Hero (matches inner-page two-column hero-section) ── */
+    .vm-hero .hero-text p { font-size: 15px; }
+    /* Keep the single CTA visible at all widths (global rule hides it ≤991px) */
+    .vm-hero .hero-buttons { display: flex; }
+
+    /* Stylised tool-preview card (right column, mirrors the live scorer) */
+    .vm-hero-card {
+      width: 100%; max-width: 380px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--color-white-15);
+      border-radius: var(--radius);
+      padding: 22px;
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    }
+    .vm-hero-card-head { display: flex; align-items: center; gap: 9px; margin-bottom: 16px; }
+    .vm-hero-card-head .e { font-size: 18px; line-height: 1; }
+    .vm-hero-card-head .n { font-size: 16px; font-weight: 700; color: var(--vm-build); }
+    .vm-hero-card-head .net {
+      margin-left: auto; font-family: var(--font-secondary); font-size: 12px; font-weight: 700;
+      color: #fff; background: var(--vm-build); padding: 3px 11px; border-radius: 20px;
+    }
+    .vm-hero-matrix { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 16px; }
+    .vm-hero-cell {
+      display: flex; align-items: center; gap: 7px; padding: 11px 12px; border-radius: 10px;
+      font-size: 12px; font-weight: 600; color: var(--color-white);
+      border: 1px solid color-mix(in srgb, var(--c) 22%, transparent);
+      background: color-mix(in srgb, var(--c) 6%, transparent);
+      opacity: 0.5;
+    }
+    .vm-hero-cell .e { font-size: 14px; line-height: 1; }
+    .vm-hero-cell.active {
+      opacity: 1; border-color: var(--c);
+      background: color-mix(in srgb, var(--c) 18%, transparent);
+      box-shadow: 0 0 0 1px var(--c) inset;
+    }
+    .vm-hero-scores {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      padding-top: 16px; border-top: 1px solid var(--color-white-15);
+    }
+    .vm-hero-scores > div { text-align: center; }
+    .vm-hero-score-num {
+      display: block; font-family: var(--font-secondary); font-size: 26px; font-weight: 700; line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .vm-hero-score-num small { font-size: 12px; color: var(--color-text-muted); }
+    .vm-hero-scores .lbl { display: block; font-size: 10.5px; color: var(--color-text); margin-top: 6px; letter-spacing: 0.02em; }
+
+    /* ── Scorer body ── */
+    .vm-tool { padding: 0 0 100px; background: var(--bg-primary); }
+
+    .vm-group {
+      background: color-mix(in srgb, var(--grp-accent, var(--color-accent)) 10%, rgba(255,255,255,0.02));
+      border: 1px solid color-mix(in srgb, var(--grp-accent, var(--color-accent)) 28%, transparent);
+      border-radius: var(--radius);
+      padding: 28px 28px 16px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .vm-group[data-group="value"] { --grp-accent: var(--vm-value); }
+    .vm-group[data-group="cost"]  { --grp-accent: var(--vm-cost); }
+
+    .vm-group-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 16px; margin-bottom: 8px;
+    }
+    .vm-group-title {
+      font-size: 18px; font-weight: 600; color: var(--color-white);
+    }
+    .vm-group-badge {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--grp-accent);
+    }
+    .vm-group-sub { font-size: 13px; color: var(--color-text); margin-bottom: 20px; }
+
+    /* Slider rows */
+    .vm-slider { padding: 18px 0; border-top: 1px solid var(--color-border); }
+    .vm-slider:first-of-type { border-top: none; }
+    .vm-slider-top {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .vm-slider-label { font-size: 14px; font-weight: 600; color: var(--color-white); }
+    .vm-slider-val {
+      font-family: var(--font-secondary);
+      font-size: 14px; font-weight: 700; color: var(--grp-accent);
+      min-width: 34px; text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .vm-slider-q { font-size: 12.5px; color: var(--color-text); margin: 4px 0 14px; line-height: 1.5; }
+
+    .vm-slider input[type="range"] {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 6px; border-radius: 6px;
+      background: var(--color-white-15);
+      outline: none; cursor: pointer;
+      accent-color: var(--grp-accent);
+    }
+    .vm-slider input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--grp-accent);
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+      transition: transform 0.15s ease;
+    }
+    .vm-slider input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.12); }
+    .vm-slider input[type="range"]::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--grp-accent); border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.45);
+    }
+    .vm-slider-ends {
+      display: flex; justify-content: space-between;
+      font-size: 11px; color: var(--color-text-muted); margin-top: 8px;
+    }
+
+    /* ── Results panel ── */
+    .vm-results {
+      background: var(--gradient-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .vm-results-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--color-accent); margin-bottom: 20px;
+    }
+    .vm-scores {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px;
+    }
+    .vm-score {
+      background: var(--color-white-03);
+      border: 1px solid var(--color-border);
+      border-radius: 12px; padding: 16px 14px; text-align: center;
+    }
+    .vm-score-num {
+      font-family: var(--font-secondary);
+      font-size: 30px; font-weight: 700; line-height: 1; color: var(--color-white);
+      font-variant-numeric: tabular-nums;
+    }
+    .vm-score[data-kind="value"] .vm-score-num { color: var(--vm-value); }
+    .vm-score[data-kind="cost"]  .vm-score-num { color: var(--vm-cost); }
+    .vm-score-num small { font-size: 14px; font-weight: 600; color: var(--color-text-muted); }
+    .vm-score-cap {
+      font-size: 11px; color: var(--color-text); margin-top: 8px; line-height: 1.3;
+    }
+
+    /* Verdict card — colour-coded, fades on change */
+    .vm-verdict {
+      border-radius: 14px; padding: 22px 24px;
+      border: 1px solid var(--vd, var(--color-accent));
+      background: color-mix(in srgb, var(--vd, var(--color-accent)) 12%, transparent);
+      transition: opacity 0.35s ease;
+    }
+    .vm-verdict.vm-fading { opacity: 0; }
+    .vm-verdict-head {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+    }
+    .vm-verdict-emoji { font-size: 22px; line-height: 1; }
+    .vm-verdict-name {
+      font-size: 18px; font-weight: 700; color: var(--vd, var(--color-white));
+    }
+    .vm-verdict-net {
+      margin-left: auto; font-family: var(--font-secondary);
+      font-size: 13px; font-weight: 700; color: var(--color-white);
+      background: var(--vd); padding: 4px 12px; border-radius: 20px;
+    }
+    .vm-verdict-copy { font-size: 13.5px; color: var(--color-text-bright); line-height: 1.65; }
+
+    /* ── 2×2 quadrant grid ── */
+    .vm-matrix { position: relative; margin-top: 24px; padding-left: 26px; padding-bottom: 22px; }
+    .vm-matrix-axis {
+      position: absolute; font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--color-text-muted);
+    }
+    .vm-matrix-axis-y { left: 0; top: 50%; transform: rotate(-90deg) translateX(50%); transform-origin: left center; white-space: nowrap; }
+    .vm-matrix-axis-x { left: 50%; bottom: 0; transform: translateX(-50%); }
+    .vm-matrix-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+    .vm-cell {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 14px; border-radius: 12px;
+      border: 1px solid color-mix(in srgb, var(--cell-c) 22%, transparent);
+      background: color-mix(in srgb, var(--cell-c) 6%, transparent);
+      opacity: 0.5; transition: opacity 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+    }
+    .vm-cell[data-cell="build"]      { --cell-c: var(--vm-build); }
+    .vm-cell[data-cell="plan"]       { --cell-c: var(--vm-plan); }
+    .vm-cell[data-cell="experiment"] { --cell-c: var(--vm-experiment); }
+    .vm-cell[data-cell="avoid"]      { --cell-c: var(--vm-avoid); }
+    .vm-cell.active {
+      opacity: 1;
+      border-color: var(--cell-c);
+      background: color-mix(in srgb, var(--cell-c) 18%, transparent);
+      box-shadow: 0 0 0 1px var(--cell-c) inset;
+    }
+    .vm-cell-emoji { font-size: 16px; line-height: 1; }
+    .vm-cell-name { font-size: 13px; font-weight: 600; color: var(--color-white); }
+
+    /* ── Dimension breakdown ── */
+    .vm-breakdown {
+      background: var(--gradient-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 28px; margin-bottom: 24px;
+    }
+    .vm-break-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .vm-break-col[data-group="value"] { --bk-accent: var(--vm-value); }
+    .vm-break-col[data-group="cost"]  { --bk-accent: var(--vm-cost); }
+    .vm-break-col-head {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--bk-accent); margin-bottom: 12px;
+      padding-bottom: 10px; border-bottom: 1px solid var(--color-border);
+    }
+    .vm-break-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 9px 0; font-size: 13px;
+    }
+    .vm-break-label { color: var(--color-text-bright); }
+    .vm-break-bar {
+      flex: 1; height: 5px; border-radius: 5px; margin: 0 4px;
+      background: var(--color-white-15); position: relative; overflow: hidden;
+    }
+    .vm-break-bar::after {
+      content: ''; position: absolute; inset: 0 auto 0 0;
+      width: var(--fill, 60%); background: var(--bk-accent); border-radius: 5px;
+    }
+    .vm-break-val {
+      font-family: var(--font-secondary); font-weight: 700; color: var(--bk-accent);
+      min-width: 38px; text-align: right; font-variant-numeric: tabular-nums; font-size: 12.5px;
+    }
+    @media (max-width: 600px) {
+      .vm-break-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Report form ── */
+    .vm-form-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+    }
+    .vm-form-card h2 {
+      font-size: 22px; font-weight: 600; color: var(--color-white); margin-bottom: 6px;
+    }
+    .vm-form-card .vm-form-sub { font-size: 13.5px; color: var(--color-text); margin-bottom: 24px; }
+    .vm-field { margin-bottom: 18px; }
+    .vm-field label {
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--color-white); margin-bottom: 8px;
+    }
+    .vm-field input {
+      width: 100%; padding: 13px 16px;
+      background: var(--color-white-03);
+      border: 1px solid var(--color-border);
+      border-radius: 10px; color: var(--color-white);
+      font-size: 14px; transition: border-color var(--transition);
+    }
+    .vm-field input:focus { outline: none; border-color: var(--color-accent); }
+    .vm-field input::placeholder { color: var(--color-text-muted); }
+    .vm-field.vm-invalid input { border-color: var(--vm-avoid); }
+    .vm-field-error {
+      display: none; font-size: 11.5px; color: var(--vm-avoid); margin-top: 6px;
+    }
+    .vm-field.vm-invalid .vm-field-error { display: block; }
+
+    .vm-form-msg {
+      display: none; margin-top: 18px; padding: 16px 18px;
+      border-radius: 12px; font-size: 13.5px; line-height: 1.6;
+    }
+    .vm-form-msg.show { display: block; }
+    .vm-form-msg.ok {
+      background: var(--color-success-bg);
+      border: 1px solid var(--color-success-border);
+      color: var(--color-success);
+    }
+    .vm-form-msg.err {
+      background: color-mix(in srgb, var(--vm-avoid) 14%, transparent);
+      border: 1px solid var(--vm-avoid);
+      color: #ffb3b2;
+    }
+    .vm-form-msg.err a { color: var(--color-accent); text-decoration: underline; }
+
+    #vmSubmit[disabled] { opacity: 0.55; pointer-events: none; }
+
+    @media (max-width: 560px) {
+      .vm-hero h1 { font-size: 30px; }
+      .vm-scores { grid-template-columns: 1fr; }
+      .vm-group, .vm-results, .vm-form-card { padding-left: 20px; padding-right: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <a href="index.html"><span class="logo-white">leongovier</span>.digital</a>
+      </div>
+      <nav class="main-nav" id="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">Who I am</a></li>
+          <li><a href="design.html">What I design</a></li>
+          <li><a href="build.html">What I build</a></li>
+          <li><a href="case-studies.html">Case studies</a></li>
+          <li><a href="process.html">How I work</a></li>
+          <li class="mobile-nav-sep" aria-hidden="true"></li>
+          <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-cta">
+      <button class="btn btn-primary btn-full drawer-open-btn" data-drawer="contact">Get in touch</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-section cs-hero vm-hero">
+    <div class="hero-image-bg">
+      <img src="images/cta/s11-rings.png" alt="" aria-hidden="true">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="hero-text">
+        <h2 class="hero-welcome">ROI Scorer</h2>
+        <h1 class="hero-headline">Is your AI initiative worth building?</h1>
+        <p>Score your initiative in 2 minutes and get a personalised analysis sent to your inbox.</p>
+        <div class="hero-buttons">
+          <a href="#vmScorer" class="btn btn-accent">Start scoring &rarr;</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="vm-hero-card" aria-hidden="true">
+          <div class="vm-hero-card-head">
+            <span class="e">✅</span>
+            <span class="n">Build Now</span>
+            <span class="net">Net +3.0</span>
+          </div>
+          <div class="vm-hero-matrix">
+            <div class="vm-hero-cell active" style="--c: var(--vm-build);"><span class="e">✅</span>Build Now</div>
+            <div class="vm-hero-cell" style="--c: var(--vm-plan);"><span class="e">📋</span>Plan Carefully</div>
+            <div class="vm-hero-cell" style="--c: var(--vm-experiment);"><span class="e">🧪</span>Experiment</div>
+            <div class="vm-hero-cell" style="--c: var(--vm-avoid);"><span class="e">❌</span>Avoid</div>
+          </div>
+          <div class="vm-hero-scores">
+            <div>
+              <span class="vm-hero-score-num" style="color: var(--vm-value);">4.6<small> / 5</small></span>
+              <span class="lbl">Strategic value</span>
+            </div>
+            <div>
+              <span class="vm-hero-score-num" style="color: var(--vm-cost);">1.6<small> / 5</small></span>
+              <span class="lbl">Implementation cost</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCORER + RESULTS + REPORT -->
+  <section class="vm-tool" id="vmScorer">
+    <div class="vm-wrap">
+
+      <div class="vm-layout">
+      <!-- Left column (8): the sliders -->
+      <div class="vm-col-main">
+
+      <!-- Group A: Strategic Value -->
+      <div class="vm-group" data-group="value">
+        <div class="vm-group-head">
+          <span class="vm-group-title">Strategic Value</span>
+          <span class="vm-group-badge">1 = low &middot; 5 = high</span>
+        </div>
+        <p class="vm-group-sub">How much this initiative is worth to the business.</p>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Revenue impact</span>
+            <span class="vm-slider-val" data-val-for="revenue_impact">3</span>
+          </div>
+          <p class="vm-slider-q">How directly does this grow or protect revenue?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="revenue_impact" aria-label="Revenue impact">
+          <div class="vm-slider-ends"><span>Negligible</span><span>Transformative</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">FCA regulatory risk reduction</span>
+            <span class="vm-slider-val" data-val-for="fca_risk_reduction">3</span>
+          </div>
+          <p class="vm-slider-q">How much does this reduce FCA regulatory and compliance risk?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="fca_risk_reduction" aria-label="FCA regulatory risk reduction">
+          <div class="vm-slider-ends"><span>Negligible</span><span>Critical shield</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Consumer outcome improvement</span>
+            <span class="vm-slider-val" data-val-for="consumer_outcome">3</span>
+          </div>
+          <p class="vm-slider-q">How much does this improve outcomes under Consumer Duty?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="consumer_outcome" aria-label="Consumer outcome improvement">
+          <div class="vm-slider-ends"><span>Marginal</span><span>Materially better</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Competitive differentiation</span>
+            <span class="vm-slider-val" data-val-for="competitive_differentiation">3</span>
+          </div>
+          <p class="vm-slider-q">How hard is this to copy?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="competitive_differentiation" aria-label="Competitive differentiation">
+          <div class="vm-slider-ends"><span>Easily replicated</span><span>Defensible moat</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Operational resilience</span>
+            <span class="vm-slider-val" data-val-for="operational_resilience">3</span>
+          </div>
+          <p class="vm-slider-q">How much does this strengthen operational resilience?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="operational_resilience" aria-label="Operational resilience">
+          <div class="vm-slider-ends"><span>Negligible</span><span>Critical uplift</span></div>
+        </div>
+      </div>
+
+      <!-- Group B: Implementation Cost -->
+      <div class="vm-group" data-group="cost">
+        <div class="vm-group-head">
+          <span class="vm-group-title">Implementation Cost</span>
+          <span class="vm-group-badge">1 = low &middot; 5 = high</span>
+        </div>
+        <p class="vm-group-sub">How much effort and disruption it takes to build.</p>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Data readiness</span>
+            <span class="vm-slider-val" data-val-for="data_readiness">3</span>
+          </div>
+          <p class="vm-slider-q">How ready is the data this depends on?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="data_readiness" aria-label="Data readiness">
+          <div class="vm-slider-ends"><span>Clean and ready</span><span>Scattered and messy</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Data compliance overhead</span>
+            <span class="vm-slider-val" data-val-for="data_compliance_overhead">3</span>
+          </div>
+          <p class="vm-slider-q">How much UK GDPR / data-protection work does this add?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="data_compliance_overhead" aria-label="Data compliance overhead">
+          <div class="vm-slider-ends"><span>Minimal</span><span>Heavy DPIA burden</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Model risk &amp; governance burden</span>
+            <span class="vm-slider-val" data-val-for="model_governance_burden">3</span>
+          </div>
+          <p class="vm-slider-q">How much model risk and governance does this carry?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="model_governance_burden" aria-label="Model risk and governance burden">
+          <div class="vm-slider-ends"><span>Light touch</span><span>Heavy oversight</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">Integration complexity</span>
+            <span class="vm-slider-val" data-val-for="integration_complexity">3</span>
+          </div>
+          <p class="vm-slider-q">How complex is the system integration?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="integration_complexity" aria-label="Integration complexity">
+          <div class="vm-slider-ends"><span>Standalone</span><span>Deep entanglement</span></div>
+        </div>
+
+        <div class="vm-slider">
+          <div class="vm-slider-top">
+            <span class="vm-slider-label">SM&amp;CR overhead</span>
+            <span class="vm-slider-val" data-val-for="smcr_overhead">3</span>
+          </div>
+          <p class="vm-slider-q">How much senior accountability (SM&amp;CR) work does this create?</p>
+          <input type="range" min="1" max="5" step="1" value="3" data-score="smcr_overhead" aria-label="SM&CR overhead">
+          <div class="vm-slider-ends"><span>Minimal</span><span>Major SMF burden</span></div>
+        </div>
+      </div>
+
+      </div><!-- /vm-col-main -->
+
+      <!-- Right column (4): live score + breakdown -->
+      <div class="vm-col-side">
+
+      <!-- Live Results -->
+      <div class="vm-results" aria-live="polite">
+        <div class="vm-results-label">Your live score</div>
+        <div class="vm-scores">
+          <div class="vm-score" data-kind="value">
+            <div class="vm-score-num"><span id="vmValue">3.0</span><small> / 5</small></div>
+            <div class="vm-score-cap">Strategic Value</div>
+          </div>
+          <div class="vm-score" data-kind="cost">
+            <div class="vm-score-num"><span id="vmCost">3.0</span><small> / 5</small></div>
+            <div class="vm-score-cap">Implementation Cost</div>
+          </div>
+          <div class="vm-score" data-kind="net">
+            <div class="vm-score-num"><span id="vmNet">0.0</span></div>
+            <div class="vm-score-cap">Net Priority Score</div>
+          </div>
+        </div>
+
+        <div class="vm-verdict" id="vmVerdict">
+          <div class="vm-verdict-head">
+            <span class="vm-verdict-name" id="vmVerdictName"></span>
+            <span class="vm-verdict-net" id="vmVerdictNet"></span>
+          </div>
+          <p class="vm-verdict-copy" id="vmVerdictCopy"></p>
+        </div>
+
+        <!-- 2×2 quadrant grid -->
+        <div class="vm-matrix">
+          <span class="vm-matrix-axis vm-matrix-axis-y">Strategic value &rarr;</span>
+          <span class="vm-matrix-axis vm-matrix-axis-x">Implementation cost &rarr;</span>
+          <div class="vm-matrix-grid">
+            <div class="vm-cell" data-cell="build">
+              <span class="vm-cell-emoji">✅</span><span class="vm-cell-name">Build Now</span>
+            </div>
+            <div class="vm-cell" data-cell="plan">
+              <span class="vm-cell-emoji">📋</span><span class="vm-cell-name">Plan Carefully</span>
+            </div>
+            <div class="vm-cell" data-cell="experiment">
+              <span class="vm-cell-emoji">🧪</span><span class="vm-cell-name">Experiment</span>
+            </div>
+            <div class="vm-cell" data-cell="avoid">
+              <span class="vm-cell-emoji">❌</span><span class="vm-cell-name">Avoid</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dimension breakdown -->
+      <div class="vm-breakdown">
+        <div class="vm-results-label">Dimension breakdown</div>
+        <div class="vm-break-grid">
+          <div class="vm-break-col" data-group="value">
+            <div class="vm-break-col-head">Strategic Value</div>
+          </div>
+          <div class="vm-break-col" data-group="cost">
+            <div class="vm-break-col-head">Implementation Cost</div>
+          </div>
+        </div>
+      </div>
+
+      </div><!-- /vm-col-side -->
+
+      <!-- Report form — left column on desktop, after the results on mobile -->
+      <div class="vm-form-card">
+        <h2>Get your report</h2>
+        <p class="vm-form-sub">We'll send a full breakdown and recommended next steps for your initiative.</p>
+        <form id="vmForm" novalidate>
+          <div class="vm-field" id="vmFieldName">
+            <label for="vmName">What are you evaluating?</label>
+            <input type="text" id="vmName" name="initiative_name" placeholder="Initiative name" autocomplete="off">
+            <div class="vm-field-error">Please add a name for your initiative.</div>
+          </div>
+          <div class="vm-field" id="vmFieldEmail">
+            <label for="vmEmail">Where should we send your report?</label>
+            <input type="email" id="vmEmail" name="email" placeholder="you@company.com" autocomplete="email">
+            <div class="vm-field-error">Please enter a valid email address.</div>
+          </div>
+          <input type="text" id="vmHp" name="website" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="btn btn-primary btn-full" id="vmSubmit">Send my report &rarr;</button>
+          <div class="vm-form-msg" id="vmFormMsg"></div>
+        </form>
+      </div>
+
+      </div><!-- /vm-layout -->
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="site-footer">
+    <div class="footer-overlay"></div>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <button class="footer-policy-btn" data-policy="privacy">Privacy Policy</button>
+          <span class="footer-pipe">|</span>
+          <button class="footer-policy-btn" data-policy="cookies">Cookie Policy</button>
+        </div>
+        <p class="footer-copy">LG Digital Ltd Copyright &copy;2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SIDE DRAWER: Contact -->
+  <div class="side-drawer" id="drawer-contact" aria-hidden="true">
+    <div class="side-drawer-backdrop"></div>
+    <div class="side-drawer-panel" role="dialog" aria-modal="true" aria-label="Contact">
+      <div class="side-drawer-header">
+        <span class="side-drawer-label gradient-text">Get in touch</span>
+        <button class="side-drawer-close" aria-label="Close drawer">&times;</button>
+      </div>
+      <div class="side-drawer-step" id="contactStep1">
+        <div class="side-drawer-hero">
+          <h2 class="side-drawer-title">What can I help with?</h2>
+          <p class="side-drawer-strapline">Pick the closest fit and I'll ask the right questions.</p>
+        </div>
+        <div class="side-drawer-content">
+          <div class="contact-choice">
+            <button type="button" class="contact-choice-card" data-path="build">
+              <i class="jki jki-improvement-light"></i>
+              <h4>Build something</h4>
+              <p>A website, calculator, quote engine or bespoke CRM/CMS for your business.</p>
+            </button>
+            <button type="button" class="contact-choice-card" data-path="hire">
+              <i class="jki jki-team-presentation-line"></i>
+              <h4>Hire me</h4>
+              <p>Contract or permanent product design — embedded with your team.</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="side-drawer-step" id="contactStep2" hidden>
+        <div class="side-drawer-hero">
+          <button type="button" class="contact-back" id="contactBack">&larr; Change</button>
+          <h2 class="side-drawer-title" id="contactFormTitle">Let's talk about your project.</h2>
+          <p class="side-drawer-strapline" id="contactFormStrap">Tell me what you're building and I'll come back to you — usually within a day.</p>
+        </div>
+        <div class="side-drawer-content">
+          <form class="contact-form" id="contactForm">
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label class="form-label">Your name <span class="required">*</span></label>
+                <input type="text" name="contact_name" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your email <span class="required">*</span></label>
+                <input type="email" name="contact_email" class="form-input" required>
+              </div>
+            </div>
+            <div class="form-path" data-path="build" hidden>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Phone number</label>
+                  <input type="tel" name="contact_number" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Business name</label>
+                  <input type="text" name="business_name" class="form-input">
+                </div>
+              </div>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">What do you need? <span class="required">*</span></label>
+                  <select name="project_type" class="form-input form-select" required>
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Website</option>
+                    <option>Calculator or tool</option>
+                    <option>Bespoke CRM / CMS system</option>
+                    <option>All three!</option>
+                    <option>Not sure yet — let's talk</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Approximate budget</label>
+                  <select name="budget" class="form-input form-select">
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Under £1,500</option>
+                    <option>£1,500 – £3,000</option>
+                    <option>£3,000 – £6,000</option>
+                    <option>£6,000+</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-path" data-path="hire" hidden>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Company / agency</label>
+                  <input type="text" name="business_name" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">LinkedIn or website</label>
+                  <input type="url" name="contact_url" class="form-input" placeholder="https://…">
+                </div>
+              </div>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Engagement type <span class="required">*</span></label>
+                  <select name="project_type" class="form-input form-select" required>
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Contract — day rate</option>
+                    <option>Contract — fixed scope</option>
+                    <option>Permanent role</option>
+                    <option>Not sure yet — let's talk</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">When do you need someone?</label>
+                  <select name="start_date" class="form-input form-select">
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Immediately</option>
+                    <option>Within a month</option>
+                    <option>1–3 months</option>
+                    <option>3+ months</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell me more <span class="required">*</span></label>
+              <textarea name="information" class="form-textarea" required placeholder="The more detail the better."></textarea>
+            </div>
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
+            <button type="submit" class="btn btn-primary btn-full" id="contactSubmit">Send message</button>
+            <div class="form-success" id="contactSuccess" style="display:none"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLICY MODAL -->
+  <div class="policy-modal" id="policyModal" aria-hidden="true">
+    <div class="policy-modal-backdrop"></div>
+    <div class="policy-modal-panel" role="dialog" aria-modal="true">
+      <div class="policy-modal-header">
+        <h2 class="policy-modal-title" id="policyTitle"></h2>
+        <button class="policy-modal-close" id="policyClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="policy-modal-body" id="policyBody"></div>
+    </div>
+  </div>
+
+  <!-- Site behaviour (header, drawer, policy modal) -->
+  <script src="js/main.js?v=21"></script>
+  <!-- Value Matrix scorer behaviour -->
+  <script src="js/value-matrix.js"></script>
+
+</body>
+</html>
