@@ -257,8 +257,11 @@ const VM_COST_KEYS  = ['data_readiness', 'data_compliance_overhead', 'model_gove
       implementation_cost: r.cost.toFixed(1),
       net_score: fmtSigned(r.net),
       verdict_name: q.name,
+      verdict_key: r.key,
+      verdict_copy: q.copy,
       verdict: q.name + ' — ' + q.copy,
       next_steps: stepsList,
+      next_steps_list: q.steps,
       // Per-dimension scores — Strategic Value
       revenue_impact: r.scores.revenue_impact,
       fca_risk_reduction: r.scores.fca_risk_reduction,
