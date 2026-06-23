@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eval Framework Builder — Does your AI actually work? | leongovier.digital</title>
+  <meta name="description" content="Generate a structured evaluation framework for your UK FS AI initiative in 60 seconds — test cases, success metrics, adversarial edge cases and a residual risk statement for your model risk committee.">
+  <meta name="author" content="Leon Govier">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://leongovier.digital/eval-framework.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://leongovier.digital/eval-framework.html">
+  <meta property="og:title" content="Eval Framework Builder — Leon Govier">
+  <meta property="og:description" content="Generate a structured evaluation framework for your UK FS AI initiative in 60 seconds.">
+  <meta property="og:image" content="https://leongovier.digital/images/og-cover.jpg">
+  <meta property="og:site_name" content="leongovier.digital">
+  <meta property="og:locale" content="en_GB">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Eval Framework Builder — Leon Govier">
+  <meta name="twitter:description" content="Generate a structured evaluation framework for your UK FS AI initiative in 60 seconds.">
+  <meta name="twitter:image" content="https://leongovier.digital/images/og-cover.jpg">
+
+  <!-- Favicons -->
+  <link rel="icon" href="images/favicon-32.png" sizes="32x32">
+  <link rel="icon" href="images/favicon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="images/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/jkiticon.css">
+  <link rel="stylesheet" href="css/styles.css?v=3">
+
+  <style>
+    /* ── Page-specific: eval-framework.html ──────────────────── */
+    :root {
+      --ef-success: #00c896;
+      --ef-danger:  #e24b4a;
+      --ef-warning: #ef9f27;
+      --ef-info:    #378add;
+      --ef-purple:  #7f77dd;
+      --ef-purple-text: #2a2270;
+      --ef-card:    #111111;
+      --ef-card-border: #1f1f1f;
+      --ef-input:   #1a1a1a;
+      --ef-input-border: #2a2a2a;
+    }
+
+    .ef-wrap { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+
+    /* Hero (mirrors value-matrix hero) */
+    .ef-hero .hero-content { grid-template-columns: 1fr; }
+    .ef-hero .hero-text { max-width: 720px; padding-right: 0; }
+    .ef-hero .hero-text p { font-size: 15px; }
+    .ef-hero .hero-buttons { display: flex; }
+
+    /* Tool section */
+    .ef-tool { padding: 0 0 90px; background: var(--bg-primary); }
+    .ef-tool-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 380px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+    .ef-inputs {
+      position: sticky;
+      top: calc(var(--header-height) + 16px);
+      background: var(--ef-card);
+      border: 1px solid var(--ef-card-border);
+      border-radius: var(--radius);
+      padding: 26px 24px;
+    }
+
+    .ef-field { margin-bottom: 22px; }
+    .ef-field > label {
+      display: block; font-size: 13px; font-weight: 500;
+      color: var(--color-white); margin-bottom: 10px;
+    }
+    .ef-input {
+      width: 100%; padding: 12px 14px;
+      background: var(--ef-input); border: 1px solid var(--ef-input-border);
+      border-radius: 8px; color: #fff; font-size: 14px;
+      transition: border-color var(--transition);
+    }
+    .ef-input:focus { outline: none; border-color: var(--color-accent); }
+    .ef-input::placeholder { color: var(--color-text-muted); }
+
+    /* Pill radio groups */
+    .ef-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ef-pills-stack { flex-direction: column; }
+    .ef-pill {
+      border: 1px solid var(--ef-input-border); border-radius: 8px;
+      background: var(--ef-input); color: var(--color-text);
+      font-family: var(--font-primary); font-size: 12.5px; font-weight: 500;
+      padding: 10px 14px; cursor: pointer; text-align: left;
+      transition: border-color var(--transition), color var(--transition), background var(--transition);
+    }
+    .ef-pill:hover { border-color: var(--color-accent-50); color: #fff; }
+    .ef-pill.selected { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-08); }
+    .ef-pill-desc { width: 100%; display: flex; flex-direction: column; gap: 3px; }
+    .ef-pill-desc .ef-pill-label { font-size: 13px; font-weight: 600; }
+    .ef-pill-desc .ef-pill-sub { font-size: 11.5px; color: var(--color-text-muted); font-weight: 400; line-height: 1.4; }
+    .ef-pill.selected .ef-pill-sub { color: var(--color-text); }
+
+    .ef-error { display: none; font-size: 11.5px; color: var(--ef-danger); margin-top: 8px; }
+    .ef-field.ef-invalid .ef-error { display: block; }
+    .ef-field.ef-invalid .ef-input { border-color: var(--ef-danger); }
+    .ef-field.ef-invalid .ef-pills .ef-pill { border-color: var(--ef-danger); }
+
+    /* Buttons */
+    .ef-btn {
+      font-family: var(--font-secondary); font-size: 13px; font-weight: 600;
+      border-radius: 8px; padding: 12px 18px; cursor: pointer;
+      border: 1px solid var(--ef-input-border); color: #fff; background: transparent;
+      transition: var(--transition); white-space: nowrap;
+    }
+    .ef-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .ef-btn-primary {
+      width: 100%; background: var(--color-accent); color: #1a1100;
+      border-color: var(--color-accent); font-weight: 700; justify-content: center;
+    }
+    .ef-btn-primary:hover { background: #ffb84d; border-color: #ffb84d; color: #1a1100; }
+    .ef-btn-ghost { padding: 8px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; }
+    .ef-btn[disabled] { opacity: 0.55; pointer-events: none; }
+
+    /* Output panel */
+    .ef-output[hidden] { display: none; }
+    .ef-output {
+      background: var(--ef-card); border: 1px solid var(--ef-card-border);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .ef-empty {
+      background: var(--ef-card); border: 1px dashed var(--ef-input-border);
+      border-radius: var(--radius); padding: 60px 28px; text-align: center;
+      color: var(--color-text-muted); font-size: 14px;
+    }
+    .ef-out-head {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+      padding-bottom: 22px; border-bottom: 1px solid var(--ef-card-border); margin-bottom: 8px;
+    }
+    .ef-eyebrow {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 8px;
+    }
+    .ef-out-title { font-size: 18px; font-weight: 500; color: #fff; line-height: 1.3; }
+    .ef-out-meta { font-size: 12px; color: var(--color-text-muted); margin-top: 7px; }
+    .ef-out-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .ef-section { padding-top: 28px; }
+    .ef-sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .ef-chip {
+      width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+      background: var(--color-accent); color: #1a1100;
+      font-size: 11px; font-weight: 700; line-height: 20px; text-align: center;
+    }
+    .ef-sec-title { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #fff; }
+
+    /* 1. categories grid */
+    .ef-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ef-cat {
+      background: #0d0d0d; border: 1px solid var(--ef-card-border);
+      border-left: 3px solid var(--color-accent); border-radius: 8px; padding: 14px 16px;
+    }
+    .ef-cat.ef-span { grid-column: 1 / -1; }
+    .ef-cat-name { font-size: 13px; font-weight: 500; color: #fff; margin-bottom: 5px; }
+    .ef-cat-rat { font-size: 12px; color: var(--color-text-muted); line-height: 1.5; }
+
+    /* 2. test case table */
+    .ef-table-scroll { overflow-x: auto; border: 1px solid var(--ef-card-border); border-radius: 8px; }
+    table.ef-table { width: 100%; border-collapse: collapse; min-width: 720px; }
+    .ef-table th {
+      text-align: left; font-size: 10.5px; font-weight: 700; letter-spacing: 0.5px;
+      text-transform: uppercase; color: var(--color-text-muted);
+      padding: 11px 12px; border-bottom: 1px solid var(--ef-card-border); white-space: nowrap;
+    }
+    .ef-table td {
+      font-size: 12px; color: var(--color-text); padding: 11px 12px;
+      border-bottom: 1px solid var(--ef-card-border); vertical-align: top; line-height: 1.45;
+    }
+    .ef-table tr:last-child td { border-bottom: none; }
+    .ef-tc-id { font-family: 'Montserrat', monospace; font-size: 11px; color: var(--color-text-muted); white-space: nowrap; }
+
+    .ef-badge {
+      display: inline-block; font-size: 10.5px; font-weight: 600; line-height: 1;
+      padding: 4px 9px; border-radius: 5px; white-space: nowrap;
+    }
+    .ef-badge--info    { background: var(--ef-info);    color: #fff; }
+    .ef-badge--success { background: var(--ef-success); color: #04231a; }
+    .ef-badge--warning { background: var(--ef-warning); color: #2a1c00; }
+    .ef-badge--danger  { background: var(--ef-danger);  color: #fff; }
+    .ef-badge--purple  { background: var(--ef-purple);  color: var(--ef-purple-text); }
+    .ef-badge--neutral { background: #2a2a2a; color: #888; }
+
+    /* 3. metrics grid */
+    .ef-metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ef-metric {
+      background: #0d0d0d; border: 1px solid var(--ef-card-border); border-radius: 8px;
+      padding: 14px 16px; display: flex; justify-content: space-between; gap: 12px; align-items: flex-start;
+    }
+    .ef-metric.ef-span { grid-column: 1 / -1; }
+    .ef-metric-name { font-size: 13px; font-weight: 500; color: #fff; }
+    .ef-metric-method { font-size: 11px; color: var(--color-text-muted); margin-top: 5px; line-height: 1.4; }
+    .ef-metric-val { font-size: 13px; font-weight: 500; color: var(--color-accent); text-align: right; white-space: nowrap; flex-shrink: 0; }
+
+    /* 4. adversarial rows */
+    .ef-adv { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--ef-card-border); }
+    .ef-adv:last-child { border-bottom: none; }
+    .ef-adv-id { font-family: 'Montserrat', monospace; font-size: 11px; color: var(--color-text-muted); white-space: nowrap; padding-top: 2px; min-width: 58px; }
+    .ef-adv-body { flex: 1; }
+    .ef-adv-name { font-size: 13px; font-weight: 500; color: #fff; }
+    .ef-adv-risk { font-size: 11px; color: var(--color-text-muted); margin-top: 4px; line-height: 1.45; }
+    .ef-pill-risk { font-size: 10.5px; font-weight: 700; padding: 4px 11px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+    .ef-pill-risk--high { background: var(--ef-danger); color: #fff; }
+    .ef-pill-risk--medium { background: var(--ef-warning); color: #2a1c00; }
+    .ef-pill-risk--low { background: #2a2a2a; color: #888; }
+
+    /* 5. residual */
+    .ef-residual {
+      background: #0d0d0d; border: 1px solid var(--ef-card-border);
+      border-left: 3px solid var(--ef-danger); border-radius: 8px; padding: 18px 20px;
+    }
+    .ef-residual p { font-size: 13px; color: var(--color-text-muted); line-height: 1.65; margin-bottom: 12px; }
+    .ef-residual p:last-child { margin-bottom: 0; }
+    .ef-residual strong { color: #fff; font-weight: 600; }
+
+    /* Copy/download toast inline */
+    .ef-action-msg { font-size: 11.5px; color: var(--ef-danger); margin-top: 8px; text-align: right; display: none; }
+    .ef-action-msg.show { display: block; }
+
+    /* Email report card */
+    .ef-report { padding: 0 0 100px; background: var(--bg-primary); }
+    .ef-report-card {
+      max-width: 720px; margin: 0 auto;
+      background: var(--ef-card); border: 1px solid var(--ef-card-border);
+      border-radius: var(--radius); padding: 32px 28px;
+    }
+    .ef-report-card h2 { font-size: 22px; font-weight: 500; color: #fff; margin-bottom: 6px; }
+    .ef-report-sub { font-size: 13.5px; color: var(--color-text); margin-bottom: 24px; }
+    .ef-form-msg { display: none; margin-top: 18px; padding: 16px 18px; border-radius: 10px; font-size: 13.5px; line-height: 1.6; }
+    .ef-form-msg.show { display: block; }
+    .ef-form-msg.ok { background: rgba(0,200,150,0.1); border: 1px solid rgba(0,200,150,0.35); color: var(--ef-success); }
+    .ef-form-msg.err { background: rgba(226,75,74,0.12); border: 1px solid var(--ef-danger); color: #ffb3b2; }
+    .ef-form-msg.err a { color: var(--color-accent); }
+
+    @media (max-width: 991px) {
+      .ef-tool-grid { grid-template-columns: minmax(0, 1fr); }
+      .ef-inputs { position: static; }
+    }
+    @media (max-width: 600px) {
+      .ef-cat-grid, .ef-metric-grid { grid-template-columns: 1fr; }
+      .ef-out-head { flex-direction: column; }
+      .ef-out-actions { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .ef-pills:not(.ef-pills-stack) .ef-pill { flex: 1 1 calc(50% - 4px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <a href="index.html"><span class="logo-white">leongovier</span>.digital</a>
+      </div>
+      <nav class="main-nav" id="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">Who I am</a></li>
+          <li><a href="design.html">What I design</a></li>
+          <li><a href="build.html">What I build</a></li>
+          <li><a href="case-studies.html">Case studies</a></li>
+          <li><a href="process.html">How I work</a></li>
+          <li class="mobile-nav-sep" aria-hidden="true"></li>
+          <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="btn btn-primary drawer-open-btn" data-drawer="contact">Get in touch</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="header-mobile-cta">
+      <button class="btn btn-primary btn-full drawer-open-btn" data-drawer="contact">Get in touch</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-section cs-hero ef-hero">
+    <div class="hero-image-bg">
+      <img src="images/cta/s11-rings.png" alt="" aria-hidden="true">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content container">
+      <div class="hero-text">
+        <h2 class="hero-welcome">Eval Framework Builder</h2>
+        <h1 class="hero-headline">Does your AI actually work?</h1>
+        <p>Generate a structured evaluation framework for your UK FS AI initiative in 60 seconds — including test cases, metrics, and a residual risk statement for your model risk committee.</p>
+        <div class="hero-buttons">
+          <a href="#efTool" class="btn btn-accent">Build my framework &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOL -->
+  <section class="ef-tool" id="efTool">
+    <div class="ef-wrap">
+      <div class="ef-tool-grid">
+
+        <!-- Left: inputs -->
+        <div class="ef-inputs">
+          <div class="ef-field" id="efField-name">
+            <label for="efName">What's your AI initiative called?</label>
+            <input type="text" id="efName" class="ef-input" placeholder="e.g. Automated credit decisioning model" autocomplete="off">
+            <div class="ef-error">Please name your initiative.</div>
+          </div>
+
+          <div class="ef-field" id="efField-useCase">
+            <label>What type of AI use case is this?</label>
+            <div class="ef-pills" id="efUseCase"></div>
+            <div class="ef-error">Please choose a use case type.</div>
+          </div>
+
+          <div class="ef-field" id="efField-context">
+            <label>Who does this affect?</label>
+            <div class="ef-pills" id="efContext"></div>
+            <div class="ef-error">Please choose a deployment context.</div>
+          </div>
+
+          <div class="ef-field" id="efField-sensitivity">
+            <label>Regulatory sensitivity</label>
+            <div class="ef-pills ef-pills-stack" id="efSensitivity"></div>
+            <div class="ef-error">Please choose a sensitivity level.</div>
+          </div>
+
+          <button type="button" class="ef-btn ef-btn-primary" id="efGenerate">Generate framework &rarr;</button>
+        </div>
+
+        <!-- Right: output -->
+        <div>
+          <div class="ef-empty" id="efEmpty">Your evaluation framework will appear here once you generate it.</div>
+          <div class="ef-output" id="efOutput" hidden></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EMAIL REPORT -->
+  <section class="ef-report">
+    <div class="ef-wrap">
+      <div class="ef-report-card">
+        <h2>Get your framework by email</h2>
+        <p class="ef-report-sub">We'll send a formatted copy with recommended next steps for your initiative.</p>
+        <form id="efForm" novalidate>
+          <div class="ef-field" id="efField-reportName">
+            <label for="efReportName">Initiative name</label>
+            <input type="text" id="efReportName" class="ef-input" placeholder="Your initiative" autocomplete="off">
+            <div class="ef-error">Please add an initiative name.</div>
+          </div>
+          <div class="ef-field" id="efField-email">
+            <label for="efEmail">Email address</label>
+            <input type="email" id="efEmail" class="ef-input" placeholder="you@company.com" autocomplete="email">
+            <div class="ef-error">Please enter a valid email address.</div>
+          </div>
+          <input type="text" id="efHp" name="website" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" class="ef-btn ef-btn-primary" id="efSend">Send my framework &rarr;</button>
+          <div class="ef-form-msg" id="efFormMsg"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="footer" class="site-footer">
+    <div class="footer-overlay"></div>
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-links">
+          <button class="footer-policy-btn" data-policy="privacy">Privacy Policy</button>
+          <span class="footer-pipe">|</span>
+          <button class="footer-policy-btn" data-policy="cookies">Cookie Policy</button>
+        </div>
+        <p class="footer-copy">LG Digital Ltd Copyright &copy;2026 All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SIDE DRAWER: Contact -->
+  <div class="side-drawer" id="drawer-contact" aria-hidden="true">
+    <div class="side-drawer-backdrop"></div>
+    <div class="side-drawer-panel" role="dialog" aria-modal="true" aria-label="Contact">
+      <div class="side-drawer-header">
+        <span class="side-drawer-label gradient-text">Get in touch</span>
+        <button class="side-drawer-close" aria-label="Close drawer">&times;</button>
+      </div>
+      <div class="side-drawer-step" id="contactStep1">
+        <div class="side-drawer-hero">
+          <h2 class="side-drawer-title">What can I help with?</h2>
+          <p class="side-drawer-strapline">Pick the closest fit and I'll ask the right questions.</p>
+        </div>
+        <div class="side-drawer-content">
+          <div class="contact-choice">
+            <button type="button" class="contact-choice-card" data-path="build">
+              <i class="jki jki-improvement-light"></i>
+              <h4>Build something</h4>
+              <p>A website, calculator, quote engine or bespoke CRM/CMS for your business.</p>
+            </button>
+            <button type="button" class="contact-choice-card" data-path="hire">
+              <i class="jki jki-team-presentation-line"></i>
+              <h4>Hire me</h4>
+              <p>Contract or permanent product design — embedded with your team.</p>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="side-drawer-step" id="contactStep2" hidden>
+        <div class="side-drawer-hero">
+          <button type="button" class="contact-back" id="contactBack">&larr; Change</button>
+          <h2 class="side-drawer-title" id="contactFormTitle">Let's talk about your project.</h2>
+          <p class="side-drawer-strapline" id="contactFormStrap">Tell me what you're building and I'll come back to you — usually within a day.</p>
+        </div>
+        <div class="side-drawer-content">
+          <form class="contact-form" id="contactForm">
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label class="form-label">Your name <span class="required">*</span></label>
+                <input type="text" name="contact_name" class="form-input" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Your email <span class="required">*</span></label>
+                <input type="email" name="contact_email" class="form-input" required>
+              </div>
+            </div>
+            <div class="form-path" data-path="build" hidden>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Phone number</label>
+                  <input type="tel" name="contact_number" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Business name</label>
+                  <input type="text" name="business_name" class="form-input">
+                </div>
+              </div>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">What do you need? <span class="required">*</span></label>
+                  <select name="project_type" class="form-input form-select" required>
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Website</option>
+                    <option>Calculator or tool</option>
+                    <option>Bespoke CRM / CMS system</option>
+                    <option>All three!</option>
+                    <option>Not sure yet — let's talk</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Approximate budget</label>
+                  <select name="budget" class="form-input form-select">
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Under £1,500</option>
+                    <option>£1,500 – £3,000</option>
+                    <option>£3,000 – £6,000</option>
+                    <option>£6,000+</option>
+                    <option>Not sure yet</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-path" data-path="hire" hidden>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Company / agency</label>
+                  <input type="text" name="business_name" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">LinkedIn or website</label>
+                  <input type="url" name="contact_url" class="form-input" placeholder="https://…">
+                </div>
+              </div>
+              <div class="form-row two-col">
+                <div class="form-group">
+                  <label class="form-label">Engagement type <span class="required">*</span></label>
+                  <select name="project_type" class="form-input form-select" required>
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Contract — day rate</option>
+                    <option>Contract — fixed scope</option>
+                    <option>Permanent role</option>
+                    <option>Not sure yet — let's talk</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">When do you need someone?</label>
+                  <select name="start_date" class="form-input form-select">
+                    <option value="" disabled selected>Select&hellip;</option>
+                    <option>Immediately</option>
+                    <option>Within a month</option>
+                    <option>1–3 months</option>
+                    <option>3+ months</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tell me more <span class="required">*</span></label>
+              <textarea name="information" class="form-textarea" required placeholder="The more detail the better."></textarea>
+            </div>
+            <input type="text" name="website" style="display:none" tabindex="-1" autocomplete="off">
+            <button type="submit" class="btn btn-primary btn-full" id="contactSubmit">Send message</button>
+            <div class="form-success" id="contactSuccess" style="display:none"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POLICY MODAL -->
+  <div class="policy-modal" id="policyModal" aria-hidden="true">
+    <div class="policy-modal-backdrop"></div>
+    <div class="policy-modal-panel" role="dialog" aria-modal="true">
+      <div class="policy-modal-header">
+        <h2 class="policy-modal-title" id="policyTitle"></h2>
+        <button class="policy-modal-close" id="policyClose" aria-label="Close">&times;</button>
+      </div>
+      <div class="policy-modal-body" id="policyBody"></div>
+    </div>
+  </div>
+
+  <script src="js/main.js?v=21"></script>
+  <script src="js/eval-framework.js"></script>
+
+</body>
+</html>
