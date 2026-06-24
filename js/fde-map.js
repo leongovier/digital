@@ -284,7 +284,7 @@ function esc(s) {
     const DIV = '─'.repeat(40);
 
     const lines = [];
-    lines.push('AI BUSINESS CASE GAP MAP');
+    lines.push('FORWARD DEPLOYMENT MAP');
     lines.push('Initiative:     ' + (initiative || 'Not specified'));
     lines.push('Prepared for:   ' + name + ' (' + email + ')');
     lines.push('Case strength:  ' + pct + '%   ·   Dimensions covered: ' + cov + ' / 5');

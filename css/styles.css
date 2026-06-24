@@ -3282,3 +3282,8 @@ input[type="date"].form-input::-webkit-calendar-picker-indicator { filter: inver
   .cs-panel-grid { grid-template-columns: 1fr; gap: 1.25rem; }
   .cs-entry { padding: 1.25rem 1.1rem 1.5rem; border-radius: 16px; }
 }
+
+/* Utilities */
+.u-mt-md { margin-top: 1.5rem; }
+.u-mt-lg { margin-top: 2rem; }
+.u-emph { color: #fff; font-weight: 600; }

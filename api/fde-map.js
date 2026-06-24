@@ -34,7 +34,7 @@ async function sendEmail(payload) {
 function buildReportHtml({ initiative_name, name, case_strength, weakest, scores, report_body }) {
   const pctNum = parseInt(String(case_strength), 10) || 0;
   const accent = pctNum >= 80 ? '#1d9e75' : (pctNum >= 50 ? '#ef9f27' : '#e24b4a');
-  const ctaHref = `mailto:${REPLY_TO}?subject=${encodeURIComponent('Re: my AI business case gap map for ' + initiative_name)}`;
+  const ctaHref = `mailto:${REPLY_TO}?subject=${encodeURIComponent('Re: my Forward Deployment Map for ' + initiative_name)}`;
 
   const dimRows = (Array.isArray(scores) ? scores : []).map((d) => {
     const sc = Number(d.score) || 0;
@@ -65,7 +65,7 @@ function buildReportHtml({ initiative_name, name, case_strength, weakest, scores
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
-<title>Your AI business case gap map</title>
+<title>Your Forward Deployment Map</title>
 </head>
 <body style="margin:0;padding:0;background:#f1f1f4;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f1f1f4;">
@@ -229,7 +229,7 @@ export default async function handler(req, res) {
         from: FROM,
         to: email,
         reply_to: REPLY_TO,
-        subject: `Your AI business case gap map${initiative_name ? ' for ' + initiative_name : ''}`,
+        subject: `Your Forward Deployment Map${initiative_name ? ' for ' + initiative_name : ''}`,
         html: reportHtml,
         text: report_body,
       }),
@@ -237,7 +237,7 @@ export default async function handler(req, res) {
         from: FROM,
         to: OWNER,
         reply_to: email,
-        subject: `New gap map lead — ${initiative_name || 'AI business case'} (${case_strength || 'scored'})`,
+        subject: `New Forward Deployment Map lead — ${initiative_name || 'AI business case'} (${case_strength || 'scored'})`,
         html: ownerHtml,
         text: leadBody,
       }),
@@ -257,7 +257,7 @@ export default async function handler(req, res) {
       });
     }
     if (leadRes.status !== 'fulfilled' || !leadRes.value.ok) {
-      console.error('Resend warning (gap map lead notification did not send).');
+      console.error('Resend warning (Forward Deployment Map lead notification did not send).');
     }
 
     return res.status(200).json({
