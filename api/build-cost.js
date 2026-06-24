@@ -1,3 +1,5 @@
+import { insertLead } from '../lib/store.js';
+
 const rateLimit = new Map();
 
 const FROM = 'Leon Govier <hello@leongovier.digital>';
@@ -133,6 +135,17 @@ export default async function handler(req, res) {
   if (!emailRegex.test(email)) {
     return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
+  // Capture into the leads pipeline (best-effort — never blocks the email).
+  try {
+    await insertLead({
+      source: 'build-cost',
+      name,
+      email,
+      business: business || null,
+      summary: [build_type, total].filter(Boolean).join(' · ') || 'Build cost estimate',
+      payload: { build_type, scale, features, brand, timeline, total, notes },
+    });
+  } catch (e) { console.error('lead capture failed:', e); }
 
   const featureList = Array.isArray(features) && features.length ? features.join(', ') : 'None selected';
   const estimateHtml = buildEstimateHtml({ name, total, items });

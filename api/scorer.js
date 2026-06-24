@@ -1,3 +1,5 @@
+import { insertLead } from '../lib/store.js';
+
 const rateLimit = new Map();
 
 const FROM = 'Leon Govier <hello@leongovier.digital>';
@@ -238,6 +240,17 @@ export default async function handler(req, res) {
   if (!emailRegex.test(email)) {
     return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
+  // Capture into the leads pipeline (best-effort — never blocks the email).
+  try {
+    await insertLead({
+      source: 'value-matrix',
+      name: initiative_name || 'Value Matrix lead',
+      email,
+      business: null,
+      summary: [verdict_name, (net_score != null && net_score !== '' ? 'Net ' + net_score : null)].filter(Boolean).join(' · ') || 'Value matrix score',
+      payload: { initiative: initiative_name, strategic_value, implementation_cost, net_score, verdict: verdict_name },
+    });
+  } catch (e) { console.error('lead capture failed:', e); }
 
   // Lead notification body (for the site owner)
   const leadBody = [

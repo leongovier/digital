@@ -1,3 +1,5 @@
+import { insertLead } from '../lib/store.js';
+
 const rateLimit = new Map();
 
 const FROM = 'Leon Govier <hello@leongovier.digital>';
@@ -109,6 +111,17 @@ export default async function handler(req, res) {
   if (!emailRegex.test(email)) {
     return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
+  // Capture into the leads pipeline (best-effort — never blocks the email).
+  try {
+    await insertLead({
+      source: 'eval',
+      name: initiative_name || 'Eval framework lead',
+      email,
+      business: null,
+      summary: use_case ? 'Use case: ' + use_case : 'Eval framework',
+      payload: { initiative: initiative_name, use_case, context, sensitivity },
+    });
+  } catch (e) { console.error('lead capture failed:', e); }
 
   const reportHtml = buildFrameworkHtml({ initiative_name, use_case, framework_text });
 

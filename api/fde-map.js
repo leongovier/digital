@@ -1,3 +1,5 @@
+import { insertLead } from '../lib/store.js';
+
 const rateLimit = new Map();
 
 const FROM = 'Leon Govier <hello@leongovier.digital>';
@@ -184,6 +186,17 @@ export default async function handler(req, res) {
   if (!emailRegex.test(email)) {
     return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
+  // Capture into the leads pipeline (best-effort — never blocks the email).
+  try {
+    await insertLead({
+      source: 'fde-map',
+      name: name || initiative_name || 'Gap Map lead',
+      email,
+      business: initiative_name || null,
+      summary: case_strength ? 'Case strength: ' + case_strength : 'Gap map',
+      payload: { initiative: initiative_name, case_strength, weakest, gap_1, gap_2 },
+    });
+  } catch (e) { console.error('lead capture failed:', e); }
 
   const reportHtml = buildReportHtml({ initiative_name, name, case_strength, weakest, scores, report_body });
 

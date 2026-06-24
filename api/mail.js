@@ -1,3 +1,5 @@
+import { insertLead } from '../lib/store.js';
+
 const rateLimit = new Map();
 
 export default async function handler(req, res) {
@@ -41,6 +43,17 @@ export default async function handler(req, res) {
   if (!emailRegex.test(contact_email)) {
     return res.status(400).json({ success: false, message: 'Please enter a valid email address.' });
   }
+  // Capture into the leads pipeline (best-effort — never blocks the email).
+  try {
+    await insertLead({
+      source: 'contact',
+      name: contact_name,
+      email: contact_email,
+      business: contact_url || location || null,
+      summary: [project_type, budget].filter(Boolean).join(' · ') || 'Contact enquiry',
+      payload: { phone: contact_number, url: contact_url, location, project_type, start_date, budget, referral_source, message: information },
+    });
+  } catch (e) { console.error('lead capture failed:', e); }
 
   const body = [
     `Name:         ${contact_name}`,

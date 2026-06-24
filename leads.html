@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leads — leongovier.digital</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+
+  <link rel="icon" href="images/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="images/favicon-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css?v=27">
+
+  <style>
+    /* ── Private leads board (leads.html) ─────────────────────── */
+    :root {
+      --lds-card: #0d0d0d;
+      --lds-card-2: #111111;
+      --lds-line: rgba(255, 255, 255, 0.08);
+      --lds-stage-new: #378add;
+      --lds-stage-contacted: #ef9f27;
+      --lds-stage-quoted: #8773cb;
+      --lds-stage-won: #1d9e75;
+      --lds-stage-lost: #e24b4a;
+    }
+
+    [hidden] { display: none !important; }
+    .lds-body {
+      min-height: 100vh;
+      margin: 0;
+      background: #000;
+      color: var(--color-white);
+      font-family: var(--font-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+    .lds-logo { font-family: var(--font-secondary); font-weight: 700; font-size: 19px; color: #fff; letter-spacing: -0.01em; }
+    .lds-logo span { color: var(--color-accent); }
+
+    /* ── Login ───────────────────────────────────────────────── */
+    .lds-login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .lds-login-card {
+      width: 100%; max-width: 360px; background: var(--lds-card); border: 1px solid var(--lds-line);
+      border-radius: var(--radius); padding: 34px 30px 30px; box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+    }
+    .lds-login-card .lds-logo { display: block; margin-bottom: 22px; }
+    .lds-login-title { font-size: 22px; font-weight: 600; margin: 0 0 4px; }
+    .lds-login-sub { font-size: 13px; color: var(--color-text-muted); margin: 0 0 22px; }
+    .lds-field { display: block; margin-bottom: 16px; }
+    .lds-field span { display: block; font-size: 12px; font-weight: 500; color: var(--color-text); margin-bottom: 7px; }
+    .lds-input {
+      width: 100%; box-sizing: border-box; background: #000; border: 1px solid var(--lds-line);
+      border-radius: 10px; padding: 12px 14px; color: #fff; font-family: var(--font-primary);
+      font-size: 14px; transition: border-color var(--transition);
+    }
+    .lds-input:focus { outline: none; border-color: var(--color-accent-50); }
+    .lds-input::placeholder { color: rgba(255,255,255,0.25); }
+    #ldsPin { letter-spacing: 6px; font-weight: 600; }
+    .lds-btn {
+      width: 100%; cursor: pointer; border: none; border-radius: var(--radius-btn);
+      background: var(--color-accent); color: #fff; font-family: var(--font-primary);
+      font-size: 14px; font-weight: 600; padding: 13px 18px; margin-top: 6px;
+      transition: filter var(--transition), opacity var(--transition);
+    }
+    .lds-btn:hover { filter: brightness(1.06); }
+    .lds-btn:disabled { opacity: 0.55; cursor: default; }
+    .lds-err { min-height: 18px; font-size: 12.5px; color: var(--lds-stage-lost); margin: 2px 0 10px; }
+
+    /* ── App shell ───────────────────────────────────────────── */
+    .lds-app { display: flex; flex-direction: column; min-height: 100vh; }
+    .lds-top {
+      position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 18px;
+      padding: 16px 22px; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--lds-line);
+    }
+    .lds-top .lds-pagename { font-size: 13px; font-weight: 600; color: var(--color-text); letter-spacing: 0.04em; text-transform: uppercase; }
+    .lds-top-spacer { flex: 1; }
+    .lds-count { font-size: 12.5px; color: var(--color-text-muted); }
+    .lds-icon-btn {
+      cursor: pointer; background: var(--lds-card-2); border: 1px solid var(--lds-line); color: var(--color-text);
+      border-radius: 9px; padding: 8px 13px; font-size: 12.5px; font-weight: 500; font-family: var(--font-primary);
+      transition: color var(--transition), border-color var(--transition);
+    }
+    .lds-icon-btn:hover { color: #fff; border-color: var(--color-accent-50); }
+
+    /* ── Board ───────────────────────────────────────────────── */
+    .lds-board {
+      flex: 1; display: grid; grid-template-columns: repeat(5, minmax(232px, 1fr));
+      gap: 14px; padding: 20px 22px 40px; align-items: start; overflow-x: auto;
+    }
+    .lds-col { display: flex; flex-direction: column; min-width: 0; background: var(--lds-card); border: 1px solid var(--lds-line); border-radius: 14px; }
+    .lds-col-head { display: flex; align-items: center; gap: 9px; padding: 14px 14px 12px; border-bottom: 1px solid var(--lds-line); }
+    .lds-dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+    .lds-col-name { font-size: 13px; font-weight: 600; color: #fff; }
+    .lds-col-count { margin-left: auto; font-size: 11.5px; font-weight: 600; color: var(--color-text-muted); background: var(--lds-card-2); border-radius: 20px; padding: 2px 9px; }
+    .lds-col-body { display: flex; flex-direction: column; gap: 10px; padding: 12px; min-height: 60px; }
+    .lds-empty { font-size: 12px; color: var(--color-text-muted); text-align: center; padding: 18px 6px; }
+
+    .lds-card {
+      cursor: pointer; background: var(--lds-card-2); border: 1px solid var(--lds-line); border-radius: 11px;
+      padding: 13px 13px 12px; transition: border-color var(--transition), transform var(--transition);
+    }
+    .lds-card:hover { border-color: var(--color-accent-50); transform: translateY(-1px); }
+    .lds-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+    .lds-card-name { font-size: 13.5px; font-weight: 600; color: #fff; line-height: 1.3; word-break: break-word; }
+    .lds-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; padding: 3px 7px; border-radius: 6px; white-space: nowrap; color: var(--color-accent); background: var(--color-accent-08); border: 1px solid var(--color-accent-20); }
+    .lds-card-sub { font-size: 12px; color: var(--color-text); line-height: 1.45; margin-bottom: 8px; word-break: break-word; }
+    .lds-card-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 11px; color: var(--color-text-muted); }
+    .lds-card-notes { display: inline-flex; align-items: center; gap: 4px; }
+
+    /* ── Drawer ──────────────────────────────────────────────── */
+    .lds-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 40; opacity: 0; transition: opacity var(--transition); }
+    .lds-overlay.show { opacity: 1; }
+    .lds-drawer {
+      position: fixed; top: 0; right: 0; height: 100vh; width: 420px; max-width: 92vw; z-index: 50;
+      background: #0a0a0a; border-left: 1px solid var(--lds-line); box-shadow: -30px 0 70px rgba(0,0,0,0.6);
+      transform: translateX(100%); transition: transform var(--transition); display: flex; flex-direction: column;
+    }
+    .lds-drawer.show { transform: translateX(0); }
+    .lds-drawer-head { display: flex; align-items: flex-start; gap: 12px; padding: 20px 22px 16px; border-bottom: 1px solid var(--lds-line); }
+    .lds-drawer-head h2 { font-size: 18px; font-weight: 600; margin: 0 0 5px; line-height: 1.3; word-break: break-word; }
+    .lds-drawer-close { margin-left: auto; flex: none; cursor: pointer; background: none; border: none; color: var(--color-text-muted); font-size: 24px; line-height: 1; padding: 0 2px; transition: color var(--transition); }
+    .lds-drawer-close:hover { color: #fff; }
+    .lds-drawer-body { flex: 1; overflow-y: auto; padding: 20px 22px 30px; }
+    .lds-sec-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-accent); margin: 0 0 12px; }
+    .lds-sec { margin-bottom: 26px; }
+
+    .lds-stage-pick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .lds-stage-opt {
+      cursor: pointer; text-align: left; background: var(--lds-card-2); border: 1px solid var(--lds-line);
+      border-radius: 9px; padding: 9px 11px; color: var(--color-text); font-family: var(--font-primary);
+      font-size: 12.5px; font-weight: 500; display: flex; align-items: center; gap: 8px; transition: border-color var(--transition), color var(--transition);
+    }
+    .lds-stage-opt:hover { color: #fff; }
+    .lds-stage-opt.active { color: #fff; border-color: currentColor; }
+    .lds-stage-opt .lds-dot { box-shadow: 0 0 0 3px rgba(255,255,255,0.04); }
+
+    .lds-detail { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--lds-line); border-radius: 10px; overflow: hidden; }
+    .lds-detail-row { display: flex; gap: 12px; padding: 10px 13px; font-size: 12.5px; }
+    .lds-detail-row + .lds-detail-row { border-top: 1px solid var(--lds-line); }
+    .lds-detail-row .k { flex: none; width: 92px; color: var(--color-text-muted); }
+    .lds-detail-row .v { color: #fff; word-break: break-word; }
+    .lds-detail-row .v a { color: var(--color-accent); text-decoration: none; }
+
+    .lds-notes { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+    .lds-note { background: var(--lds-card-2); border: 1px solid var(--lds-line); border-radius: 9px; padding: 10px 12px; }
+    .lds-note-body { font-size: 12.5px; color: #fff; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+    .lds-note-time { font-size: 10.5px; color: var(--color-text-muted); margin-top: 6px; }
+    .lds-note-empty { font-size: 12px; color: var(--color-text-muted); margin-bottom: 12px; }
+    .lds-note-form { display: flex; flex-direction: column; gap: 8px; }
+    .lds-textarea {
+      width: 100%; box-sizing: border-box; resize: vertical; min-height: 70px; background: #000;
+      border: 1px solid var(--lds-line); border-radius: 10px; padding: 11px 13px; color: #fff;
+      font-family: var(--font-primary); font-size: 13px; line-height: 1.5;
+    }
+    .lds-textarea:focus { outline: none; border-color: var(--color-accent-50); }
+    .lds-note-add { align-self: flex-start; cursor: pointer; border: none; border-radius: var(--radius-btn); background: var(--color-accent); color: #fff; font-family: var(--font-primary); font-size: 12.5px; font-weight: 600; padding: 9px 18px; }
+    .lds-note-add:disabled { opacity: 0.5; cursor: default; }
+
+    .lds-loading { display: flex; align-items: center; justify-content: center; min-height: 50vh; color: var(--color-text-muted); font-size: 13px; }
+
+    @media (max-width: 760px) {
+      .lds-board { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 80%; }
+    }
+  </style>
+</head>
+<body class="lds-body">
+
+  <!-- ── Login ─────────────────────────────────────────────── -->
+  <section class="lds-login" id="ldsLogin">
+    <form class="lds-login-card" id="ldsLoginForm" autocomplete="off">
+      <span class="lds-logo">leongovier<span>.digital</span></span>
+      <p class="lds-login-title">Leads</p>
+      <p class="lds-login-sub">Private pipeline — sign in to continue.</p>
+      <label class="lds-field">
+        <span>Username</span>
+        <input class="lds-input" id="ldsUser" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" required>
+      </label>
+      <label class="lds-field">
+        <span>PIN</span>
+        <input class="lds-input" id="ldsPin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="current-password" placeholder="••••••••" required>
+      </label>
+      <div class="lds-err" id="ldsLoginErr"></div>
+      <button class="lds-btn" id="ldsLoginBtn" type="submit">Sign in</button>
+    </form>
+  </section>
+
+  <!-- ── App ───────────────────────────────────────────────── -->
+  <div class="lds-app" id="ldsApp" hidden>
+    <header class="lds-top">
+      <span class="lds-logo">leongovier<span>.digital</span></span>
+      <span class="lds-pagename">Leads</span>
+      <span class="lds-top-spacer"></span>
+      <span class="lds-count" id="ldsCount"></span>
+      <button class="lds-icon-btn" id="ldsRefresh" type="button">Refresh</button>
+      <button class="lds-icon-btn" id="ldsSignout" type="button">Sign out</button>
+    </header>
+    <main class="lds-board" id="ldsBoard">
+      <div class="lds-loading" id="ldsLoading">Loading leads…</div>
+    </main>
+  </div>
+
+  <!-- ── Drawer ────────────────────────────────────────────── -->
+  <div class="lds-overlay" id="ldsOverlay" hidden></div>
+  <aside class="lds-drawer" id="ldsDrawer" hidden aria-hidden="true"></aside>
+
+  <script src="js/leads.js?v=2"></script>
+</body>
+</html>
