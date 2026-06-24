@@ -19,7 +19,7 @@
   ];
   var SOURCE_LABEL = {
     'contact': 'Contact', 'build-cost': 'Build Cost', 'value-matrix': 'Value Matrix',
-    'eval': 'Eval', 'fde-map': 'Gap Map'
+    'eval': 'Eval', 'fde-map': 'Forward Deployment Map'
   };
   var IS_LOCAL = ['localhost', '127.0.0.1', ''].indexOf(location.hostname) !== -1;
   var CRED_KEY = 'lds_cred';
