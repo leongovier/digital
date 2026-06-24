@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/jkiticon.css">
-  <link rel="stylesheet" href="css/styles.css?v=10">
+  <link rel="stylesheet" href="css/styles.css?v=15">
 
   <style>
     /* ── Page-specific: value-matrix.html — Value Matrix ROI Scorer ───── */
@@ -146,7 +146,7 @@
     .vm-hero-scores .lbl { display: block; font-size: 10.5px; color: var(--color-text); margin-top: 6px; letter-spacing: 0.02em; }
 
     /* ── Scorer body ── */
-    .vm-tool { padding: 0 0 100px; background: var(--bg-primary); }
+    .vm-tool { padding: 56px 0 100px; background: var(--bg-primary); }
 
     .vm-group {
       background: color-mix(in srgb, var(--grp-accent, var(--color-accent)) 10%, rgba(255,255,255,0.02));
@@ -410,11 +410,28 @@
           <li><a href="process.html">How I work</a></li>
           <li class="nav-has-dropdown">
             <a class="nav-dropdown-toggle" tabindex="0" role="button" aria-haspopup="true">Tools <span class="nav-caret" aria-hidden="true">▾</span></a>
-            <ul class="nav-dropdown">
-              <li><a href="value-matrix.html">Value Matrix ROI Scorer</a></li>
-              <li><a href="eval-framework.html">Eval Framework Builder</a></li>
-              <li><a href="fde-map.html">AI Business Case Gap Map</a></li>
-            </ul>
+            <div class="nav-dropdown nav-mega">
+              <div class="nav-mega-col">
+                <p class="nav-mega-title">Get an instant estimate for your build</p>
+                <p class="nav-mega-desc">Answer a few questions about what you need. See a live cost estimate. Request a fixed-price quote in under two minutes.</p>
+                <a class="nav-mega-link" href="build-cost.html">Build Cost Calculator <span class="nav-mega-arrow" aria-hidden="true">&rarr;</span></a>
+              </div>
+              <div class="nav-mega-col">
+                <p class="nav-mega-title">Is your AI initiative worth building?</p>
+                <p class="nav-mega-desc">Score your initiative on strategic value and build cost, then get a clear verdict and a personalised analysis sent to your inbox.</p>
+                <a class="nav-mega-link" href="value-matrix.html">Value Matrix ROI Scorer <span class="nav-mega-arrow" aria-hidden="true">&rarr;</span></a>
+              </div>
+              <div class="nav-mega-col">
+                <p class="nav-mega-title">Does your AI actually work and can you prove it?</p>
+                <p class="nav-mega-desc">Generate a structured evaluation framework for your UK FS AI initiative in sixty seconds — test cases, metrics, edge cases and a residual risk statement.</p>
+                <a class="nav-mega-link" href="eval-framework.html">Eval Framework Builder <span class="nav-mega-arrow" aria-hidden="true">&rarr;</span></a>
+              </div>
+              <div class="nav-mega-col">
+                <p class="nav-mega-title">Will your AI business case survive scrutiny?</p>
+                <p class="nav-mega-desc">Rate your evidence across five dimensions to see where stakeholders push back, then get inline coaching and a prioritised plan to close the gaps.</p>
+                <a class="nav-mega-link" href="fde-map.html">AI Business Case Gap Map <span class="nav-mega-arrow" aria-hidden="true">&rarr;</span></a>
+              </div>
+            </div>
           </li>
           <li class="mobile-nav-sep" aria-hidden="true"></li>
           <li class="mobile-nav-extra"><a href="#" class="drawer-open-btn" data-drawer="contact">Get in touch</a></li>
@@ -442,7 +459,7 @@
       <div class="hero-text">
         <h2 class="hero-welcome">ROI Scorer</h2>
         <h1 class="hero-headline">Is your AI initiative worth building?</h1>
-        <p>Score your initiative in 2 minutes and get a personalised analysis sent to your inbox.</p>
+        <p>Score your initiative on strategic value and build cost, then get a clear verdict and a personalised analysis sent to your inbox.</p>
         <div class="hero-buttons">
           <a href="#vmScorer" class="btn btn-accent">Start scoring &rarr;</a>
         </div>
