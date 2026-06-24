@@ -223,7 +223,7 @@ export default async function handler(req, res) {
 
   const body = req.body || {};
   const {
-    initiative_name, email, website,
+    person_name, initiative_name, email, website,
     strategic_value, implementation_cost, net_score,
     verdict_name, verdict_key, verdict_copy, next_steps, next_steps_list, report_body,
   } = body;
@@ -245,9 +245,9 @@ export default async function handler(req, res) {
   try {
     await insertLead({
       source: 'value-matrix',
-      name: initiative_name || 'Value Matrix lead',
+      name: person_name || initiative_name || 'Value Matrix lead',
       email,
-      business: null,
+      business: initiative_name || null,
       summary: [verdict_name, (net_score != null && net_score !== '' ? 'Net ' + net_score : null)].filter(Boolean).join(' · ') || 'Value matrix score',
       payload: { initiative: initiative_name, strategic_value, implementation_cost, net_score, verdict: verdict_name },
     });
@@ -291,7 +291,7 @@ export default async function handler(req, res) {
   });
 
   const ownerHtml = ownerLeadEmail({
-    source: 'Value Matrix', name: initiative_name, replyEmail: email,
+    source: 'Value Matrix', name: person_name || initiative_name, replyEmail: email,
     rows: [
       ['Email', email], ['Initiative', initiative_name], ['Verdict', verdict_name],
       ['Strategic value', strategic_value != null ? strategic_value + ' / 5' : null],
@@ -316,7 +316,7 @@ export default async function handler(req, res) {
         from: FROM,
         to: OWNER,
         reply_to: email,
-        subject: `New scorer lead — ${initiative_name} (${verdict_name || 'scored'})`,
+        subject: `New scorer lead — ${person_name || initiative_name} (${verdict_name || 'scored'})`,
         html: ownerHtml,
         text: leadBody,
       }),

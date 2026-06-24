@@ -100,7 +100,7 @@ export default async function handler(req, res) {
     return res.status(429).json({ success: false, message: 'Too many requests — please try again in a few minutes.' });
   }
 
-  const { initiative_name, email, website, framework_text, use_case, context, sensitivity } = req.body || {};
+  const { person_name, initiative_name, email, website, framework_text, use_case, context, sensitivity } = req.body || {};
 
   // Honeypot
   if (website) return res.status(200).json({ success: true, message: 'Thank you!' });
@@ -116,9 +116,9 @@ export default async function handler(req, res) {
   try {
     await insertLead({
       source: 'eval',
-      name: initiative_name || 'Eval framework lead',
+      name: person_name || initiative_name || 'Eval framework lead',
       email,
-      business: null,
+      business: initiative_name || null,
       summary: use_case ? 'Use case: ' + use_case : 'Eval framework',
       payload: { initiative: initiative_name, use_case, context, sensitivity },
     });
@@ -142,7 +142,7 @@ export default async function handler(req, res) {
   ].join('\n');
 
   const ownerHtml = ownerLeadEmail({
-    source: 'Eval Framework', name: initiative_name, replyEmail: email,
+    source: 'Eval Framework', name: person_name || initiative_name, replyEmail: email,
     rows: [
       ['Email', email], ['Initiative', initiative_name], ['Use case', use_case],
       ['Context', context], ['Sensitivity', sensitivity],
@@ -163,7 +163,7 @@ export default async function handler(req, res) {
         from: FROM,
         to: OWNER,
         reply_to: email,
-        subject: `New eval framework lead — ${initiative_name} (${use_case || 'framework'})`,
+        subject: `New eval framework lead — ${person_name || initiative_name} (${use_case || 'framework'})`,
         html: ownerHtml,
         text: leadBody,
       }),

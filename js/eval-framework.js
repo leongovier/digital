@@ -606,6 +606,7 @@ function fmtDateISO(d) {
   const form = $('efForm');
   const reportNameField = els.reportName;
   const emailInput = $('efEmail');
+  const personField = $('efPerson');
   const sendBtn = $('efSend');
   const hp = $('efHp');
   const formMsg = $('efFormMsg');
@@ -616,8 +617,9 @@ function fmtDateISO(d) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     let ok = true;
-    ['reportName', 'email'].forEach((k) => clearError(k));
+    ['person', 'reportName', 'email'].forEach((k) => clearError(k));
     formMsg.className = 'ef-form-msg';
+    if (!personField.value.trim()) { setError('person'); ok = false; }
     if (!reportNameField.value.trim()) { setError('reportName'); ok = false; }
     if (!isEmail(emailInput.value)) { setError('email'); ok = false; }
     if (!ok) return;
@@ -652,6 +654,7 @@ function fmtDateISO(d) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          person_name: personField.value.trim(),
           initiative_name: initiative,
           email,
           framework_text: frameworkText,

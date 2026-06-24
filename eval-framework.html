@@ -487,6 +487,10 @@
             <h2>Get your framework by email</h2>
             <p class="ef-report-sub">We'll send a formatted copy with recommended next steps for your initiative.</p>
             <form id="efForm" novalidate>
+              <div class="ef-field" id="efField-person">
+                <label for="efPerson">Your name</label>
+                <input type="text" id="efPerson" class="ef-input" placeholder="Your name" autocomplete="name">
+              </div>
               <div class="ef-field" id="efField-reportName">
                 <label for="efReportName">Initiative name</label>
                 <input type="text" id="efReportName" class="ef-input" placeholder="Your initiative" autocomplete="off">
@@ -665,7 +669,7 @@
   </div>
 
   <script src="js/main.js?v=22"></script>
-  <script src="js/eval-framework.js?v=2"></script>
+  <script src="js/eval-framework.js?v=3"></script>
 
   <script src="js/protect.js?v=1"></script>
 </body>

@@ -748,6 +748,10 @@
         <h2>Get your report</h2>
         <p class="vm-form-sub">We'll send a full breakdown and recommended next steps for your initiative.</p>
         <form id="vmForm" novalidate>
+          <div class="vm-field" id="vmFieldPerson">
+            <label for="vmPerson">Your name</label>
+            <input type="text" id="vmPerson" name="person_name" placeholder="Your name" autocomplete="name">
+          </div>
           <div class="vm-field" id="vmFieldName">
             <label for="vmName">What are you evaluating?</label>
             <input type="text" id="vmName" name="initiative_name" placeholder="Initiative name" autocomplete="off">
@@ -928,7 +932,7 @@
   <!-- Site behaviour (header, drawer, policy modal) -->
   <script src="js/main.js?v=22"></script>
   <!-- Value Matrix scorer behaviour -->
-  <script src="js/value-matrix.js"></script>
+  <script src="js/value-matrix.js?v=2"></script>
 
   <script src="js/protect.js?v=1"></script>
 </body>

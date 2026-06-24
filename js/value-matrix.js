@@ -207,6 +207,8 @@ const VM_COST_KEYS  = ['data_readiness', 'data_compliance_overhead', 'model_gove
   const emailInput = document.getElementById('vmEmail');
   const fieldName = document.getElementById('vmFieldName');
   const fieldEmail = document.getElementById('vmFieldEmail');
+  const personInput = document.getElementById('vmPerson');
+  const fieldPerson = document.getElementById('vmFieldPerson');
   const submitBtn = document.getElementById('vmSubmit');
   const hp = document.getElementById('vmHp'); // honeypot
   const msg = document.getElementById('vmFormMsg');
@@ -250,6 +252,7 @@ const VM_COST_KEYS  = ['data_readiness', 'data_compliance_overhead', 'model_gove
       VM_SITE_URL;
 
     return {
+      person_name: personInput.value.trim(),
       initiative_name: name,
       email: emailInput.value.trim(),
       to_email: emailInput.value.trim(),
@@ -286,8 +289,10 @@ const VM_COST_KEYS  = ['data_readiness', 'data_compliance_overhead', 'model_gove
     let ok = true;
     fieldName.classList.remove('vm-invalid');
     fieldEmail.classList.remove('vm-invalid');
+    fieldPerson.classList.remove('vm-invalid');
     msg.className = 'vm-form-msg';
 
+    if (!personInput.value.trim()) { fieldPerson.classList.add('vm-invalid'); ok = false; }
     if (!nameInput.value.trim()) { fieldName.classList.add('vm-invalid'); ok = false; }
     if (!isEmail(emailInput.value)) { fieldEmail.classList.add('vm-invalid'); ok = false; }
     if (!ok) return;
