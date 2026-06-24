@@ -1,4 +1,5 @@
 import { insertLead } from '../lib/store.js';
+import { ownerLeadEmail } from '../lib/email.js';
 
 const rateLimit = new Map();
 
@@ -167,6 +168,16 @@ export default async function handler(req, res) {
     `Estimate:    ${total || '—'}`,
   ].join('\n');
 
+  const ownerHtml = ownerLeadEmail({
+    source: 'Build Cost', name, replyEmail: email,
+    rows: [
+      ['Email', email], ['Business', business], ['Build type', build_type],
+      ['Scale', scale], ['Features', featureList], ['Brand', brand],
+      ['Timeline', timeline], ['Estimate', total],
+    ],
+    message: notes,
+  });
+
   try {
     const [userRes, leadRes] = await Promise.allSettled([
       sendEmail({
@@ -182,6 +193,7 @@ export default async function handler(req, res) {
         to: OWNER,
         reply_to: email,
         subject: `New build cost estimate — ${name} (${total || 'estimate'})`,
+        html: ownerHtml,
         text: leadBody,
       }),
     ]);

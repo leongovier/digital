@@ -1,4 +1,13 @@
 import { insertLead } from '../lib/store.js';
+import { ownerLeadEmail, enquirerReplyEmail } from '../lib/email.js';
+
+function sendEmail(payload) {
+  return fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+}
 
 const rateLimit = new Map();
 
@@ -70,31 +79,59 @@ export default async function handler(req, res) {
     information,
   ].join('\n');
 
+  const ownerHtml = ownerLeadEmail({
+    source: 'Contact enquiry',
+    name: contact_name,
+    replyEmail: contact_email,
+    rows: [
+      ['Email', contact_email],
+      ['Phone', contact_number],
+      ['LinkedIn / URL', contact_url],
+      ['Location', location],
+      ['Project type', project_type],
+      ['Start date', start_date],
+      ['Budget', budget],
+      ['How found', referral_source],
+    ],
+    message: information,
+  });
+
   try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    const [ownerRes, replyRes] = await Promise.allSettled([
+      sendEmail({
         from: 'Leon Govier <hello@leongovier.digital>',
         to: 'hello@leongovier.digital',
         reply_to: contact_email,
         subject: `New enquiry — ${contact_name} (${project_type})`,
+        html: ownerHtml,
         text: body,
       }),
-    });
+      sendEmail({
+        from: 'Leon Govier <hello@leongovier.digital>',
+        to: contact_email,
+        reply_to: 'hello@leongovier.com',
+        subject: 'Thanks — message received',
+        html: enquirerReplyEmail({ name: contact_name }),
+        text: `Hi ${contact_name}, thanks for getting in touch — your message has landed with me directly. I'll come back to you within one working day. — Leon Govier, leongovier.digital`,
+      }),
+    ]);
 
-    if (response.ok) {
-      return res.status(200).json({ success: true, message: `Thank you, ${contact_name}. I'll be in touch shortly.` });
-    } else {
-      const err = await response.json();
-      console.error('Resend error:', err);
+    const ownerOk = ownerRes.status === 'fulfilled' && ownerRes.value.ok;
+    if (!ownerOk) {
+      if (ownerRes.status === 'fulfilled') {
+        const err = await ownerRes.value.json().catch(() => ({}));
+        console.error('Resend error (owner):', err);
+      } else {
+        console.error('Fetch error (owner):', ownerRes.reason);
+      }
       return res.status(500).json({ success: false, message: 'Something went wrong. Please email me directly at hello@leongovier.com.' });
     }
+    if (replyRes.status !== 'fulfilled' || !replyRes.value.ok) {
+      console.error('Resend warning (auto-reply did not send).');
+    }
+    return res.status(200).json({ success: true, message: `Thank you, ${contact_name}. I'll be in touch shortly.` });
   } catch (err) {
-    console.error('Fetch error:', err);
+    console.error('Send error:', err);
     return res.status(500).json({ success: false, message: 'Something went wrong. Please email me directly at hello@leongovier.com.' });
   }
 }

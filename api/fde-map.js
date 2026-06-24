@@ -1,4 +1,5 @@
 import { insertLead } from '../lib/store.js';
+import { ownerLeadEmail } from '../lib/email.js';
 
 const rateLimit = new Map();
 
@@ -214,6 +215,14 @@ export default async function handler(req, res) {
     report_body,
   ].join('\n');
 
+  const ownerHtml = ownerLeadEmail({
+    source: 'Gap Map', name, replyEmail: email,
+    rows: [
+      ['Email', email], ['Initiative', initiative_name], ['Case strength', case_strength],
+      ['Weakest area', weakest], ['Top gap', gap_1], ['Second gap', gap_2],
+    ],
+  });
+
   try {
     const [userRes, leadRes] = await Promise.allSettled([
       sendEmail({
@@ -229,6 +238,7 @@ export default async function handler(req, res) {
         to: OWNER,
         reply_to: email,
         subject: `New gap map lead — ${initiative_name || 'AI business case'} (${case_strength || 'scored'})`,
+        html: ownerHtml,
         text: leadBody,
       }),
     ]);

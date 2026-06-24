@@ -1,4 +1,5 @@
 import { insertLead } from '../lib/store.js';
+import { ownerLeadEmail } from '../lib/email.js';
 
 const rateLimit = new Map();
 
@@ -289,6 +290,16 @@ export default async function handler(req, res) {
     scores,
   });
 
+  const ownerHtml = ownerLeadEmail({
+    source: 'Value Matrix', name: initiative_name, replyEmail: email,
+    rows: [
+      ['Email', email], ['Initiative', initiative_name], ['Verdict', verdict_name],
+      ['Strategic value', strategic_value != null ? strategic_value + ' / 5' : null],
+      ['Implementation cost', implementation_cost != null ? implementation_cost + ' / 5' : null],
+      ['Net score', net_score],
+    ],
+  });
+
   try {
     const [userRes, leadRes] = await Promise.allSettled([
       // 1) The report, to the person who scored
@@ -306,6 +317,7 @@ export default async function handler(req, res) {
         to: OWNER,
         reply_to: email,
         subject: `New scorer lead — ${initiative_name} (${verdict_name || 'scored'})`,
+        html: ownerHtml,
         text: leadBody,
       }),
     ]);

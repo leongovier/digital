@@ -1,4 +1,5 @@
 import { insertLead } from '../lib/store.js';
+import { ownerLeadEmail } from '../lib/email.js';
 
 const rateLimit = new Map();
 
@@ -140,6 +141,14 @@ export default async function handler(req, res) {
     framework_text,
   ].join('\n');
 
+  const ownerHtml = ownerLeadEmail({
+    source: 'Eval Framework', name: initiative_name, replyEmail: email,
+    rows: [
+      ['Email', email], ['Initiative', initiative_name], ['Use case', use_case],
+      ['Context', context], ['Sensitivity', sensitivity],
+    ],
+  });
+
   try {
     const [userRes, leadRes] = await Promise.allSettled([
       sendEmail({
@@ -155,6 +164,7 @@ export default async function handler(req, res) {
         to: OWNER,
         reply_to: email,
         subject: `New eval framework lead — ${initiative_name} (${use_case || 'framework'})`,
+        html: ownerHtml,
         text: leadBody,
       }),
     ]);
