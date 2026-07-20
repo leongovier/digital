@@ -30,8 +30,9 @@ pnpm-debug.log*
 .netlify/
 .vercel
 
-# claude code local state
-.claude/
+# claude code local state — ignore everything except shared project skills
+.claude/*
+!.claude/skills/
 
 # local dev notes
 leongovier/
