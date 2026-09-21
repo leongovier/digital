@@ -42,3 +42,17 @@ No build step. Files are served directly.
 - Name: Leon Govier · Role: Lead Product Designer
 - Email: `hello@leongovier.com`
 - Domain: `leongovier.digital`
+
+## Spam protection
+
+Public form endpoints share a scored guard in `lib/antispam.js`, fed by
+`js/formguard.js` in the browser (honeypots, submit timing, interaction
+count, origin checks, gibberish and content heuristics). Blocked
+submissions get a normal-looking success response; borderline ones are
+delivered with a `[possible spam]` marker. See the README's *Spam
+protection* section for the scoring table and env vars (`SPAM_GUARD=off`
+disables blocking; `TURNSTILE_SECRET_KEY` adds Cloudflare Turnstile).
+
+Any new form endpoint should call `inspect()` / `shouldBlock()` the same
+way the existing ones do, and any new page with a form needs
+`<script src="js/formguard.js?v=1"></script>` before `js/main.js`.

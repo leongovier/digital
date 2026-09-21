@@ -1,7 +1,6 @@
 import { insertLead } from '../lib/store.js';
 import { ownerLeadEmail } from '../lib/email.js';
-
-const rateLimit = new Map();
+import { applyCors, rateLimited, inspect, shouldBlock, reviewMarker } from '../lib/antispam.js';
 
 const FROM = 'Leon Govier <hello@leongovier.digital>';
 const OWNER = 'hello@leongovier.digital';
@@ -99,35 +98,37 @@ function buildEstimateHtml({ name, total, items }) {
 }
 
 export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(204).end();
-  }
+  // CORS — only our own origins, not the old blanket '*'
+  applyCors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method not allowed.' });
   }
 
-  // Rate limiting — 5 requests per IP per minute
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
-  const now = Date.now();
-  const entry = rateLimit.get(ip) || { count: 0, start: now };
-  if (now - entry.start > 60_000) { entry.count = 0; entry.start = now; }
-  entry.count++;
-  rateLimit.set(ip, entry);
-  if (entry.count > 5) {
+  // Rate limiting — 5 requests per IP per minute (shared bucket)
+  if (rateLimited(req)) {
     return res.status(429).json({ success: false, message: 'Too many requests — please try again in a few minutes.' });
   }
 
   const body = req.body || {};
   const {
-    name, email, business, notes, website,
+    name, email, business, notes,
     build_type, scale, features, brand, timeline, total, items,
   } = body;
 
-  // Honeypot — silently accept
-  if (website) return res.status(200).json({ success: true, message: 'Thank you!' });
+  // Spam guard — honeypots, origin, submit timing, and the content itself.
+  // A blocked submission gets the ordinary success response so the sender
+  // learns nothing about what tripped it.
+  const guard = await inspect({
+    req,
+    source: 'build-cost',
+    body,
+    fields: { name, email, business, message: notes },
+  });
+  if (shouldBlock(guard, 'build-cost', { name, email })) {
+    return res.status(200).json({ success: true, message: `Done. I'll follow up at ${email} within one working day.` });
+  }
+  const mark = reviewMarker(guard);
 
   if (!name || !email) {
     return res.status(400).json({ success: false, message: 'Please fill in all required fields.' });
@@ -143,8 +144,8 @@ export default async function handler(req, res) {
       name,
       email,
       business: business || null,
-      summary: [build_type, total].filter(Boolean).join(' · ') || 'Build cost estimate',
-      payload: { build_type, scale, features, brand, timeline, total, notes },
+      summary: mark + ([build_type, total].filter(Boolean).join(' · ') || 'Build cost estimate'),
+      payload: { build_type, scale, features, brand, timeline, total, notes, spam_score: guard.flagged ? guard.score : undefined },
     });
   } catch (e) { console.error('lead capture failed:', e); }
 
@@ -192,7 +193,7 @@ export default async function handler(req, res) {
         from: FROM,
         to: OWNER,
         reply_to: email,
-        subject: `New build cost estimate — ${name} (${total || 'estimate'})`,
+        subject: `${mark}New build cost estimate — ${name} (${total || 'estimate'})`,
         html: ownerHtml,
         text: leadBody,
       }),

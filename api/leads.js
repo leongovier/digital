@@ -2,6 +2,7 @@
 // Credentials live in env vars (LEADS_USER, LEADS_PIN) and are checked on
 // every request. PIN is never trusted from the client.
 import { listLeads, moveLead, addNote, STAGES } from '../lib/store.js';
+import { applyCors, originVerdict } from '../lib/antispam.js';
 
 const rateLimit = new Map();
 
@@ -13,10 +14,12 @@ function authOk(body) {
 }
 
 export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(204).end();
+  applyCors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).end();
+
+  // The board is ours only — reject a cross-site POST outright.
+  if (originVerdict(req) === 'bad') {
+    return res.status(403).json({ ok: false, message: 'Forbidden.' });
   }
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, message: 'Method not allowed.' });

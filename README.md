@@ -126,3 +126,70 @@ Pick one. Both configs are in the repo so you can switch without code changes.
 - Confirm `hello@leongovier.com` is the right address.
 - Decide between **Netlify Forms** and **Formspree** for the contact form (currently mailto only).
 - Activate the Plausible script in `src/layouts/BaseLayout.astro` once the domain is live.
+
+## Spam protection
+
+The public form endpoints (`/api/mail`, `/api/scorer`, `/api/eval`,
+`/api/build-cost`, `/api/fde-map`) share one guard in
+[`lib/antispam.js`](./lib/antispam.js), fed by
+[`js/formguard.js`](./js/formguard.js) in the browser.
+
+No single check blocks anything on its own — each contributes points, and
+the total decides:
+
+| Score | Verdict | What happens |
+| --- | --- | --- |
+| 0–3 | pass | delivered normally |
+| 4–6 | review | delivered, but the owner email subject and the leads-board summary are prefixed `[possible spam]`, and `spam_score` goes into the lead's payload |
+| 7+ | block | no email, no lead row; the sender still gets the ordinary success response so bots learn nothing |
+
+Three things block outright regardless of score: a filled honeypot, a POST
+whose `Origin` belongs to another site, and a failed Turnstile check (when
+Turnstile is switched on).
+
+**What it scores**
+
+- **Origin / referer** — a POST with neither is +4; a POST from another
+  origin is rejected outright. CORS now echoes our own origins instead of `*`.
+- **Honeypots** — the existing hidden `website` field, plus a `company_url`
+  field that `formguard.js` injects off-screen into every form.
+- **Timing** — `_dt`, milliseconds between page load and submit. Under 2s
+  is +4, under 5s is +2, missing is +3 (so a stale cached page still works).
+- **Interaction** — `_hv`, a count of trusted keyboard/pointer events.
+  Exactly zero is +4; a script setting `.value` produces none.
+- **Gibberish** — keyboard-mash names and initiatives (vowel ratio,
+  consonant runs, random capitalisation). `y` and `w` count as vowels and
+  tokens under six letters are skipped, so Welsh names and acronyms like
+  KYC/AML are safe.
+- **Content** — links in a name field, several links in a message, known
+  bulk-outreach phrasing, disposable email domains, non-Latin script in a
+  name field, and a replay of the same submission within ten minutes.
+
+Blocked and flagged submissions are logged to the Vercel function logs with
+their score and the reasons, so it's clear what tripped.
+
+**Environment variables**
+
+| Variable | Effect |
+| --- | --- |
+| `SPAM_GUARD=off` | Log verdicts but deliver everything. Use if a real lead is ever blocked. |
+| `ALLOWED_ORIGINS` | Comma-separated extra origins to treat as our own. |
+| `TURNSTILE_SECRET_KEY` | Turns on Cloudflare Turnstile verification (see below). |
+
+**Turning on Turnstile (optional)**
+
+Only worth doing if bots start getting through the heuristics. Create a
+free Turnstile widget at `dash.cloudflare.com`, then:
+
+1. Add `TURNSTILE_SECRET_KEY` to the Vercel environment variables.
+2. Add `<meta name="turnstile-sitekey" content="0x...">` to the `<head>` of
+   each page with a form.
+
+`formguard.js` renders an invisible widget into every form and the guard
+verifies the token. With no secret key set, none of this runs.
+
+**Tuning**
+
+Thresholds and the phrase/domain lists are the constants at the top of
+`lib/antispam.js`. Raise `BLOCK_AT` to be more permissive, lower it to be
+stricter.

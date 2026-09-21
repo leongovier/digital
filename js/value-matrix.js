@@ -300,6 +300,8 @@ const VM_COST_KEYS  = ['data_readiness', 'data_compliance_overhead', 'model_gove
     const email = emailInput.value.trim();
     const params = buildParams();
     params.website = hp ? hp.value : ''; // honeypot
+    // timing / interaction / second honeypot, from js/formguard.js
+    if (window.formGuardFields) Object.assign(params, window.formGuardFields(form));
 
     submitBtn.disabled = true;
     submitBtn.textContent = 'Sending…';
