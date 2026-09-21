@@ -662,6 +662,7 @@ function fmtDateISO(d) {
           context: meta.context,
           sensitivity: meta.sensitivity,
           website: hp ? hp.value : '',
+          ...(window.formGuardFields ? window.formGuardFields() : {}),
         }),
       });
       const data = await res.json();

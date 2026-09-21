@@ -1,7 +1,6 @@
 import { insertLead } from '../lib/store.js';
 import { ownerLeadEmail } from '../lib/email.js';
-
-const rateLimit = new Map();
+import { applyCors, rateLimited, inspect, shouldBlock, reviewMarker } from '../lib/antispam.js';
 
 const FROM = 'Leon Govier <hello@leongovier.digital>';
 const OWNER = 'hello@leongovier.digital';
@@ -79,31 +78,34 @@ function buildFrameworkHtml({ initiative_name, use_case, framework_text }) {
 }
 
 export default async function handler(req, res) {
-  if (req.method === 'OPTIONS') {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    return res.status(204).end();
-  }
+  // CORS — only our own origins, not the old blanket '*'
+  applyCors(req, res);
+  if (req.method === 'OPTIONS') return res.status(204).end();
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, message: 'Method not allowed.' });
   }
 
-  // Rate limiting — 5 requests per IP per minute
-  const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
-  const now = Date.now();
-  const entry = rateLimit.get(ip) || { count: 0, start: now };
-  if (now - entry.start > 60_000) { entry.count = 0; entry.start = now; }
-  entry.count++;
-  rateLimit.set(ip, entry);
-  if (entry.count > 5) {
+  // Rate limiting — 5 requests per IP per minute (shared bucket)
+  if (rateLimited(req)) {
     return res.status(429).json({ success: false, message: 'Too many requests — please try again in a few minutes.' });
   }
 
-  const { person_name, initiative_name, email, website, framework_text, use_case, context, sensitivity } = req.body || {};
+  const body = req.body || {};
+  const { person_name, initiative_name, email, framework_text, use_case, context, sensitivity } = body;
 
-  // Honeypot
-  if (website) return res.status(200).json({ success: true, message: 'Thank you!' });
+  // Spam guard — honeypots, origin, submit timing, and the content itself.
+  // A blocked submission gets the ordinary success response so the sender
+  // learns nothing about what tripped it.
+  const guard = await inspect({
+    req,
+    source: 'eval',
+    body,
+    fields: { name: person_name, email, business: initiative_name, message: context },
+  });
+  if (shouldBlock(guard, 'eval', { name: person_name || initiative_name, email })) {
+    return res.status(200).json({ success: true, message: `Framework sent to ${email}. Check your inbox.` });
+  }
+  const mark = reviewMarker(guard);
 
   if (!initiative_name || !email || !framework_text) {
     return res.status(400).json({ success: false, message: 'Please fill in all required fields.' });
@@ -119,8 +121,8 @@ export default async function handler(req, res) {
       name: person_name || initiative_name || 'Eval framework lead',
       email,
       business: initiative_name || null,
-      summary: use_case ? 'Use case: ' + use_case : 'Eval framework',
-      payload: { initiative: initiative_name, use_case, context, sensitivity },
+      summary: mark + (use_case ? 'Use case: ' + use_case : 'Eval framework'),
+      payload: { initiative: initiative_name, use_case, context, sensitivity, spam_score: guard.flagged ? guard.score : undefined },
     });
   } catch (e) { console.error('lead capture failed:', e); }
 
@@ -163,7 +165,7 @@ export default async function handler(req, res) {
         from: FROM,
         to: OWNER,
         reply_to: email,
-        subject: `New eval framework lead — ${person_name || initiative_name} (${use_case || 'framework'})`,
+        subject: `${mark}New eval framework lead — ${person_name || initiative_name} (${use_case || 'framework'})`,
         html: ownerHtml,
         text: leadBody,
       }),

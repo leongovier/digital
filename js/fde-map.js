@@ -367,6 +367,7 @@ function esc(s) {
           scores: DIMS.map((d) => ({ name: d.name, rating: RATINGS[scores[d.id]], score: scores[d.id] })),
           report_body: reportText,
           website: els.hp ? els.hp.value : '',
+          ...(window.formGuardFields ? window.formGuardFields() : {}),
         }),
       });
       const data = await res.json();

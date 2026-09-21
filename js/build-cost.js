@@ -430,6 +430,7 @@ function fmt(n) { return '£' + Number(n).toLocaleString('en-GB'); }
         body: JSON.stringify({
           name, email, business, notes,
           website: hp ? hp.value : '',
+          ...(window.formGuardFields ? window.formGuardFields() : {}),
           build_type: selectedTypes().map((t) => t.name).join(', '),
           scale: selectedTypes().map((t) => scaleOptFor(t.id) ? scaleOptFor(t.id).name : '—').join(', '),
           features: [...state.features],
